@@ -42,3 +42,13 @@ ffmpeg -v error -y -i "$OUT/reel.mp4" -an \
 ffmpeg -v error -y -i "$OUT/reel.mp4" -frames:v 1 -vf "scale=1280:-2" -c:v libwebp -quality 80 "$OUT/reel-poster.webp"
 
 ls -la "$OUT"
+
+# Hero line film tile: a 3 s loop of adv_bike at tile size (PORTFOLIO.md 4.2).
+HERO="$ROOT/public/assets/hero"
+mkdir -p "$HERO"
+ffmpeg -v error -y -ss 2.0 -t 3.0 -i "$SRC/adv_bike.mp4" -an \
+  -vf "scale=-2:200,crop=356:200,fps=24,format=yuv420p" \
+  -c:v libx264 -preset slow -crf 26 -movflags +faststart "$HERO/tile-film.mp4"
+ffmpeg -v error -y -i "$HERO/tile-film.mp4" -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$HERO/tile-film.webm"
+ffmpeg -v error -y -ss 0.8 -i "$HERO/tile-film.mp4" -frames:v 1 -c:v libwebp -quality 80 "$HERO/tile-film-poster.webp"
+ls -la "$HERO"

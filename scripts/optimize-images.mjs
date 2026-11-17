@@ -187,8 +187,14 @@ async function doCovers() {
   const memoreaseBuf = await memorease.png().toBuffer();
 
   // TEDx: the site's main screen, with the black margins trimmed off.
-  const tedxBuf = await sharp(join(SRC, 'TEDx', 'TEDxMITWPU_mainscreen.png'))
-    .trim({ background: '#000000', threshold: 12 })
+  // The PNG has a transparent margin and a thin black outline around the
+  // screenshot: trim the transparency, then shave the outline so the
+  // screenshot fills the card edge to edge.
+  const tedxTrimmed = await sharp(join(SRC, 'TEDx', 'TEDxMITWPU_mainscreen.png')).trim({ threshold: 10 }).toBuffer();
+  const tm = await sharp(tedxTrimmed).metadata();
+  const inset = Math.round(tm.width * 0.006);
+  const tedxBuf = await sharp(tedxTrimmed)
+    .extract({ left: inset, top: inset, width: tm.width - 2 * inset, height: tm.height - 2 * inset })
     .resize(W, H, { fit: 'cover', position: 'centre' })
     .png()
     .toBuffer();
@@ -215,8 +221,19 @@ async function doCovers() {
   }
 }
 
+// ---------------------------------------------------------------- Hero tile
+// The tiny phone in the hero line: MemorEase patient home screen.
+async function doHero() {
+  const dir = join(OUT, 'hero');
+  await mkdir(dir, { recursive: true });
+  const trimmed = await sharp(join(SRC, 'MemorEase', 'Patient_screen_main.png')).trim({ threshold: 5 }).toBuffer();
+  const file = join(dir, 'tile-screen.webp');
+  await sharp(trimmed).resize({ height: 180 }).webp({ quality: 85, alphaQuality: 90 }).toFile(file);
+  await log(file);
+}
+
 const only = process.env.ONLY?.split(',');
-const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers };
+const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers, hero: doHero };
 for (const [name, fn] of Object.entries(tasks)) {
   if (only && !only.includes(name)) continue;
   console.log(`→ ${name}`);
