@@ -9,8 +9,8 @@ section[id] {
 }
 
 .section-title {
-  font-size: var(--step-4);
-  margin-bottom: var(--space-l);
+  font-size: var(--step-3);
+  margin-bottom: var(--space-xl);
 }
 
 /* Temporary placeholders for features still to be built */
@@ -27,31 +27,76 @@ section[id] {
 }
 
 /* ---------------------------------------------------------- Entry / hero */
+/* Centred hero text with the cards in a loose ring around it,
+   entering from the edges (like the hands on the TEDx site). */
 .entry {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding-top: calc(var(--header-h) + var(--space-xl));
-}
-.entry__inner {
+  position: relative;
   display: grid;
-  gap: var(--space-xl);
+  place-items: center;
+  min-height: max(100svh, 640px);
+  padding: var(--header-h) var(--gutter) 0;
+  overflow: hidden;
+  isolation: isolate;
 }
-@media (min-width: 960px) {
-  .entry__inner {
-    grid-template-columns: 1.1fr 1fr;
-    align-items: center;
-  }
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 28rem;
+  text-align: center;
 }
 .hero__title {
-  font-size: clamp(2.75rem, 1.6rem + 5vw, 6rem);
+  font-size: var(--step-4);
   margin-bottom: var(--space-m);
 }
 .hero__lede {
+  margin-inline: auto;
   font-size: var(--step-1);
-  line-height: 1.75;
-  max-width: 34ch;
+  line-height: 1.8;
+  max-width: 26rem;
   color: var(--paper-70);
+}
+
+.card-ring {
+  position: absolute;
+  inset: var(--header-h) 0 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.ring-card {
+  --card-w: clamp(116px, 10.5vw, 180px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--card-w);
+  transform: translate(-50%, -50%) rotate(var(--r));
+  pointer-events: auto;
+}
+.ring-card img {
+  width: 100%;
+  border-radius: 4.5% / 3.2%;
+  filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.55));
+}
+.ring-card--rare {
+  --card-w: clamp(124px, 11.5vw, 196px);
+}
+
+/* Phones: three cards across the top, four across the bottom. */
+@media (max-width: 700px) {
+  .entry {
+    min-height: max(100svh, 680px);
+  }
+  .ring-card,
+  .ring-card--rare {
+    --card-w: clamp(76px, 22vw, 104px);
+    left: var(--mx);
+    top: var(--my);
+    transform: translate(-50%, -50%) rotate(var(--mr));
+  }
+  .hero {
+    max-width: 22rem;
+  }
 }
 
 /* Inline media tiles in the lede (~1.2em tall, rounded) */
@@ -80,9 +125,6 @@ img.tile {
   font-family: var(--font-mono);
   font-size: 0.55em;
   font-weight: 400;
-}
-.stub--stage {
-  min-height: min(60vh, 520px);
 }
 
 /* ---------------------------------------------------------- Work */
