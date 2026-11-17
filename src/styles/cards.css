@@ -207,29 +207,39 @@ html.has-viewer {
   visibility: hidden;
 }
 
+/* Close: a plain grey ✕ (no disc) just outside the card's top-right
+   corner. Lightens on hover; the 44px hit area stays generous. */
 .card-viewer__close {
   position: absolute;
-  top: -14px;
-  right: -14px;
+  top: -6px;
+  right: -60px;
   z-index: 2;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: var(--paper);
-  color: var(--ink);
-  box-shadow: 0 6px 18px rgb(0 0 0 / 0.4);
-  transition: transform var(--dur-fast) var(--ease-out);
+  border-radius: var(--radius-s);
+  background: none;
+  color: #a39a90;
+  opacity: var(--veil);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 .card-viewer__close svg {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
 }
 .card-viewer__close:hover {
-  transform: rotate(90deg);
-  background: var(--red);
   color: var(--paper);
+  transform: scale(1.08);
+}
+/* Narrow screens: no room beside the card, so it sits above the corner. */
+@media (max-width: 700px) {
+  .card-viewer__close {
+    top: -50px;
+    right: -6px;
+  }
 }
 
 .card-viewer__bar {
