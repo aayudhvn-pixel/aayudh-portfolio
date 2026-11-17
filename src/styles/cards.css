@@ -1,0 +1,249 @@
+/* Trading cards: hover lift, 3D tilt, holo shine, and the card viewer.
+   Shine and glare move with transform only (driven by --mx/--my from
+   cards.js), so the effect stays cheap. Our own take on the
+   pokemon-cards-css idea, not a copy of it. */
+
+/* ---------------------------------------------------------- ring button */
+.ring-card__btn {
+  display: block;
+  width: 100%;
+  border-radius: 6%;
+  perspective: 800px;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+.ring-card__btn:hover,
+.ring-card__btn:focus-visible {
+  transform: translateY(-10px) scale(1.06);
+}
+.ring-card__btn:active {
+  transform: translateY(-6px) scale(1.02);
+}
+.ring-card.is-open {
+  opacity: 0; /* the viewer card has "flown" out of this slot */
+}
+
+/* ---------------------------------------------------------- the card */
+.holo-card {
+  --mx: 0.5;
+  --my: 0.5;
+  --fx: 0;
+  display: block;
+  position: relative;
+  aspect-ratio: 5 / 7;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.holo-card.is-lit {
+  --fx: 1;
+}
+.holo-card__face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: 4.5% / 3.2%;
+  box-shadow: 0 18px 32px rgb(0 0 0 / 0.5);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.holo-card__face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Shine: a soft white band (regular cards) that slides with the pointer. */
+.holo-card__shine,
+.holo-card__glare {
+  position: absolute;
+  pointer-events: none;
+  opacity: calc(var(--fx) * var(--shine-o, 0.7));
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+.holo-card__shine {
+  inset: 0;
+  overflow: hidden;
+  mix-blend-mode: soft-light;
+}
+.holo-card__shine::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 300%;
+  height: 200%;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgb(255 255 255 / 0.85) 47%,
+    rgb(255 255 255 / 0.95) 50%,
+    rgb(255 255 255 / 0.85) 53%,
+    transparent 62%
+  );
+  transform: translate(calc((0.5 - var(--mx)) * 40%), calc((0.5 - var(--my)) * 22%));
+}
+
+/* Glare: a light spot under the pointer. */
+.holo-card__glare {
+  left: 0;
+  top: 0;
+  width: 90%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.5), transparent 62%);
+  mix-blend-mode: overlay;
+  transform: translate(calc(var(--mx) * 111% - 50%), calc(var(--my) * 155% - 50%));
+}
+
+/* Rare (Samurai, Dojo): full rainbow holo. */
+.holo-card--rare .holo-card__shine {
+  --shine-o: 0.32;
+  mix-blend-mode: overlay;
+}
+.holo-card--rare .holo-card__shine::before {
+  background:
+    linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 0.9) 50%, transparent 60%),
+    repeating-linear-gradient(
+      115deg,
+      hsl(0 90% 70%) 0%,
+      hsl(45 90% 68%) 2.5%,
+      hsl(110 80% 68%) 5%,
+      hsl(190 90% 68%) 7.5%,
+      hsl(265 90% 74%) 10%,
+      hsl(320 90% 70%) 12.5%,
+      hsl(0 90% 70%) 15%
+    );
+  transform: translate(calc((0.5 - var(--mx)) * 30%), calc((0.5 - var(--my)) * 20%));
+}
+.holo-card--rare .holo-card__glare {
+  --shine-o: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-card__btn:hover,
+  .ring-card__btn:focus-visible {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------- viewer */
+html.has-viewer {
+  overflow: hidden;
+}
+.card-viewer {
+  --veil: 1;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--paper);
+  background: rgb(18 6 3 / calc(var(--veil) * 0.94));
+  -webkit-backdrop-filter: blur(calc(var(--veil) * 6px));
+  backdrop-filter: blur(calc(var(--veil) * 6px));
+  overflow: hidden;
+}
+.card-viewer::backdrop {
+  background: transparent;
+}
+.card-viewer[open] {
+  display: grid;
+}
+.card-viewer__stage {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-m);
+  padding: var(--space-l) var(--gutter);
+}
+.card-viewer__frame {
+  --vw: min(calc(min(76svh, 760px) * 5 / 7), 82vw);
+  position: relative;
+  width: var(--vw);
+  perspective: 1400px;
+}
+.viewer-card {
+  cursor: grab;
+  touch-action: none;
+}
+.viewer-card:active {
+  cursor: grabbing;
+}
+.viewer-card .holo-card__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.holo-card__face--back {
+  transform: rotateY(180deg);
+}
+.viewer-card .holo-card__face {
+  box-shadow: 0 40px 80px rgb(0 0 0 / 0.6);
+}
+.viewer-card.is-back .holo-card__shine,
+.viewer-card.is-back .holo-card__glare {
+  opacity: 0;
+}
+
+.card-viewer__close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.4);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.card-viewer__close svg {
+  width: 20px;
+  height: 20px;
+}
+.card-viewer__close:hover {
+  transform: rotate(90deg);
+  background: var(--red);
+  color: var(--paper);
+}
+
+.card-viewer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs) var(--space-m);
+  opacity: var(--veil);
+}
+.card-viewer__flip {
+  padding: 0.5em 1.1em;
+  border: 1px solid var(--paper-12);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.card-viewer__flip:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+.card-viewer__hint {
+  font-size: var(--step--1);
+  color: var(--paper-70);
+}
+@media (hover: none) {
+  .card-viewer__hint {
+    display: none;
+  }
+}

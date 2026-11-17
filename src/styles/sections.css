@@ -64,22 +64,20 @@ section[id] {
   list-style: none;
   pointer-events: none;
 }
+/* Card size follows the shorter of width/height, so wide-but-short
+   screens don't get oversized cards. --dx/--dy are set by cards.js to
+   push a card clear of the hero text. */
 .ring-card {
-  --card-w: clamp(116px, 10.5vw, 180px);
+  --card-w: clamp(104px, min(10.5vw, 20vh), 180px);
   position: absolute;
   left: var(--x);
   top: var(--y);
   width: var(--card-w);
-  transform: translate(-50%, -50%) rotate(var(--r));
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) rotate(var(--r));
   pointer-events: auto;
 }
-.ring-card img {
-  width: 100%;
-  border-radius: 4.5% / 3.2%;
-  filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.55));
-}
 .ring-card--rare {
-  --card-w: clamp(124px, 11.5vw, 196px);
+  --card-w: clamp(112px, min(11.5vw, 22vh), 196px);
 }
 
 /* Phones: three cards across the top, four across the bottom. */
@@ -90,9 +88,9 @@ section[id] {
   .ring-card,
   .ring-card--rare {
     --card-w: clamp(76px, 22vw, 104px);
-    left: var(--mx);
-    top: var(--my);
-    transform: translate(-50%, -50%) rotate(var(--mr));
+    left: var(--px);
+    top: var(--py);
+    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) rotate(var(--pr));
   }
   .hero {
     max-width: 22rem;

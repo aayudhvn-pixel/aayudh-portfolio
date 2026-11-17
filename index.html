@@ -72,37 +72,8 @@
     <main id="main">
       <!-- 4.1 + 4.2 Entry: pack opening, then the cards settle into the hero (dark) -->
       <section id="top" class="entry section--dark" data-theme="dark" aria-labelledby="hero-title">
-        <!-- Cards rest in a loose ring around the hero text (order = reveal order). -->
-        <ul class="card-ring" aria-label="Personal trading cards">
-          <li class="ring-card" style="--x: 21%; --y: 26%; --r: -12deg; --mx: 18%; --my: 15%; --mr: -10deg">
-            <img src="/assets/cards/designer-500.png" srcset="/assets/cards/designer-500.webp 500w, /assets/cards/designer-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 001, The Designer. Psychic type, 100 HP. Attacks: Pixel Perfect, 30 damage; User First, 100 damage." />
-          </li>
-          <li class="ring-card" style="--x: 9%; --y: 61%; --r: 9deg; --mx: 13%; --my: 84%; --mr: 8deg">
-            <img src="/assets/cards/runner-500.png" srcset="/assets/cards/runner-500.webp 500w, /assets/cards/runner-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 002, The Runner. Fighting type, 365 HP. Attacks: Morning Mileage; Runner's High." />
-          </li>
-          <li class="ring-card" style="--x: 31%; --y: 88%; --r: -7deg; --mx: 37%; --my: 91%; --mr: -6deg">
-            <img src="/assets/cards/cook-500.png" srcset="/assets/cards/cook-500.webp 500w, /assets/cards/cook-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 003, The Cook. Fire type, 150 HP. Attacks: Mise en Place, 20 damage; Chicken Curry, 120 damage, restores full HP to the whole family." />
-          </li>
-          <li class="ring-card" style="--x: 69%; --y: 87%; --r: 6deg; --mx: 63%; --my: 89%; --mr: 5deg">
-            <img src="/assets/cards/anime-lover-500.png" srcset="/assets/cards/anime-lover-500.webp 500w, /assets/cards/anime-lover-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 004, The Anime Lover. Dragon type, 180 HP. Attacks: Power-Up Arc, 50 damage; One More Episode, 90 damage." />
-          </li>
-          <li class="ring-card" style="--x: 91%; --y: 60%; --r: -9deg; --mx: 87%; --my: 83%; --mr: -9deg">
-            <img src="/assets/cards/artist-500.png" srcset="/assets/cards/artist-500.webp 500w, /assets/cards/artist-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 005, The Artist. Dark type, 120 HP. Attacks: Ink Session, 40 damage; Sketch Daily, 80 damage." />
-          </li>
-          <li class="ring-card ring-card--rare" style="--x: 79%; --y: 25%; --r: 11deg; --mx: 82%; --my: 15%; --mr: 10deg">
-            <img src="/assets/cards/samurai-500.png" srcset="/assets/cards/samurai-500.webp 500w, /assets/cards/samurai-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 006, The Samurai, rare full-art card. Steel type. Attacks: Evergreen Fit; Classic With an Edge." />
-          </li>
-          <li class="ring-card ring-card--rare" style="--x: 50%; --y: 12%; --r: -3deg; --mx: 50%; --my: 11%; --mr: -3deg">
-            <img src="/assets/cards/dojo-500.png" srcset="/assets/cards/dojo-500.webp 500w, /assets/cards/dojo-1000.webp 1000w" sizes="(max-width: 700px) 90px, 180px" width="500" height="700"
-              alt="Card 007, The Dojo, rarest full-art card. Fighting type. Attacks: 100 Reps; Forged Daily." />
-          </li>
-        </ul>
+        <!-- Cards rest in a loose ring around the hero text. Rendered by src/js/cards.js. -->
+        <ul class="card-ring" aria-label="Personal trading cards"></ul>
 
         <div class="hero">
           <h1 id="hero-title" class="hero__title">Designer. Developer.<br /><span class="text-gold">AI filmmaker.</span></h1>
@@ -268,6 +239,35 @@
         <p>Designed &amp; built by Aayudh</p>
       </div>
     </footer>
+
+
+    <!-- Card viewer (opened by clicking a hero card) -->
+    <dialog class="card-viewer" aria-labelledby="card-viewer-title">
+      <h2 id="card-viewer-title" class="visually-hidden">Card</h2>
+      <div class="card-viewer__stage">
+        <div class="card-viewer__frame">
+          <div class="holo-card viewer-card">
+            <div class="holo-card__inner">
+              <div class="holo-card__face holo-card__face--front">
+                <img class="viewer-card__front" alt="" width="1000" height="1400" />
+                <span class="holo-card__shine" aria-hidden="true"></span>
+                <span class="holo-card__glare" aria-hidden="true"></span>
+              </div>
+              <div class="holo-card__face holo-card__face--back" aria-hidden="true">
+                <img src="/assets/cards/back-1000.webp" alt="" width="1000" height="1400" loading="lazy" />
+              </div>
+            </div>
+          </div>
+          <button class="card-viewer__close" type="button" aria-label="Close card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" /></svg>
+          </button>
+        </div>
+        <div class="card-viewer__bar">
+          <button class="card-viewer__flip" type="button">Flip card</button>
+          <p class="card-viewer__hint">Drag to spin · click the card to flip</p>
+        </div>
+      </div>
+    </dialog>
 
     <script type="module" src="/src/js/main.js"></script>
   </body>
