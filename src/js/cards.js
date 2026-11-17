@@ -11,15 +11,15 @@ export const CARDS = [
     id: 'designer',
     name: 'The Designer',
     alt: 'Card 001, The Designer. Psychic type, 100 HP. Attacks: Pixel Perfect, 30 damage; User First, 100 damage.',
-    pos: [21, 26, -12],
-    phone: [18, 15, -10],
+    pos: [9, 61, 9],
+    phone: [13, 84, 8],
   },
   {
     id: 'runner',
     name: 'The Runner',
     alt: "Card 002, The Runner. Fighting type, 365 HP. Attacks: Morning Mileage; Runner's High.",
-    pos: [9, 61, 9],
-    phone: [13, 84, 8],
+    pos: [50, 14, -3],
+    phone: [50, 11, -3],
   },
   {
     id: 'cook',
@@ -55,8 +55,8 @@ export const CARDS = [
     name: 'The Dojo',
     rare: true,
     alt: 'Card 007, The Dojo, rarest full-art card. Fighting type. Attacks: 100 Reps; Forged Daily.',
-    pos: [50, 14, -3],
-    phone: [50, 11, -3],
+    pos: [21, 26, -12],
+    phone: [18, 15, -10],
   },
 ];
 
@@ -168,27 +168,67 @@ function createViewer() {
   const title = dialog.querySelector('#card-viewer-title');
   const reduce = prefersReducedMotion();
 
+  // One loop owns the card's rotation, so look-at, flip and drag never
+  // fight each other.
+  //   spin  — Y rotation from flips/drag (rests on multiples of 180)
+  //   pitch — extra X rotation while dragging (springs back to 0)
+  //   rx/ry — the "look at the cursor" tilt, eased toward tx/ty
+  const MAX_Y = 38; // degrees the card turns left/right toward the cursor
+  const MAX_X = 30; // degrees it turns up/down
+  const s = { spin: 0, pitch: 0, rx: 0, ry: 0, tx: 0, ty: 0, fx: 0.45, tfx: 0.45, mx: 0.5, my: 0.5, tmx: 0.5, tmy: 0.5 };
+  let running = false;
   let current = null; // { li, data }
-  let spin = 0; // resting Y rotation (multiples of 180)
   let drag = null;
   let closing = false;
+  let back = false;
 
-  const toX = gsap.quickTo(inner, 'rotationX', { duration: 0.35, ease: 'power3.out' });
-  const toY = gsap.quickTo(inner, 'rotationY', { duration: 0.35, ease: 'power3.out' });
-  let tiltY = 0;
+  function frameLoop() {
+    const k = 0.14; // easing per frame
+    s.rx += (s.tx - s.rx) * k;
+    s.ry += (s.ty - s.ry) * k;
+    s.fx += (s.tfx - s.fx) * k;
+    s.mx += (s.tmx - s.mx) * k;
+    s.my += (s.tmy - s.my) * k;
 
-  function setFace() {
-    const showingBack = Math.round(spin / 180) % 2 !== 0;
-    card.classList.toggle('is-back', showingBack);
+    const y = s.spin + s.ry;
+    const x = s.pitch + s.rx;
+    inner.style.transform = `rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`;
+
+    // Which face points at the viewer?
+    const isBack = Math.cos((y * Math.PI) / 180) * Math.cos((x * Math.PI) / 180) < 0;
+    if (isBack !== back) card.classList.toggle('is-back', (back = isBack));
+
+    card.style.setProperty('--mx', s.mx.toFixed(3));
+    card.style.setProperty('--my', s.my.toFixed(3));
+    card.style.setProperty('--fx', s.fx.toFixed(3));
+  }
+  // Driven by GSAP's ticker so it stays in sync with the flip/fly tweens.
+  const start = () => !running && (gsap.ticker.add(frameLoop), (running = true));
+  const stop = () => (gsap.ticker.remove(frameLoop), (running = false));
+
+  // Aim the card at the pointer. The pointer is measured against the
+  // whole screen, so the card follows it anywhere, not only over the card.
+  function lookAt(clientX, clientY) {
+    const r = frame.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const nx = Math.max(-1, Math.min(1, (clientX - cx) / (window.innerWidth / 2)));
+    const ny = Math.max(-1, Math.min(1, (clientY - cy) / (window.innerHeight / 2)));
+    s.ty = nx * MAX_Y; // + turns the face to the right
+    s.tx = -ny * MAX_X; // + turns the face upward
+    // Light: the sheen sweeps across as the card turns, and the foil
+    // catches more light the further it is angled.
+    s.tmx = 0.5 + nx * 0.5;
+    s.tmy = 0.5 + ny * 0.5;
+    s.tfx = 0.35 + 0.65 * Math.min(1, Math.hypot(nx, ny));
   }
 
   function flip(dir = 1) {
-    spin += 180 * dir;
-    setFace();
-    gsap.to(inner, { rotationY: spin + tiltY, duration: reduce ? 0 : 0.7, ease: 'power3.inOut', overwrite: true });
+    const to = Math.round(s.spin / 180) * 180 + 180 * dir;
+    gsap.to(s, { spin: to, duration: reduce ? 0 : 0.75, ease: 'power3.inOut', overwrite: true });
   }
 
-  // Rect of the ring card relative to where the viewer card sits, for the fly-in/out.
+  // Ring card position relative to the viewer card, for the fly-in/out.
   function deltaFrom(li) {
     const from = li.querySelector('.holo-card').getBoundingClientRect();
     gsap.set(frame, { clearProps: 'transform' });
@@ -203,10 +243,9 @@ function createViewer() {
 
   function open(li, data) {
     current = { li, data };
-    spin = 0;
-    tiltY = 0;
-    gsap.set(inner, { rotationX: 0, rotationY: 0 });
-    setFace();
+    Object.assign(s, { spin: 0, pitch: 0, rx: 0, ry: 0, tx: 0, ty: 0, fx: 0.45, tfx: 0.45, mx: 0.5, my: 0.5, tmx: 0.5, tmy: 0.5 });
+    back = false;
+    card.classList.remove('is-back');
     card.classList.toggle('holo-card--rare', !!data.rare);
     front.src = src(data.id, 1000);
     front.alt = data.alt;
@@ -215,6 +254,7 @@ function createViewer() {
     dialog.showModal();
     document.documentElement.classList.add('has-viewer');
     li.classList.add('is-open');
+    start();
 
     if (reduce) return;
     const d = deltaFrom(li);
@@ -225,63 +265,71 @@ function createViewer() {
   function close() {
     if (!current || closing) return;
     closing = true;
+    drag = null;
     const { li } = current;
     const finish = () => {
+      stop();
       dialog.close();
       li.classList.remove('is-open');
       document.documentElement.classList.remove('has-viewer');
       gsap.set(frame, { clearProps: 'transform' });
+      inner.style.transform = '';
       current = null;
       closing = false;
       li.querySelector('.ring-card__btn').focus({ preventScroll: true });
     };
     if (reduce) return finish();
-    // Fly back to the ring; land on the front face.
+    // Settle face-up, then fly back to the ring slot.
+    Object.assign(s, { tx: 0, ty: 0, tfx: 0 });
     const d = deltaFrom(li);
     gsap.set(frame, { x: 0, y: 0, scale: 1, rotation: 0 });
-    const tl = gsap.timeline({ onComplete: finish });
-    tl.to(inner, { rotationX: 0, rotationY: Math.round(spin / 360) * 360, duration: 0.45, ease: 'power2.inOut' }, 0)
+    gsap
+      .timeline({ onComplete: finish })
+      .to(s, { spin: Math.round(s.spin / 360) * 360, pitch: 0, duration: 0.45, ease: 'power2.inOut', overwrite: true }, 0)
       .to(frame, { ...d, duration: 0.5, ease: 'power3.inOut' }, 0)
       .to(dialog, { '--veil': 0, duration: 0.4 }, 0.1);
   }
 
-  // Tilt + shine follow the pointer while not dragging.
+  // Pointer anywhere on screen: look at it (or drag-rotate while held).
   dialog.addEventListener('pointermove', (e) => {
+    if (closing) return;
     if (drag) {
       const dx = e.clientX - drag.x;
-      if (Math.abs(dx) > 4) drag.moved = true;
-      gsap.set(inner, { rotationY: drag.start + dx * 0.6 });
+      const dy = e.clientY - drag.y;
+      if (Math.hypot(dx, dy) > 5) drag.moved = true;
+      s.spin = drag.spin + dx * 0.5;
+      s.pitch = Math.max(-70, Math.min(70, drag.pitch - dy * 0.4));
+      s.tmx = 0.5 + Math.max(-1, Math.min(1, dx / 300)) * 0.5;
+      s.tmy = 0.5 + Math.max(-1, Math.min(1, dy / 300)) * 0.5;
+      s.tfx = 0.9;
       return;
     }
-    if (e.pointerType !== 'mouse' || reduce) return;
-    const { mx, my } = trackPointer(card, e);
-    card.classList.add('is-lit');
-    tiltY = (mx - 0.5) * 30;
-    toY(spin + tiltY);
-    toX((0.5 - my) * 26);
+    if (e.pointerType === 'mouse' && !reduce) lookAt(e.clientX, e.clientY);
   });
 
+  // Drag the card to turn it in any direction; release snaps to a face.
   card.addEventListener('pointerdown', (e) => {
     card.setPointerCapture(e.pointerId);
-    drag = { x: e.clientX, start: gsap.getProperty(inner, 'rotationY'), moved: false };
-    gsap.killTweensOf(inner, 'rotationY');
+    gsap.killTweensOf(s);
+    drag = { x: e.clientX, y: e.clientY, spin: s.spin, pitch: s.pitch, moved: false };
+    Object.assign(s, { tx: 0, ty: 0 }); // hand control to the drag
   });
 
   card.addEventListener('pointerup', (e) => {
     if (!drag) return;
     const { moved } = drag;
     drag = null;
-    card.releasePointerCapture(e.pointerId);
+    if (card.hasPointerCapture(e.pointerId)) card.releasePointerCapture(e.pointerId);
     if (!moved) return flip(1);
-    // Snap to the nearest face.
-    const now = gsap.getProperty(inner, 'rotationY');
-    spin = Math.round(now / 180) * 180;
-    tiltY = 0;
-    setFace();
-    gsap.to(inner, { rotationY: spin, rotationX: 0, duration: reduce ? 0 : 0.6, ease: 'back.out(1.4)', overwrite: true });
+    gsap.to(s, { spin: Math.round(s.spin / 180) * 180, pitch: 0, duration: reduce ? 0 : 0.7, ease: 'back.out(1.3)', overwrite: true });
+    if (e.pointerType === 'mouse') lookAt(e.clientX, e.clientY);
+    else Object.assign(s, { tfx: 0.45, tmx: 0.5, tmy: 0.5 });
   });
 
-  card.addEventListener('pointercancel', () => (drag = null));
+  card.addEventListener('pointercancel', () => {
+    drag = null;
+    gsap.to(s, { spin: Math.round(s.spin / 180) * 180, pitch: 0, duration: 0.5, overwrite: true });
+  });
 
   // Click anywhere outside the card (the dark veil) closes.
   dialog.addEventListener('click', (e) => {
