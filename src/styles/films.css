@@ -128,3 +128,13 @@
   padding: 7%;
   transform-origin: center;
 }
+
+/* Selected Work → Films: keep the two close (one continuous dark run). */
+.work {
+  padding-bottom: var(--space-l);
+}
+.films {
+  min-height: 0;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-2xl);
+}
