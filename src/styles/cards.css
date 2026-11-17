@@ -197,6 +197,13 @@ html.has-viewer {
 .viewer-card.is-back .holo-card__glare {
   opacity: 0;
 }
+/* Don't rely on backface-visibility alone (Chrome can paint the front
+   mirrored through the back once blend-mode layers are involved). cards.js
+   knows which side faces the viewer each frame and sets .is-back. */
+.viewer-card.is-back .holo-card__face--front,
+.viewer-card:not(.is-back) .holo-card__face--back {
+  visibility: hidden;
+}
 
 .card-viewer__close {
   position: absolute;

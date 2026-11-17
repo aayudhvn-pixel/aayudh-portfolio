@@ -221,7 +221,10 @@ function createViewer() {
     const cy = r.top + r.height / 2;
     const nx = Math.max(-1, Math.min(1, (clientX - cx) / (window.innerWidth / 2)));
     const ny = Math.max(-1, Math.min(1, (clientY - cy) / (window.innerHeight / 2)));
-    s.ty = nx * MAX_Y; // + turns the face to the right
+    // rotateY turns the *front* toward +x; with the back showing the same
+    // rotation turns the back away, so the sign flips (fixes the back face
+    // looking away from the cursor). rotateX is screen-space: same for both.
+    s.ty = nx * MAX_Y * restFacing(); // turns the visible face toward the cursor
     s.tx = -ny * MAX_X; // + turns the face upward
     // Light: the sheen sweeps across as the card turns, and the foil
     // catches more light the further it is angled.
@@ -230,9 +233,23 @@ function createViewer() {
     s.tfx = 0.35 + 0.65 * Math.min(1, Math.hypot(nx, ny));
   }
 
+  // +1 when the front faces the viewer, -1 for the back.
+  const facingOf = (spin, pitch) =>
+    Math.cos((spin * Math.PI) / 180) * Math.cos((pitch * Math.PI) / 180) >= 0 ? 1 : -1;
+  // Facing at the spin the card is resting on (or heading to).
+  let restSpin = 0;
+  const restFacing = () => facingOf(restSpin, 0);
+
   function flip(dir = 1) {
-    const to = Math.round(s.spin / 180) * 180 + 180 * dir;
-    gsap.to(s, { spin: to, duration: reduce ? 0 : 0.75, ease: 'power3.inOut', overwrite: true });
+    restSpin = Math.round(s.spin / 180) * 180 + 180 * dir;
+    gsap.to(s, { spin: restSpin, pitch: 0, duration: reduce ? 0 : 0.75, ease: 'power3.inOut', overwrite: true });
+  }
+
+  // After a free drag: settle upright on whichever face is toward the viewer.
+  function settle() {
+    const showBack = facingOf(s.spin, s.pitch) < 0;
+    restSpin = showBack ? Math.round((s.spin - 180) / 360) * 360 + 180 : Math.round(s.spin / 360) * 360;
+    gsap.to(s, { spin: restSpin, pitch: 0, duration: reduce ? 0 : 0.7, ease: 'back.out(1.2)', overwrite: true });
   }
 
   // Ring card position relative to the viewer card, for the fly-in/out.
@@ -252,6 +269,7 @@ function createViewer() {
     current = { li, data };
     Object.assign(s, { spin: 0, pitch: 0, rx: 0, ry: 0, tx: 0, ty: 0, fx: 0.45, tfx: 0.45, mx: 0.5, my: 0.5, tmx: 0.5, tmy: 0.5 });
     back = false;
+    restSpin = 0;
     card.classList.remove('is-back');
     card.classList.toggle('holo-card--rare', !!data.rare);
     front.src = src(data.id, 1000);
@@ -304,8 +322,10 @@ function createViewer() {
       const dx = e.clientX - drag.x;
       const dy = e.clientY - drag.y;
       if (Math.hypot(dx, dy) > 5) drag.moved = true;
-      s.spin = drag.spin + dx * 0.5;
-      s.pitch = Math.max(-70, Math.min(70, drag.pitch - dy * 0.4));
+      // Free rotation in any direction. Horizontal drag is mirrored when the
+      // back is showing so the card always moves the way you pull it.
+      s.spin = drag.spin + dx * 0.5 * drag.sign;
+      s.pitch = drag.pitch - dy * 0.45;
       s.tmx = 0.5 + Math.max(-1, Math.min(1, dx / 300)) * 0.5;
       s.tmy = 0.5 + Math.max(-1, Math.min(1, dy / 300)) * 0.5;
       s.tfx = 0.9;
@@ -318,7 +338,7 @@ function createViewer() {
   card.addEventListener('pointerdown', (e) => {
     try { card.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
     gsap.killTweensOf(s);
-    drag = { x: e.clientX, y: e.clientY, spin: s.spin, pitch: s.pitch, moved: false };
+    drag = { x: e.clientX, y: e.clientY, spin: s.spin, pitch: s.pitch, sign: facingOf(s.spin, s.pitch), moved: false };
     Object.assign(s, { tx: 0, ty: 0 }); // hand control to the drag
   });
 
@@ -328,14 +348,14 @@ function createViewer() {
     drag = null;
     if (card.hasPointerCapture(e.pointerId)) card.releasePointerCapture(e.pointerId);
     if (!moved) return flip(1);
-    gsap.to(s, { spin: Math.round(s.spin / 180) * 180, pitch: 0, duration: reduce ? 0 : 0.7, ease: 'back.out(1.3)', overwrite: true });
+    settle();
     if (e.pointerType === 'mouse') lookAt(e.clientX, e.clientY);
     else Object.assign(s, { tfx: 0.45, tmx: 0.5, tmy: 0.5 });
   });
 
   card.addEventListener('pointercancel', () => {
     drag = null;
-    gsap.to(s, { spin: Math.round(s.spin / 180) * 180, pitch: 0, duration: 0.5, overwrite: true });
+    settle();
   });
 
   // Click anywhere outside the card (the dark veil) closes.
