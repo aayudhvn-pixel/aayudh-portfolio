@@ -4,20 +4,17 @@
 // one by one (regulars, then Samurai, then Dojo) → they fly to their slots
 // in the hero ring and the hero text fades in.
 //
-// The <head> script picks the mode before first paint:
-//   html.intro        first visit, full intro
-//   html.intro-quick  return visit, ~0.5 s version
-//   neither           reduced motion or a #link: settled hero, no intro
+// Every load starts with the sealed pack. The <head> script sets html.intro
+// before first paint; it is left off only for reduced motion or when
+// arriving on a #link (e.g. /#work from a case study), which show the
+// settled hero.
 
 import { gsap } from 'gsap';
-import { storageSet } from './util.js';
-
-const FLAG = 'aayudh:pack-opened';
+import { prefersReducedMotion } from './util.js';
 
 export function initPack(ring) {
   const html = document.documentElement;
-  const mode = html.classList.contains('intro') ? 'full' : html.classList.contains('intro-quick') ? 'quick' : null;
-  if (!mode || !ring?.items?.length) return;
+  if (!html.classList.contains('intro') || !ring?.items?.length) return;
 
   const entry = document.getElementById('top');
   const hero = entry.querySelector('.hero');
@@ -53,8 +50,7 @@ export function initPack(ring) {
     holos.forEach((h) => h.classList.remove('is-lit'));
     gsap.set(hero, { clearProps: 'all' });
     const hadFocusInStage = entry.querySelector('.pack-stage')?.contains(document.activeElement);
-    html.classList.remove('intro', 'intro-quick', 'intro-playing', 'intro-lock');
-    storageSet(FLAG, '1');
+    html.classList.remove('intro', 'intro-playing', 'intro-lock');
     teardown();
     ring.layout();
     if (hadFocusInStage) title.focus({ preventScroll: true });
@@ -76,31 +72,7 @@ export function initPack(ring) {
     listeners.forEach((off) => off());
   }
 
-  // ---------------------------------------------------------- return visit
-  if (mode === 'quick') {
-    ring.layout();
-    html.classList.add('intro-playing');
-    html.classList.remove('intro-quick'); // un-hide the ring; hero stays hidden inline
-    gsap.set(hero, { autoAlpha: 0 });
-    const rest = measureRest();
-    const box = entry.getBoundingClientRect();
-    const cx = box.left + box.width / 2;
-    const cy = box.top + box.height / 2;
-    tl = gsap.timeline({ onComplete: finish });
-    tl.from(flies, {
-      x: (i) => cx - rest[i].cx,
-      y: (i) => cy - rest[i].cy,
-      rotation: 0,
-      scale: 0.55,
-      autoAlpha: 0,
-      duration: 0.42,
-      ease: 'power3.out',
-      stagger: 0.015,
-    }).to(hero, { autoAlpha: 1, duration: 0.35 }, 0.15);
-    return;
-  }
-
-  // ---------------------------------------------------------- first visit
+  // ---------------------------------------------------------- the pack
   const stage = entry.querySelector('.pack-stage');
   const wrap = stage.querySelector('.pack-wrap');
   const pack = stage.querySelector('.pack');
@@ -109,11 +81,9 @@ export function initPack(ring) {
   const sheen = stage.querySelector('.pack__sheen');
   const hint = stage.querySelector('.pack-stage__hint');
   const who = stage.querySelector('.pack-stage__who');
-  const skip = stage.querySelector('.pack-stage__skip');
 
   html.classList.add('intro-lock');
   window.scrollTo(0, 0);
-  on(skip, 'click', finish);
 
   let sealed = true;
   let rest = [];
@@ -134,7 +104,9 @@ export function initPack(ring) {
         scale,
       };
     });
-    flies.forEach((fly, i) => gsap.set(fly, inside[i]));
+    // Invisible while sealed: the pack tilts toward the cursor and flat cards
+    // behind it would peek out at its edges.
+    flies.forEach((fly, i) => gsap.set(fly, { ...inside[i], autoAlpha: 0 }));
     gsap.set(flips, { rotationY: 180 });
   }
 
@@ -146,12 +118,29 @@ export function initPack(ring) {
   });
   on(window, 'resize', () => sealed && !done && park());
 
-  // Foil sheen follows the pointer.
-  on(pack, 'pointermove', (e) => {
-    const r = body.getBoundingClientRect();
-    sheen.style.setProperty('--mx', ((e.clientX - r.left) / r.width).toFixed(3));
-    sheen.style.setProperty('--my', ((e.clientY - r.top) / r.height).toFixed(3));
-  });
+  // The pack turns to face the cursor anywhere on screen (like the card
+  // viewer), and the foil sheen slides with its angle.
+  const MAX_Y = 26;
+  const MAX_X = 20;
+  const tiltY = gsap.quickTo(pack, 'rotationY', { duration: 0.6, ease: 'power3.out' });
+  const tiltX = gsap.quickTo(pack, 'rotationX', { duration: 0.6, ease: 'power3.out' });
+  const sheenX = gsap.quickTo(sheen, '--mx', { duration: 0.6, ease: 'power3.out' });
+  const sheenY = gsap.quickTo(sheen, '--my', { duration: 0.6, ease: 'power3.out' });
+  const aim = (nx, ny) => {
+    tiltY(nx * MAX_Y); // + turns the face right
+    tiltX(-ny * MAX_X); // + turns the face up
+    sheenX(0.5 + nx * 0.5);
+    sheenY(0.5 + ny * 0.5);
+  };
+  if (!prefersReducedMotion()) {
+    on(window, 'pointermove', (e) => {
+      if (!sealed || e.pointerType !== 'mouse') return;
+      const r = wrap.getBoundingClientRect();
+      const nx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2)));
+      const ny = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2)));
+      aim(nx, ny);
+    });
+  }
 
   // Drag across the pack to peel the strip; past ~35% it tears.
   let drag = null;
@@ -215,6 +204,9 @@ export function initPack(ring) {
     if (!sealed || done) return;
     sealed = false;
     if (!rest.length) park();
+    // Square the pack up to the viewer so the cards rise straight out of it.
+    gsap.to(pack, { rotationX: 0, rotationY: 0, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+    gsap.to(sheen, { '--mx': 0.5, '--my': 0.5, duration: 0.25, overwrite: 'auto' });
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -241,10 +233,10 @@ export function initPack(ring) {
 
     const packW = wrap.offsetWidth;
     tl = gsap.timeline({ onComplete: finish });
+    tl.set(flies, { autoAlpha: 1 }, 0.26); // pack is square again by now
 
     // 1. Rip: the strip flies off, the pack jolts.
     tl.to([hint, who], { autoAlpha: 0, duration: 0.25 }, 0)
-      .to(skip, { autoAlpha: 0.6, duration: 0.25 }, 0)
       .to(top, {
         x: `+=${dir * packW * 1.1}`,
         y: -packW * 0.8,
@@ -299,7 +291,6 @@ export function initPack(ring) {
       ease: 'power3.inOut',
       stagger: 0.045,
     }, SETTLE_AT)
-      .fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, SETTLE_AT + 0.45)
-      .to(skip, { autoAlpha: 0, duration: 0.3 }, SETTLE_AT);
+      .fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, SETTLE_AT + 0.45);
   }
 }

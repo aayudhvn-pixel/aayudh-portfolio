@@ -1,6 +1,5 @@
 /* 4.1 The sealed pack and the intro states.
-   html.intro         first visit: pack shown, hero hidden until the reveal
-   html.intro-quick   return visit: hero hidden until the 0.5 s version
+   html.intro         pack shown, hero hidden until the reveal (every load)
    html.intro-lock    page scroll locked while the intro plays */
 
 .pack-stage {
@@ -20,12 +19,8 @@ html.intro-lock {
 }
 
 /* Hero text and cards wait for the reveal. */
-html.intro .hero,
-html.intro-quick .hero {
+html.intro .hero {
   opacity: 0;
-}
-html.intro-quick .card-ring {
-  visibility: hidden;
 }
 html.intro-playing .card-ring {
   pointer-events: none;
@@ -39,6 +34,7 @@ html.intro-playing .ring-card__btn {
   --pack-w: min(calc(min(62svh, 620px) / 1.701), 62vw);
   position: relative;
   width: var(--pack-w);
+  perspective: 1100px;
 }
 .pack {
   position: relative;
@@ -147,38 +143,26 @@ html.intro-playing .ring-card__btn {
   50% { transform: translateX(6px); }
 }
 
-.pack-stage__skip {
-  position: absolute;
-  right: var(--gutter);
-  bottom: clamp(1rem, 3vh, 2rem);
-  padding: 0.6em 0.2em;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--paper-70);
-}
-.pack-stage__skip:hover {
-  color: var(--paper);
-}
 
 /* Narrow screens: name and role sit under the pack. */
 @media (max-width: 820px) {
+  .pack-wrap,
+  .pack-stage {
+    --pack-w: min(calc(min(52svh, 520px) / 1.701), 60vw);
+  }
+  html.intro .pack-stage {
+    align-content: center;
+    gap: clamp(1rem, 3vh, 1.75rem);
+  }
+  /* Stacked in the flow under the pack, so it can never overlap it. */
   .pack-stage__who {
-    right: 0;
-    left: 0;
-    top: auto;
-    bottom: clamp(3.5rem, 9vh, 5rem);
+    position: static;
+    order: 2;
     text-align: center;
     transform: none;
   }
   .pack-stage__name {
     font-size: var(--step-1);
-  }
-  .pack-stage__skip {
-    right: 50%;
-    transform: translateX(50%);
   }
 }
 
