@@ -69,18 +69,25 @@ function renderRing(list) {
     (c, i) => `
     <li class="ring-card${c.rare ? ' ring-card--rare' : ''}" data-index="${i}"
       style="--x:${c.pos[0]}%;--y:${c.pos[1]}%;--r:${c.pos[2]}deg;--px:${c.phone[0]}%;--py:${c.phone[1]}%;--pr:${c.phone[2]}deg">
-      <button class="ring-card__btn" type="button" aria-haspopup="dialog">
-        <span class="holo-card${c.rare ? ' holo-card--rare' : ''}">
-          <span class="holo-card__face">
-            <img src="${src(c.id, 500, 'png')}"
-              srcset="${src(c.id, 500)} 500w, ${src(c.id, 1000)} 1000w"
-              sizes="(max-width: 700px) 104px, 196px"
-              width="500" height="700" alt="${c.alt.replace(/"/g, '&quot;')}" />
-            <span class="holo-card__shine" aria-hidden="true"></span>
-            <span class="holo-card__glare" aria-hidden="true"></span>
+      <div class="ring-card__fly">
+        <button class="ring-card__btn" type="button" aria-haspopup="dialog">
+          <span class="holo-card${c.rare ? ' holo-card--rare' : ''}">
+            <span class="ring-card__flip">
+              <span class="holo-card__face">
+                <img src="${src(c.id, 500, 'png')}"
+                  srcset="${src(c.id, 500)} 500w, ${src(c.id, 1000)} 1000w"
+                  sizes="(max-width: 700px) 104px, 196px"
+                  width="500" height="700" alt="${c.alt.replace(/"/g, '&quot;')}" />
+                <span class="holo-card__shine" aria-hidden="true"></span>
+                <span class="holo-card__glare" aria-hidden="true"></span>
+              </span>
+              <span class="holo-card__face holo-card__face--back" aria-hidden="true">
+                <img src="${src('back', 500)}" width="500" height="700" alt="" />
+              </span>
+            </span>
           </span>
-        </span>
-      </button>
+        </button>
+      </div>
     </li>`
   ).join('');
   return [...list.children];
@@ -108,7 +115,7 @@ function clearHeroText(items, hero) {
   const cy = (box.top + box.bottom) / 2;
 
   for (const li of items) {
-    const r = li.getBoundingClientRect();
+    const r = li.querySelector('.ring-card__fly').getBoundingClientRect();
     const hit = r.right > box.left && r.left < box.right && r.bottom > box.top && r.top < box.bottom;
     if (!hit) continue;
     const ccx = (r.left + r.right) / 2;
@@ -237,7 +244,7 @@ function createViewer() {
       x: from.left + from.width / 2 - (to.left + to.width / 2),
       y: from.top + from.height / 2 - (to.top + to.height / 2),
       scale: from.width / to.width,
-      rotation: parseFloat(li.style.getPropertyValue('--r')) || 0,
+      rotation: gsap.getProperty(li.querySelector('.ring-card__fly'), 'rotation') || 0,
     };
   }
 
@@ -309,7 +316,7 @@ function createViewer() {
 
   // Drag the card to turn it in any direction; release snaps to a face.
   card.addEventListener('pointerdown', (e) => {
-    card.setPointerCapture(e.pointerId);
+    try { card.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
     gsap.killTweensOf(s);
     drag = { x: e.clientX, y: e.clientY, spin: s.spin, pitch: s.pitch, moved: false };
     Object.assign(s, { tx: 0, ty: 0 }); // hand control to the drag
@@ -367,7 +374,12 @@ export function initCards() {
     li.querySelector('.ring-card__btn').addEventListener('click', () => viewer?.open(li, data));
   });
 
-  const layout = () => clearHeroText(items, hero);
+  // Skipped while the pack intro is flying the cards around (their
+  // boxes aren't at rest); pack.js calls layout() again when it settles.
+  const layout = () => {
+    if (document.documentElement.classList.contains('intro-playing')) return;
+    clearHeroText(items, hero);
+  };
   layout();
   document.fonts?.ready.then(layout);
   let t;
@@ -375,4 +387,6 @@ export function initCards() {
     clearTimeout(t);
     t = setTimeout(layout, 120);
   });
+
+  return { items, layout };
 }

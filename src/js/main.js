@@ -6,8 +6,8 @@ import { initReel } from './reel.js';
 import { initStamps } from './stamps.js';
 
 initNav();
-initPack();
-initCards();
+const ring = initCards(); // renders the hero cards in their resting ring
+initPack(ring); // then the pack intro deals them into it
 initDrum();
 initReel();
 initStamps();

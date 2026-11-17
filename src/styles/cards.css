@@ -36,6 +36,13 @@
 .holo-card.is-lit {
   --fx: 1;
 }
+/* Ring cards carry both faces so the pack intro can deal them face-down. */
+.ring-card__flip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+}
 .holo-card__face {
   position: absolute;
   inset: 0;

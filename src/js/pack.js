@@ -1,4 +1,305 @@
-// Entry: sealed booster pack, tear-to-open (drag, scroll, Enter/Space), card reveal. Step 4.
-// See PORTFOLIO.md for the full spec.
+// 4.1 Entry: the sealed booster pack.
+// Tear it (drag across, click, Enter/Space, or just scroll) → the cards
+// rise out face-down → the pack drops away → they fan into a hand and flip
+// one by one (regulars, then Samurai, then Dojo) → they fly to their slots
+// in the hero ring and the hero text fades in.
+//
+// The <head> script picks the mode before first paint:
+//   html.intro        first visit, full intro
+//   html.intro-quick  return visit, ~0.5 s version
+//   neither           reduced motion or a #link: settled hero, no intro
 
-export function initPack() {}
+import { gsap } from 'gsap';
+import { storageSet } from './util.js';
+
+const FLAG = 'aayudh:pack-opened';
+
+export function initPack(ring) {
+  const html = document.documentElement;
+  const mode = html.classList.contains('intro') ? 'full' : html.classList.contains('intro-quick') ? 'quick' : null;
+  if (!mode || !ring?.items?.length) return;
+
+  const entry = document.getElementById('top');
+  const hero = entry.querySelector('.hero');
+  const title = hero.querySelector('.hero__title');
+  const flies = ring.items.map((li) => li.querySelector('.ring-card__fly'));
+  const flips = ring.items.map((li) => li.querySelector('.ring-card__flip'));
+  const holos = ring.items.map((li) => li.querySelector('.holo-card'));
+
+  let tl = null;
+  let done = false;
+
+  // Each card's resting centre and tilt in the ring (measured before we move it).
+  function measureRest() {
+    return flies.map((fly) => {
+      const r = fly.getBoundingClientRect();
+      return {
+        cx: r.left + r.width / 2,
+        cy: r.top + r.height / 2,
+        w: fly.offsetWidth,
+        h: fly.offsetHeight,
+        rot: gsap.getProperty(fly, 'rotation') || 0,
+      };
+    });
+  }
+
+  function finish() {
+    if (done) return;
+    done = true;
+    tl?.kill();
+    gsap.set(flies, { clearProps: 'all' });
+    gsap.set(flips, { clearProps: 'all' });
+    gsap.set(holos, { scale: 1 });
+    holos.forEach((h) => h.classList.remove('is-lit'));
+    gsap.set(hero, { clearProps: 'all' });
+    const hadFocusInStage = entry.querySelector('.pack-stage')?.contains(document.activeElement);
+    html.classList.remove('intro', 'intro-quick', 'intro-playing', 'intro-lock');
+    storageSet(FLAG, '1');
+    teardown();
+    ring.layout();
+    if (hadFocusInStage) title.focus({ preventScroll: true });
+  }
+
+  // Any in-page link (nav, "skip to content") ends the intro first.
+  const onLink = (e) => {
+    if (e.target.closest('a[href*="#"]')) finish();
+  };
+  document.addEventListener('click', onLink, true);
+
+  const listeners = [];
+  const on = (el, type, fn, opts) => {
+    el.addEventListener(type, fn, opts);
+    listeners.push(() => el.removeEventListener(type, fn, opts));
+  };
+  function teardown() {
+    document.removeEventListener('click', onLink, true);
+    listeners.forEach((off) => off());
+  }
+
+  // ---------------------------------------------------------- return visit
+  if (mode === 'quick') {
+    ring.layout();
+    html.classList.add('intro-playing');
+    html.classList.remove('intro-quick'); // un-hide the ring; hero stays hidden inline
+    gsap.set(hero, { autoAlpha: 0 });
+    const rest = measureRest();
+    const box = entry.getBoundingClientRect();
+    const cx = box.left + box.width / 2;
+    const cy = box.top + box.height / 2;
+    tl = gsap.timeline({ onComplete: finish });
+    tl.from(flies, {
+      x: (i) => cx - rest[i].cx,
+      y: (i) => cy - rest[i].cy,
+      rotation: 0,
+      scale: 0.55,
+      autoAlpha: 0,
+      duration: 0.42,
+      ease: 'power3.out',
+      stagger: 0.015,
+    }).to(hero, { autoAlpha: 1, duration: 0.35 }, 0.15);
+    return;
+  }
+
+  // ---------------------------------------------------------- first visit
+  const stage = entry.querySelector('.pack-stage');
+  const wrap = stage.querySelector('.pack-wrap');
+  const pack = stage.querySelector('.pack');
+  const top = stage.querySelector('.pack__top');
+  const body = stage.querySelector('.pack__body');
+  const sheen = stage.querySelector('.pack__sheen');
+  const hint = stage.querySelector('.pack-stage__hint');
+  const who = stage.querySelector('.pack-stage__who');
+  const skip = stage.querySelector('.pack-stage__skip');
+
+  html.classList.add('intro-lock');
+  window.scrollTo(0, 0);
+  on(skip, 'click', finish);
+
+  let sealed = true;
+  let rest = [];
+  let inside = []; // per card: transform that hides it inside the pack
+
+  // Park every card face-down inside the pack body (hidden behind it).
+  function park() {
+    gsap.set(flies, { clearProps: 'all' });
+    ring.layout();
+    rest = measureRest();
+    const b = body.getBoundingClientRect();
+    inside = rest.map((r) => {
+      const scale = (b.width * 0.76) / r.w;
+      return {
+        x: b.left + b.width / 2 - r.cx,
+        y: b.top + b.height * 0.07 + (r.h * scale) / 2 - r.cy,
+        rotation: 0,
+        scale,
+      };
+    });
+    flies.forEach((fly, i) => gsap.set(fly, inside[i]));
+    gsap.set(flips, { rotationY: 180 });
+  }
+
+  // Wait for fonts so the ring's push-clear-of-text is final before measuring.
+  (document.fonts?.ready ?? Promise.resolve()).then(() => {
+    if (done) return;
+    park();
+    html.classList.add('intro-playing');
+  });
+  on(window, 'resize', () => sealed && !done && park());
+
+  // Foil sheen follows the pointer.
+  on(pack, 'pointermove', (e) => {
+    const r = body.getBoundingClientRect();
+    sheen.style.setProperty('--mx', ((e.clientX - r.left) / r.width).toFixed(3));
+    sheen.style.setProperty('--my', ((e.clientY - r.top) / r.height).toFixed(3));
+  });
+
+  // Drag across the pack to peel the strip; past ~35% it tears.
+  let drag = null;
+  on(pack, 'pointerdown', (e) => {
+    if (!sealed) return;
+    try { pack.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
+    drag = { x: e.clientX, moved: 0 };
+  });
+  on(pack, 'pointermove', (e) => {
+    if (!drag || !sealed) return;
+    const dx = e.clientX - drag.x;
+    drag.moved = Math.max(drag.moved, Math.abs(dx));
+    const p = Math.min(1, Math.abs(dx) / (wrap.offsetWidth * 0.9));
+    const dir = Math.sign(dx) || 1;
+    gsap.set(top, { x: dx * 0.35, y: -p * 16, rotation: -dir * p * 12 });
+    gsap.set(hint, { autoAlpha: 1 - p * 2 });
+    if (p > 0.35) {
+      drag = null;
+      tear(dir);
+    }
+  });
+  const release = () => {
+    if (!drag || !sealed) return;
+    const { moved } = drag;
+    drag = null;
+    if (moved < 6) return tear(1); // a plain click opens it too
+    gsap.to(top, { x: 0, y: 0, rotation: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+    gsap.to(hint, { autoAlpha: 1, duration: 0.3 });
+  };
+  on(pack, 'pointerup', release);
+  on(pack, 'pointercancel', release);
+
+  on(pack, 'keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      tear(1);
+    }
+  });
+
+  // Scrolling (wheel, swipe, keys) opens it instead of scrolling away.
+  on(window, 'wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 0) tear(1);
+  }, { passive: false });
+  let touchY = null;
+  on(window, 'touchstart', (e) => (touchY = e.touches[0].clientY), { passive: true });
+  on(window, 'touchmove', (e) => {
+    if (e.target.closest('.pack')) return; // the pack handles its own drag
+    if (touchY !== null && touchY - e.touches[0].clientY > 24) tear(1);
+    e.preventDefault();
+  }, { passive: false });
+  on(window, 'keydown', (e) => {
+    if (['ArrowDown', 'PageDown', 'End'].includes(e.key) || (e.key === ' ' && e.target === document.body)) {
+      e.preventDefault();
+      tear(1);
+    }
+  });
+
+  // ---------------------------------------------------------- the reveal
+  function tear(dir = 1) {
+    if (!sealed || done) return;
+    sealed = false;
+    if (!rest.length) park();
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const box = entry.getBoundingClientRect();
+    const header = parseFloat(getComputedStyle(html).getPropertyValue('--header-h')) || 64;
+    const cx = box.left + box.width / 2;
+    const cy = box.top + header + (Math.min(box.height, vh) - header) / 2;
+
+    // A hand of cards, fanned around a pivot below the middle one.
+    const fw = Math.min(150, vw / 5.4, vh * 0.2);
+    const step = 9;
+    const radius = fw * 1.4 * 2.3;
+    const sag = radius * (1 - Math.cos((3 * step * Math.PI) / 180));
+    const fan = rest.map((r, i) => {
+      const a = (i - 3) * step;
+      const rad = (a * Math.PI) / 180;
+      return {
+        x: cx + radius * Math.sin(rad) - r.cx,
+        y: cy + radius * (1 - Math.cos(rad)) - sag / 2 - r.cy,
+        rotation: a,
+        scale: (fw * (ring.items[i].classList.contains('ring-card--rare') ? 1.06 : 1)) / r.w,
+      };
+    });
+
+    const packW = wrap.offsetWidth;
+    tl = gsap.timeline({ onComplete: finish });
+
+    // 1. Rip: the strip flies off, the pack jolts.
+    tl.to([hint, who], { autoAlpha: 0, duration: 0.25 }, 0)
+      .to(skip, { autoAlpha: 0.6, duration: 0.25 }, 0)
+      .to(top, {
+        x: `+=${dir * packW * 1.1}`,
+        y: -packW * 0.8,
+        rotation: dir * 40,
+        autoAlpha: 0,
+        duration: 0.65,
+        ease: 'power2.out',
+      }, 0)
+      .fromTo(body, { y: 0 }, { y: 8, duration: 0.09, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 0.02);
+
+    // 2. Cards rise out of the pack, face-down.
+    tl.to(flies, {
+      y: (i) => inside[i].y - rest[i].h * inside[i].scale * 0.82,
+      duration: 0.6,
+      ease: 'power3.out',
+      stagger: { each: 0.045, from: 'end' },
+    }, 0.3);
+
+    // 3. Pack drops away; the cards fan into a hand.
+    tl.to(wrap, { y: vh * 0.75, rotation: 6, autoAlpha: 0, duration: 0.7, ease: 'power3.in' }, 0.95)
+      .to(flies, {
+        x: (i) => fan[i].x,
+        y: (i) => fan[i].y,
+        rotation: (i) => fan[i].rotation,
+        scale: (i) => fan[i].scale,
+        duration: 0.75,
+        ease: 'power3.inOut',
+        stagger: 0.03,
+      }, 1.0);
+
+    // 4. Flip one by one; the two rares get a holo flash.
+    const FLIP_AT = 1.7;
+    const GAP = 0.17;
+    flips.forEach((flip, i) => {
+      const t = FLIP_AT + i * GAP + (i >= 5 ? 0.12 * (i - 4) : 0); // rares get a beat of suspense
+      tl.to(flip, { rotationY: 0, duration: 0.5, ease: 'back.out(1.7)' }, t);
+      if (ring.items[i].classList.contains('ring-card--rare')) {
+        tl.call(() => holos[i].classList.add('is-lit'), null, t + 0.2)
+          .fromTo(holos[i], { scale: 1 }, { scale: 1.14, duration: 0.18, yoyo: true, repeat: 1, ease: 'power2.out' }, t + 0.2)
+          .call(() => holos[i].classList.remove('is-lit'), null, t + 0.75);
+      }
+    });
+
+    // 5. Settle into the hero ring; the hero text arrives.
+    const SETTLE_AT = FLIP_AT + 6 * GAP + 0.36 + 0.55;
+    tl.to(flies, {
+      x: 0,
+      y: 0,
+      rotation: (i) => rest[i].rot,
+      scale: 1,
+      duration: 0.9,
+      ease: 'power3.inOut',
+      stagger: 0.045,
+    }, SETTLE_AT)
+      .fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, SETTLE_AT + 0.45)
+      .to(skip, { autoAlpha: 0, duration: 0.3 }, SETTLE_AT);
+  }
+}

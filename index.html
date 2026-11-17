@@ -24,6 +24,20 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Decide before first paint whether the pack intro plays (PORTFOLIO.md 4.1):
+         first visit → full intro; return visit → 0.5 s version; reduced motion or a #link → settled hero. -->
+    <script>
+      (function () {
+        var c = document.documentElement.classList;
+        try {
+          if (location.hash || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          c.add(localStorage.getItem('aayudh:pack-opened') ? 'intro-quick' : 'intro');
+        } catch (e) {
+          c.add('intro');
+        }
+      })();
+    </script>
+    <link rel="preload" as="image" type="image/avif" href="/assets/pack/pack-body-1000.avif" imagesrcset="/assets/pack/pack-body-600.avif 600w, /assets/pack/pack-body-1000.avif 1000w" imagesizes="(max-width: 700px) 60vw, 360px" />
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
@@ -75,8 +89,39 @@
         <!-- Cards rest in a loose ring around the hero text. Rendered by src/js/cards.js. -->
         <ul class="card-ring" aria-label="Personal trading cards"></ul>
 
+        <!-- 4.1 The sealed pack. Shown only while html.intro is set. -->
+        <div class="pack-stage">
+          <p class="pack-stage__who">
+            <span class="pack-stage__name">Aayudh Vijay Ninawe</span>
+            <span class="pack-stage__role">UI/UX Designer · iOS Developer</span>
+          </p>
+          <div class="pack-wrap">
+            <p class="pack-stage__hint" id="pack-hint" aria-hidden="true">
+              Slide to open <span class="pack-stage__arrow">→</span>
+            </p>
+            <div class="pack" role="button" tabindex="0" aria-label="Open the AAYUDH Origins card pack">
+              <div class="pack__top">
+                <picture>
+                  <source type="image/avif" srcset="/assets/pack/pack-top-600.avif 600w, /assets/pack/pack-top-1000.avif 1000w" sizes="(max-width: 700px) 60vw, 360px" />
+                  <source type="image/webp" srcset="/assets/pack/pack-top-600.webp 600w, /assets/pack/pack-top-1000.webp 1000w" sizes="(max-width: 700px) 60vw, 360px" />
+                  <img src="/assets/pack/pack-top-600.png" alt="" width="1000" height="139" draggable="false" />
+                </picture>
+              </div>
+              <div class="pack__body">
+                <picture>
+                  <source type="image/avif" srcset="/assets/pack/pack-body-600.avif 600w, /assets/pack/pack-body-1000.avif 1000w" sizes="(max-width: 700px) 60vw, 360px" />
+                  <source type="image/webp" srcset="/assets/pack/pack-body-600.webp 600w, /assets/pack/pack-body-1000.webp 1000w" sizes="(max-width: 700px) 60vw, 360px" />
+                  <img src="/assets/pack/pack-body-600.png" alt="" width="1000" height="1562" draggable="false" />
+                </picture>
+                <span class="pack__sheen" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <button class="pack-stage__skip" type="button">Skip <span aria-hidden="true">→</span></button>
+        </div>
+
         <div class="hero">
-          <h1 id="hero-title" class="hero__title">Designer. Developer.<br /><span class="text-gold">AI filmmaker.</span></h1>
+          <h1 id="hero-title" class="hero__title" tabindex="-1">Designer. Developer.<br /><span class="text-gold">AI filmmaker.</span></h1>
           <p class="hero__lede">
             I'm Aayudh. I design
             <span class="tile tile--screen" aria-hidden="true"></span>

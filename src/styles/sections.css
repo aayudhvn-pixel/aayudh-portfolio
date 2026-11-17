@@ -73,8 +73,13 @@ section[id] {
   left: var(--x);
   top: var(--y);
   width: var(--card-w);
-  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) rotate(var(--r));
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
   pointer-events: auto;
+}
+/* The tilt lives on an inner wrapper so the pack intro can fly the card
+   in screen-aligned x/y and land on this rotation. */
+.ring-card__fly {
+  transform: rotate(var(--r));
 }
 .ring-card--rare {
   --card-w: clamp(112px, min(11.5vw, 22vh), 196px);
@@ -90,7 +95,10 @@ section[id] {
     --card-w: clamp(76px, 22vw, 104px);
     left: var(--px);
     top: var(--py);
-    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) rotate(var(--pr));
+    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+  }
+  .ring-card__fly {
+    transform: rotate(var(--pr));
   }
   .hero {
     max-width: 22rem;
