@@ -201,15 +201,22 @@ a {
   transform: none;
 }
 
-/* Scroll reveal (src/js/reveal.js adds .reveal, then .is-in). */
+/* Scroll reveal (src/js/reveal.js). Hidden blocks wait below the fold
+   (or above it, .from-above, after you scrolled past them) and ease in
+   with a small per-block stagger; resetting while off screen is instant. */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(32px);
   transition:
-    opacity 0.8s var(--ease-out) var(--reveal-delay, 0ms),
-    transform 0.8s var(--ease-out) var(--reveal-delay, 0ms);
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out);
+  transition-delay: 0ms;
+}
+.reveal.from-above {
+  transform: translateY(-32px);
 }
 .reveal.is-in {
   opacity: 1;
   transform: none;
+  transition-delay: var(--reveal-delay, 0ms);
 }

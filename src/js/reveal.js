@@ -1,42 +1,42 @@
-// Sections fade and rise in as they are about to enter the viewport.
-// Only the content moves; section backgrounds stay put, so the dark
-// hero → Work → Films run stays continuous. Each element animates once.
-// Skipped for reduced motion, and without JS everything is simply visible.
+// Sections fade and rise in as they come into view, on every pass, in both
+// scroll directions: scrolling down, blocks rise in from below; scrolling
+// back up, they drop in from above. A block fades back out only once it
+// is fully off screen, so you never see it disappear, and the gap between
+// the "in" and "out" lines stops it flickering at the edge.
 //
-// A plain passive scroll check (there are only a handful of blocks, and
-// the listener removes itself once all have appeared) — no dependence on
-// IntersectionObserver timing.
+// Only the content moves; section backgrounds stay put, so the dark
+// hero → Work → Films run stays continuous. Off under reduced motion, and
+// without JS everything is simply visible.
 
 import { prefersReducedMotion } from './util.js';
 
 export function initReveal() {
   if (prefersReducedMotion()) return;
 
-  let pending = [...document.querySelectorAll('main > section:not(#top) > *, .site-footer > *')].filter(
+  const targets = [...document.querySelectorAll('main > section:not(#top) > *, .site-footer > *')].filter(
     (el) => !el.matches('.visually-hidden, [aria-live]')
   );
 
-  // Stagger children of the same section slightly.
-  pending.forEach((el) => {
-    const siblings = [...el.parentElement.children].filter((c) => pending.includes(c));
+  // Stagger children of the same section slightly (entering only).
+  targets.forEach((el) => {
+    const siblings = [...el.parentElement.children].filter((c) => targets.includes(c));
     el.style.setProperty('--reveal-delay', `${siblings.indexOf(el) * 90}ms`);
     el.classList.add('reveal');
   });
 
   function check() {
-    // Reveal a little before the block's top reaches the bottom of the screen.
-    const line = window.innerHeight * 0.92;
-    pending = pending.filter((el) => {
+    const vh = window.innerHeight;
+    for (const el of targets) {
       const r = el.getBoundingClientRect();
-      if (r.top < line && r.bottom > 0) {
+      const shown = el.classList.contains('is-in');
+      if (!shown && r.top < vh * 0.9 && r.bottom > vh * 0.1) {
         el.classList.add('is-in');
-        return false;
+      } else if (r.top >= vh || r.bottom <= 0) {
+        // Fully off screen (shown or jumped past): reset, ready to come in
+        // from the side it is on.
+        el.classList.remove('is-in');
+        el.classList.toggle('from-above', r.bottom <= 0);
       }
-      return true;
-    });
-    if (!pending.length) {
-      window.removeEventListener('scroll', check);
-      window.removeEventListener('resize', check);
     }
   }
 

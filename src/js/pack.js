@@ -25,6 +25,7 @@ export function initPack(ring) {
 
   let tl = null;
   let done = false;
+  let focusTitle = false; // Skip hands keyboard focus to the hero heading
 
   // Each card's resting centre and tilt in the ring (measured before we move it).
   function measureRest() {
@@ -53,7 +54,7 @@ export function initPack(ring) {
     html.classList.remove('intro', 'intro-playing', 'intro-lock');
     teardown();
     ring.layout();
-    if (hadFocusInStage) title.focus({ preventScroll: true });
+    if (hadFocusInStage || focusTitle) title.focus({ preventScroll: true });
   }
 
   // Any in-page link (nav, "skip to content") ends the intro first.
@@ -85,12 +86,40 @@ export function initPack(ring) {
 
   html.classList.add('intro-lock');
   window.scrollTo(0, 0);
-  // Skip: available from the sealed pack until the cards have settled.
-  on(skip, 'click', finish);
-
   let sealed = true;
   let rest = [];
   let inside = []; // per card: transform that hides it inside the pack
+
+  // Skip: available from the sealed pack until the cards have settled.
+  // Not a hard cut: a ~1 s quick reveal — the pack fades away while every
+  // card flips face-up and flies straight to its slot, and the hero text
+  // fades in. Works from any point (sealed, or mid-reveal).
+  let skipping = false;
+  function skipQuick() {
+    if (done || skipping) return;
+    skipping = true;
+    focusTitle = true; // the Skip button fades out, so focus moves to the heading
+    sealed = false;
+    tl?.kill();
+    if (!rest.length || prefersReducedMotion()) return finish();
+    gsap.killTweensOf([pack, sheen, top]);
+    tl = gsap.timeline({ onComplete: finish });
+    tl.to([hint, who, skip], { autoAlpha: 0, duration: 0.2 }, 0)
+      .to(wrap, { scale: 0.88, autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, 0)
+      .set(flies, { autoAlpha: 1 }, 0.1)
+      .to(flies, {
+        x: 0,
+        y: 0,
+        rotation: (i) => rest[i].rot,
+        scale: 1,
+        duration: 0.7,
+        ease: 'power3.out',
+        stagger: 0.04,
+      }, 0.1)
+      .to(flips, { rotationY: 0, duration: 0.5, ease: 'power2.out', stagger: 0.04 }, 0.14)
+      .fromTo(hero, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 0.4);
+  }
+  on(skip, 'click', skipQuick);
 
   // Park every card face-down inside the pack body (hidden behind it).
   function park() {
