@@ -7,9 +7,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets:images": "node scripts/optimize-images.mjs",
+    "assets:reel": "bash scripts/build-reel.sh"
   },
   "devDependencies": {
+    "sharp": "^0.35.5",
     "vite": "^8.3.8"
   },
   "dependencies": {

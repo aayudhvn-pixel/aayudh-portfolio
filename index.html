@@ -9,7 +9,9 @@
       content="Aayudh Vijay Ninawe: UI/UX designer who also builds. iOS developer, AI filmmaker and illustrator."
     />
     <meta name="theme-color" content="#120603" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/src/styles/main.css" />
@@ -45,11 +47,66 @@
             <li class="swatch swatch--red"><strong>Red</strong><span class="tag">#EA2B1F</span></li>
             <li class="swatch swatch--gold"><strong>Gold</strong><span class="tag">#ECA400</span></li>
           </ul>
-          <button class="btn" type="button">Download resume</button>
+          <a class="btn" href="/resume.pdf" download>Download resume</a>
+        </div>
+      </section>
+
+      <!-- Step 2 asset review. Removed in step 3. -->
+      <section class="specimen section--dark review">
+        <div class="container">
+          <h2>Pack</h2>
+          <div class="review__pack">
+            <picture>
+              <source srcset="/assets/pack/pack-top-1000.avif" type="image/avif" />
+              <source srcset="/assets/pack/pack-top-1000.webp" type="image/webp" />
+              <img src="/assets/pack/pack-top-600.png" alt="" width="1000" height="139" />
+            </picture>
+            <picture>
+              <source srcset="/assets/pack/pack-body-1000.avif" type="image/avif" />
+              <source srcset="/assets/pack/pack-body-1000.webp" type="image/webp" />
+              <img src="/assets/pack/pack-body-600.png" alt="AAYUDH Personal Card Game booster pack, ORIGINS" width="1000" height="1562" />
+            </picture>
+          </div>
+
+          <h2>Cards</h2>
+          <div class="review__cards" id="review-cards"></div>
+
+          <h2>Reel (draft)</h2>
+          <video class="review__reel" autoplay muted loop playsinline controls poster="/assets/reel/reel-poster.webp">
+            <source src="/assets/reel/reel.webm" type="video/webm" />
+            <source src="/assets/reel/reel.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
+      <section class="specimen section--light review">
+        <div class="container">
+          <h2>Stamps</h2>
+          <div class="review__stamps">
+            <img src="/assets/stamps/trident.webp" alt="" width="300" height="300" />
+            <img src="/assets/stamps/cat.webp" alt="" width="300" height="300" />
+            <img src="/assets/stamps/headphones.webp" alt="" width="300" height="300" />
+            <img src="/assets/stamps/lightning.webp" alt="" width="300" height="300" />
+            <img src="/assets/stamps/helmet.webp" alt="" width="300" height="300" />
+            <img src="/assets/stamps/stars.webp" alt="" width="300" height="300" />
+          </div>
         </div>
       </section>
     </main>
 
+    <script type="module">
+      // Step 2 review only: render every card front + back.
+      const names = ['designer', 'runner', 'cook', 'anime-lover', 'artist', 'samurai', 'dojo', 'back'];
+      document.getElementById('review-cards').innerHTML = names
+        .map(
+          (n) => `<picture>
+            <source srcset="/assets/cards/${n}-500.avif 500w, /assets/cards/${n}-1000.avif 1000w" sizes="220px" type="image/avif" />
+            <source srcset="/assets/cards/${n}-500.webp 500w, /assets/cards/${n}-1000.webp 1000w" sizes="220px" type="image/webp" />
+            <img src="/assets/cards/${n}-500.png" alt="${n}" width="500" height="700" loading="lazy" />
+          </picture>`
+        )
+        .join('');
+    </script>
     <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

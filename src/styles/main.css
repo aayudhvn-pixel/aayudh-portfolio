@@ -42,3 +42,22 @@
 .swatch--paper { background: var(--paper); color: var(--ink); }
 .swatch--red { background: var(--red); color: var(--paper); }
 .swatch--gold { background: var(--gold); color: var(--ink); }
+
+/* Step 2 asset review (temporary) */
+.review__pack {
+  width: min(320px, 100%);
+}
+.review__cards,
+.review__stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-s);
+}
+.review__cards img {
+  width: 100%;
+  height: auto;
+}
+.review__reel {
+  width: 100%;
+  border-radius: var(--radius-m);
+}
