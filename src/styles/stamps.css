@@ -1,0 +1,214 @@
+/* 4.5 About: tools hover + the ink stamps (signature interaction). */
+
+.about {
+  position: relative;
+  isolation: isolate;
+}
+.about__inner {
+  position: relative;
+  z-index: 1; /* text sits above the pressed stamps */
+}
+
+/* Tools: a light hover — the chip fills and lifts a touch. */
+.tools li {
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.tools li:hover {
+  transform: translateY(-2px);
+  background: var(--paper-12);
+  border-color: rgb(253 249 237 / 0.35);
+}
+
+/* ---------------------------------------------------------- the tray */
+.stamp-tray {
+  position: sticky;
+  top: calc(var(--header-h) + var(--space-m));
+  display: grid;
+  justify-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-s) var(--space-xs);
+  border: 1px solid var(--paper-12);
+  border-radius: var(--radius-l);
+  background: rgb(253 249 237 / 0.03);
+  text-align: center;
+}
+.stamp-tray__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.stamp-tray__hint {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--paper-70);
+}
+.stamp-tray__list {
+  display: grid;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0;
+  padding: 0;
+  list-style: none;
+}
+.stamp-btn {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 6px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.stamp-btn img {
+  width: 100%;
+  height: 100%;
+}
+.stamp-btn:hover {
+  transform: rotate(-6deg) scale(1.06);
+}
+.stamp-btn[aria-pressed='true'] {
+  border-color: var(--red);
+  background: rgb(234 43 31 / 0.12);
+  transform: scale(1.08);
+}
+.stamp-tray__clear {
+  padding: 0.35em 1em;
+  border: 1px solid var(--paper-12);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.stamp-tray__clear:hover {
+  color: var(--paper);
+  border-color: var(--red);
+}
+.stamp-tray__clear:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* While a stamp is picked, the section shows it as the cursor
+   (stamps.js sets --stamp-cursor). */
+.about.is-stamping {
+  cursor: var(--stamp-cursor), crosshair;
+}
+.about.is-stamping :is(a, button) {
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------- pressed stamps */
+.stamp-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.stamp {
+  position: absolute;
+  width: var(--stamp-size, 112px);
+  aspect-ratio: 1;
+  margin: calc(var(--stamp-size, 112px) / -2) 0 0 calc(var(--stamp-size, 112px) / -2);
+  transform: rotate(var(--rot, 0deg));
+}
+.stamp img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.92;
+}
+/* Press: comes down slightly large, squashes, settles; ink fades in. */
+.stamp.is-pressing {
+  animation: stamp-press 0.38s var(--ease-out) both;
+}
+@keyframes stamp-press {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--rot)) scale(1.35);
+  }
+  55% {
+    opacity: 1;
+    transform: rotate(var(--rot)) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--rot)) scale(1);
+  }
+}
+
+/* Trident: a brief gold shimmer across the ink, masked to the stamp. */
+.stamp__shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask: var(--stamp-mask) center / contain no-repeat;
+  mask: var(--stamp-mask) center / contain no-repeat;
+  pointer-events: none;
+}
+.stamp__shine::before {
+  content: '';
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgb(255 213 106 / 0.95) 48%,
+    var(--gold) 52%,
+    transparent 65%
+  );
+  transform: translateX(-70%);
+  animation: stamp-shimmer 0.9s 0.25s var(--ease-in-out) both;
+}
+@keyframes stamp-shimmer {
+  to {
+    transform: translateX(70%);
+  }
+}
+
+@media (max-width: 960px) {
+  /* Tray becomes a row above the content, so it is seen before scrolling. */
+  .stamp-tray {
+    order: -1;
+    position: static;
+    grid-auto-flow: row;
+    justify-items: start;
+    text-align: left;
+  }
+  .stamp-tray {
+    min-width: 0;
+  }
+  .stamp-tray__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-xs);
+  }
+  .stamp-btn {
+    width: 48px;
+    height: 48px;
+  }
+  .about__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp.is-pressing,
+  .stamp__shine::before {
+    animation: none;
+  }
+}

@@ -183,7 +183,8 @@ section[id] {
 }
 @media (min-width: 960px) {
   .about__inner {
-    grid-template-columns: 1fr 120px;
+    grid-template-columns: 1fr 132px;
+    align-items: start;
   }
 }
 .about__story {
@@ -227,9 +228,6 @@ section[id] {
   border-radius: 999px;
   font-weight: 500;
   font-size: var(--step--1);
-}
-.stub--tray {
-  min-height: 320px;
 }
 
 /* ---------------------------------------------------------- Contact */

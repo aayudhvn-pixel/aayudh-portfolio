@@ -127,7 +127,11 @@ async function doStamps() {
     const png = join(dir, `${name}.png`);
     await img.clone().webp({ quality: 85, alphaQuality: 90 }).toFile(webp);
     await img.clone().png({ palette: true, compressionLevel: 9 }).toFile(png);
-    await Promise.all([log(webp), log(png)]);
+    // Small PNG used as the mouse cursor while that stamp is picked
+    // (browsers cap cursor images, and only PNG is reliable).
+    const cursor = join(dir, `cursor-${name}.png`);
+    await img.clone().resize(48, 48).png({ compressionLevel: 9 }).toFile(cursor);
+    await Promise.all([log(webp), log(png), log(cursor)]);
   }
 }
 
