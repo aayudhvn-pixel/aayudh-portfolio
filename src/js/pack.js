@@ -81,9 +81,12 @@ export function initPack(ring) {
   const sheen = stage.querySelector('.pack__sheen');
   const hint = stage.querySelector('.pack-stage__hint');
   const who = stage.querySelector('.pack-stage__who');
+  const skip = stage.querySelector('.pack-stage__skip');
 
   html.classList.add('intro-lock');
   window.scrollTo(0, 0);
+  // Skip: available from the sealed pack until the cards have settled.
+  on(skip, 'click', finish);
 
   let sealed = true;
   let rest = [];

@@ -144,6 +144,33 @@ html.intro-playing .ring-card__btn {
 }
 
 
+/* Skip: always there during the intro, bottom-right, quiet until hovered. */
+.pack-stage__skip {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(1rem, 3vh, 2rem);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.55em 1em;
+  border: 1px solid var(--paper-12);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.pack-stage__skip:hover {
+  color: var(--paper);
+  border-color: var(--red);
+}
+
 /* Narrow screens: name and role sit under the pack. */
 @media (max-width: 820px) {
   .pack-wrap,

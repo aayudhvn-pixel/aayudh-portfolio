@@ -200,3 +200,16 @@ a {
 .skip-link:focus-visible {
   transform: none;
 }
+
+/* Scroll reveal (src/js/reveal.js adds .reveal, then .is-in). */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.8s var(--ease-out) var(--reveal-delay, 0ms);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
