@@ -162,8 +162,61 @@ async function doFavicons() {
   await log(ico);
 }
 
+// ---------------------------------------------------------------- Work covers
+// One 16:10 cover per project for the Work drum.
+async function doCovers() {
+  const dir = join(OUT, 'work');
+  await mkdir(dir, { recursive: true });
+  const W = 1200;
+  const H = 750;
+
+  // MemorEase: patient + caregiver home screens side by side on a warm ground.
+  const phoneH = Math.round(H * 0.86);
+  // Trim each PNG's transparent padding first so both phones match in size.
+  const phone = async (f) => {
+    const trimmed = await sharp(join(SRC, 'MemorEase', f)).trim({ threshold: 5 }).toBuffer();
+    return sharp(trimmed).resize({ height: phoneH }).toBuffer();
+  };
+  const [patient, caregiver] = await Promise.all([phone('Patient_screen_main.png'), phone('Caregiver_screen_main.png')]);
+  const pw = (await sharp(patient).metadata()).width;
+  const memorease = sharp({ create: { width: W, height: H, channels: 3, background: '#EADFCB' } })
+    .composite([
+      { input: patient, left: Math.round(W / 2 - pw - 24), top: Math.round((H - phoneH) / 2) },
+      { input: caregiver, left: Math.round(W / 2 + 24), top: Math.round((H - phoneH) / 2) },
+    ]);
+  const memoreaseBuf = await memorease.png().toBuffer();
+
+  // TEDx: the site's main screen, with the black margins trimmed off.
+  const tedxBuf = await sharp(join(SRC, 'TEDx', 'TEDxMITWPU_mainscreen.png'))
+    .trim({ background: '#000000', threshold: 12 })
+    .resize(W, H, { fit: 'cover', position: 'centre' })
+    .png()
+    .toBuffer();
+
+  // Path of Stillness: title screen; nearest-neighbour keeps the pixel art crisp.
+  const posBuf = await sharp(join(SRC, 'Path Of Stillness', 'mainscreen_ss.jpeg'))
+    .resize(W, H, { fit: 'cover', position: 'centre', kernel: 'nearest' })
+    .png()
+    .toBuffer();
+
+  for (const [name, buf] of [['memorease', memoreaseBuf], ['tedx', tedxBuf], ['path-of-stillness', posBuf]]) {
+    for (const w of [800, 1200]) {
+      const kernel = name === 'path-of-stillness' ? 'nearest' : 'lanczos3';
+      const img = sharp(buf).resize({ width: w, kernel });
+      const base = join(dir, `${name}-${w}`);
+      await img.clone().avif({ quality: 55, effort: 6 }).toFile(`${base}.avif`);
+      await img.clone().webp({ quality: 80, effort: 6 }).toFile(`${base}.webp`);
+      await Promise.all([log(`${base}.avif`), log(`${base}.webp`)]);
+      if (w === 800) {
+        await img.clone().jpeg({ quality: 80, mozjpeg: true }).toFile(`${base}.jpg`);
+        await log(`${base}.jpg`);
+      }
+    }
+  }
+}
+
 const only = process.env.ONLY?.split(',');
-const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons };
+const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers };
 for (const [name, fn] of Object.entries(tasks)) {
   if (only && !only.includes(name)) continue;
   console.log(`→ ${name}`);

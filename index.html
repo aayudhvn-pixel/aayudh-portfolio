@@ -135,37 +135,69 @@
         </div>
       </section>
 
-      <!-- 4.3 Work: the drum (light) -->
+      <!-- 4.3 Work: the drum (light). Without JS the panels are a plain grid of links;
+           drum.js turns them into a looping CSS 3D cylinder. -->
       <section id="work" class="work section--light" data-theme="light" aria-labelledby="work-title">
         <div class="container">
           <h2 id="work-title" class="section-title">Work</h2>
-          <ol class="work__list" aria-label="Case studies">
-            <li>
-              <a class="panel" href="/work/memorease/">
-                <span class="panel__media" aria-hidden="true"></span>
-                <span class="panel__name">MemorEase</span>
-                <span class="panel__line">Dementia care iOS app for patients and caregivers.</span>
-                <span class="panel__meta meta">UX Lead · 2025–2026 · Figma, UIKit, Supabase</span>
-              </a>
-            </li>
-            <li>
-              <a class="panel" href="/work/tedx/">
-                <span class="panel__media" aria-hidden="true"></span>
-                <span class="panel__name">TEDxMITWPU</span>
-                <span class="panel__line">Brand identity and website for “Threads of Identity”.</span>
-                <span class="panel__meta meta">Lead Graphic Designer · 2025 · Figma</span>
-              </a>
-            </li>
-            <li>
-              <a class="panel" href="/work/path-of-stillness/">
-                <span class="panel__media" aria-hidden="true"></span>
-                <span class="panel__name">Path of Stillness</span>
-                <span class="panel__line">Narrative iOS game for the Swift Student Challenge 2026.</span>
-                <span class="panel__meta meta">Solo · 2026 · Swift, SwiftUI, SpriteKit</span>
-              </a>
-            </li>
-          </ol>
-          <p class="stub-note tag">Step 6 turns these into the drum.</p>
+        </div>
+        <div class="drum" role="region" aria-roledescription="carousel" aria-labelledby="work-title" tabindex="0">
+          <div class="drum__stage">
+            <ol class="drum__ring">
+              <li class="drum__panel">
+                <a class="panel" href="/work/memorease/" draggable="false">
+                  <picture class="panel__media">
+                    <source type="image/avif" srcset="/assets/work/memorease-800.avif 800w, /assets/work/memorease-1200.avif 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <source type="image/webp" srcset="/assets/work/memorease-800.webp 800w, /assets/work/memorease-1200.webp 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <img src="/assets/work/memorease-800.jpg" alt="MemorEase patient and caregiver home screens" width="1200" height="750" loading="lazy" decoding="async" draggable="false" />
+                  </picture>
+                  <span class="panel__caption">
+                    <span class="panel__name">MemorEase</span>
+                    <span class="panel__line">Dementia care iOS app for patients and caregivers.</span>
+                    <span class="panel__meta meta">UX Lead · 2025–2026 · Figma, UIKit, Supabase</span>
+                  </span>
+                </a>
+              </li>
+              <li class="drum__panel">
+                <a class="panel" href="/work/tedx/" draggable="false">
+                  <picture class="panel__media">
+                    <source type="image/avif" srcset="/assets/work/tedx-800.avif 800w, /assets/work/tedx-1200.avif 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <source type="image/webp" srcset="/assets/work/tedx-800.webp 800w, /assets/work/tedx-1200.webp 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <img src="/assets/work/tedx-800.jpg" alt="TEDxMITWPU website home screen: Threads of Identity" width="1200" height="750" loading="lazy" decoding="async" draggable="false" />
+                  </picture>
+                  <span class="panel__caption">
+                    <span class="panel__name">TEDxMITWPU</span>
+                    <span class="panel__line">Brand identity and website for “Threads of Identity”.</span>
+                    <span class="panel__meta meta">Lead Graphic Designer · 2025 · Figma</span>
+                  </span>
+                </a>
+              </li>
+              <li class="drum__panel">
+                <a class="panel" href="/work/path-of-stillness/" draggable="false">
+                  <picture class="panel__media">
+                    <source type="image/avif" srcset="/assets/work/path-of-stillness-800.avif 800w, /assets/work/path-of-stillness-1200.avif 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <source type="image/webp" srcset="/assets/work/path-of-stillness-800.webp 800w, /assets/work/path-of-stillness-1200.webp 1200w" sizes="(max-width: 700px) 80vw, 760px" />
+                    <img src="/assets/work/path-of-stillness-800.jpg" alt="Path of Stillness title screen: a samurai meditating in a dojo courtyard" width="1200" height="750" loading="lazy" decoding="async" draggable="false" />
+                  </picture>
+                  <span class="panel__caption">
+                    <span class="panel__name">Path of Stillness</span>
+                    <span class="panel__line">Narrative iOS game for the Swift Student Challenge 2026.</span>
+                    <span class="panel__meta meta">Solo · 2026 · Swift, SwiftUI, SpriteKit</span>
+                  </span>
+                </a>
+              </li>
+            </ol>
+          </div>
+          <div class="drum__controls">
+            <button class="drum__btn drum__btn--prev" type="button" aria-label="Previous project">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <p class="drum__count meta" aria-hidden="true"><span class="drum__current">1</span> / 3</p>
+            <button class="drum__btn drum__btn--next" type="button" aria-label="Next project">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+          </div>
+          <p class="drum__status visually-hidden" aria-live="polite"></p>
         </div>
       </section>
 
