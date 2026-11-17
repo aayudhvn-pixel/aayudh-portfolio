@@ -225,3 +225,10 @@ a {
 .reveal.reveal--fade.from-above {
   transform: none;
 }
+
+/* Fully dark pages (the home page): the base matches the sections, so
+   overscroll and sub-pixel gaps never show the light paper colour. */
+body.page-dark {
+  background: var(--ink);
+  color: var(--paper);
+}

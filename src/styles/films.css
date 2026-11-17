@@ -129,12 +129,14 @@
   transform-origin: center;
 }
 
-/* Selected Work → Films: keep the two close (one continuous dark run). */
+/* Selected Work → Films: a 250px gap between the project row and the
+   Films heading on desktop (Work's 40px + Films' 211px − the 1px overlap
+   of adjacent dark sections), scaling down on small screens. */
 .work {
   padding-bottom: var(--space-l);
 }
 .films {
   min-height: 0;
-  padding-top: var(--space-xl);
+  padding-top: clamp(150px, 15vw, 211px);
   padding-bottom: var(--space-2xl);
 }
