@@ -220,3 +220,8 @@ a {
   transform: none;
   transition-delay: var(--reveal-delay, 0ms);
 }
+/* Fade-only variant (the hero card ring: its position must stay exact). */
+.reveal.reveal--fade,
+.reveal.reveal--fade.from-above {
+  transform: none;
+}

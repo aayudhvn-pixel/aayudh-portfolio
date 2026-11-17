@@ -1,26 +1,37 @@
-// Sections fade and rise in as they come into view, on every pass, in both
-// scroll directions: scrolling down, blocks rise in from below; scrolling
-// back up, they drop in from above. A block fades back out only once it
-// is fully off screen, so you never see it disappear, and the gap between
-// the "in" and "out" lines stops it flickering at the edge.
+// Sections fade in as they come into view, on every pass, in both scroll
+// directions: scrolling down, blocks rise in from below; scrolling back
+// up, they drop in from above. A block resets only once it is fully off
+// screen, so you never see it disappear, and the gap between the "in" and
+// "out" lines stops it flickering at the edge.
 //
-// Only the content moves; section backgrounds stay put, so the dark
-// hero → Work → Films run stays continuous. Off under reduced motion, and
-// without JS everything is simply visible.
+// Includes the hero when you scroll back up to it: the heading and line
+// drop in, and the card ring fades in (opacity only, because the pack
+// intro and the push-clear-of-text layout measure the cards' positions).
+// Whatever is already on screen at load appears at once, without
+// animating, so this never fights the pack intro.
+//
+// Only content moves; section backgrounds stay put, so the dark run stays
+// continuous. Off under reduced motion; without JS everything is visible.
 
 import { prefersReducedMotion } from './util.js';
 
 export function initReveal() {
   if (prefersReducedMotion()) return;
 
-  const targets = [...document.querySelectorAll('main > section:not(#top) > *, .site-footer > *')].filter(
-    (el) => !el.matches('.visually-hidden, [aria-live]')
-  );
+  const sectionBlocks = [...document.querySelectorAll('main > section:not(#top) > *, .site-footer > *')];
+  const heroBlocks = [...document.querySelectorAll('#top .hero > *')];
+  const ring = document.querySelector('#top .card-ring');
 
-  // Stagger children of the same section slightly (entering only).
+  const targets = [...heroBlocks, ...sectionBlocks].filter((el) => !el.matches('.visually-hidden, [aria-live]'));
+  if (ring) {
+    ring.classList.add('reveal--fade');
+    targets.push(ring);
+  }
+
+  // Stagger children of the same parent slightly (entering only).
   targets.forEach((el) => {
     const siblings = [...el.parentElement.children].filter((c) => targets.includes(c));
-    el.style.setProperty('--reveal-delay', `${siblings.indexOf(el) * 90}ms`);
+    el.style.setProperty('--reveal-delay', `${Math.max(0, siblings.indexOf(el)) * 90}ms`);
     el.classList.add('reveal');
   });
 
@@ -40,7 +51,12 @@ export function initReveal() {
     }
   }
 
+  // First pass without transitions: what's on screen at load just shows.
+  targets.forEach((el) => (el.style.transition = 'none'));
+  check();
+  void document.body.offsetHeight; // apply the no-transition state
+  setTimeout(() => targets.forEach((el) => (el.style.transition = '')), 50);
+
   window.addEventListener('scroll', check, { passive: true });
   window.addEventListener('resize', check, { passive: true });
-  check(); // anything already on screen (e.g. arriving on /#work) shows at once
 }

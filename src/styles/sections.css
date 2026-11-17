@@ -146,15 +146,17 @@ section[id] {
 /* </> on a neutral keycap: a soft paper-grey top face with a darker
    edge below, tilted a touch in 3D so it reads as an object, not a logo. */
 .tile--code {
+  height: auto;
   perspective: 200px;
-  vertical-align: -0.38em;
+  vertical-align: -0.14em;
 }
 .code3d {
   display: inline-grid;
   place-items: center;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 0.32em;
+  /* ~1.1x the text height: sized to the sentence, not the line box */
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 0.3em;
   background: linear-gradient(160deg, #f4efe4 0%, #d9d2c3 100%);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.85),
@@ -164,7 +166,7 @@ section[id] {
   color: #2a211c;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.95em;
+  font-size: 0.8em;
   letter-spacing: -0.05em;
   line-height: 1;
   transform: rotateX(18deg) rotateY(-14deg) rotateZ(-3deg);
