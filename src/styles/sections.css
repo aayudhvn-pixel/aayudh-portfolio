@@ -174,42 +174,7 @@ section[id] {
 
 /* Work: see drum.css */
 
-/* ---------------------------------------------------------- Films */
-.films__inner {
-  display: grid;
-  gap: var(--space-l);
-  align-items: center;
-}
-@media (min-width: 760px) {
-  .films__inner {
-    grid-template-columns: 1fr auto;
-  }
-  .films__inner .stub-note {
-    grid-column: 1 / -1;
-  }
-}
-.films__line {
-  font-size: var(--step-1);
-  color: var(--paper-70);
-}
-.folder-stub {
-  display: grid;
-  justify-items: center;
-  gap: var(--space-xs);
-  color: inherit;
-  text-decoration: none;
-}
-.folder-stub__icon {
-  width: 120px;
-  aspect-ratio: 1;
-  border-radius: 28px;
-  background: var(--paper-12);
-  border: 1px solid var(--paper-12);
-}
-.folder-stub__label {
-  font-family: var(--font-body);
-  font-weight: 500;
-}
+/* Films: see films.css */
 
 /* ---------------------------------------------------------- About */
 .about__inner {

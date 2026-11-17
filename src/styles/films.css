@@ -1,0 +1,130 @@
+/* 4.4 Films teaser.
+   The reel is the section's own backdrop: full-bleed, dimmed, fading into
+   the ink at the top and bottom so it melts into the sections around it.
+   No frame, no controls. The way into /films is an iOS-style folder. */
+
+.films {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(92svh, 860px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.films__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.films__reel {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+.films__backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgb(18 6 3 / 0.4) 0%, rgb(18 6 3 / 0.72) 75%),
+    linear-gradient(to bottom, var(--ink) 0%, transparent 22%, transparent 78%, var(--ink) 100%);
+}
+
+.films__inner {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.films__inner .section-title {
+  margin-bottom: var(--space-s);
+}
+/* The reel has bright cuts (lightning, lava): keep the text readable over all of them. */
+.films__inner .section-title,
+.films__line {
+  text-shadow: 0 2px 18px rgb(18 6 3 / 0.85);
+}
+.films__line {
+  margin-bottom: var(--space-xl);
+  font-size: var(--step-1);
+  color: var(--paper-70);
+}
+
+/* ---------------------------------------------------------- the folder */
+.folder {
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.7rem;
+  color: var(--paper);
+  text-decoration: none;
+  border-radius: 28%;
+  -webkit-tap-highlight-color: transparent;
+}
+.folder__icon,
+.folder-open__panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
+  gap: 7%;
+  aspect-ratio: 1;
+  padding: 13%;
+  border-radius: 24%;
+  /* Frosted glass over the reel. No 3D inside, so backdrop-filter is safe here. */
+  background: rgb(253 249 237 / 0.16);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.18);
+  box-shadow: 0 24px 48px -16px rgb(0 0 0 / 0.7);
+}
+.folder__icon {
+  width: clamp(124px, 11vw, 152px);
+  transition: transform var(--dur-med) var(--ease-out);
+}
+.folder__app,
+.folder-open__app {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 24%;
+}
+.folder:hover .folder__icon,
+.folder:focus-visible .folder__icon {
+  transform: scale(1.06);
+}
+.folder:active .folder__icon {
+  transform: scale(0.97);
+}
+.folder__label {
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+}
+
+/* ---------------------------------------------------------- opening */
+/* Like iOS: the folder grows into a big glass panel, the screen dims and
+   the folder's name appears above it; then the films page loads. */
+.folder-open {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-m);
+  background: rgb(18 6 3 / 0.85);
+  pointer-events: none;
+}
+.folder-open__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--step-3);
+  color: var(--paper);
+}
+.folder-open__panel {
+  width: min(78vw, 62svh, 560px);
+  gap: 6%;
+  padding: 7%;
+  transform-origin: center;
+}

@@ -201,18 +201,32 @@
         </div>
       </section>
 
-      <!-- 4.4 Films teaser (dark) -->
+      <!-- 4.4 Films teaser (dark). The reel plays as the section's own backdrop (no player
+           chrome); the way in is an iOS-style "/films" folder holding all nine ad films. -->
       <section id="films" class="films section--dark" data-theme="dark" aria-labelledby="films-title">
+        <div class="films__backdrop no-reveal" aria-hidden="true">
+          <video class="films__reel" muted loop playsinline preload="none" data-poster="/assets/reel/reel-poster.webp">
+            <source data-src="/assets/reel/reel.webm" type="video/webm" />
+            <source data-src="/assets/reel/reel.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div class="container films__inner">
-          <div>
-            <h2 id="films-title" class="section-title">Films</h2>
-            <p class="films__line">Cinematic AI films for brands.</p>
-          </div>
-          <a class="folder-stub" href="/films/">
-            <span class="folder-stub__icon" aria-hidden="true"></span>
-            <span class="folder-stub__label">/films</span>
+          <h2 id="films-title" class="section-title section-title--center">Films</h2>
+          <p class="films__line">Cinematic AI films for brands.</p>
+          <a class="folder" href="/films/" aria-label="Open the films folder: all 9 AI ad films">
+            <span class="folder__icon" aria-hidden="true">
+                <img class="folder__app" src="/assets/films/thumbs/adv_bike.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/adv_bike_jump.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/adv_bike_selfie.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/dharohar_1.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/dharohar_2.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/midnight_random.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/power_punch.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/shock.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+                <img class="folder__app" src="/assets/films/thumbs/tiger.webp" alt="" width="200" height="200" loading="lazy" decoding="async" />
+            </span>
+            <span class="folder__label" aria-hidden="true">/films</span>
           </a>
-          <p class="stub-note tag">Step 7: reel backdrop + iOS-style folder.</p>
         </div>
       </section>
 

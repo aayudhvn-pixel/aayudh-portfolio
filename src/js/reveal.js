@@ -22,7 +22,7 @@ export function initReveal() {
   const heroBlocks = [...document.querySelectorAll('#top .hero > *')];
   const ring = document.querySelector('#top .card-ring');
 
-  const targets = [...heroBlocks, ...sectionBlocks].filter((el) => !el.matches('.visually-hidden, [aria-live]'));
+  const targets = [...heroBlocks, ...sectionBlocks].filter((el) => !el.matches('.visually-hidden, [aria-live], .no-reveal'));
   if (ring) {
     ring.classList.add('reveal--fade');
     targets.push(ring);

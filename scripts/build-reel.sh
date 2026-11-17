@@ -52,3 +52,20 @@ ffmpeg -v error -y -ss 2.0 -t 3.0 -i "$SRC/adv_bike.mp4" -an \
 ffmpeg -v error -y -i "$HERO/tile-film.mp4" -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 "$HERO/tile-film.webm"
 ffmpeg -v error -y -ss 0.8 -i "$HERO/tile-film.mp4" -frames:v 1 -c:v libwebp -quality 80 "$HERO/tile-film-poster.webp"
 ls -la "$HERO"
+
+# Films folder icons: one square thumbnail per ad clip (frame from the middle).
+THUMBS="$ROOT/public/assets/films/thumbs"
+mkdir -p "$THUMBS"
+for f in "$SRC"/*.mp4; do
+  name="$(basename "$f" .mp4)"
+  dur="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")"
+  mid="$(awk -v d="$dur" 'BEGIN { printf "%.2f", d / 2 }')"
+  # A few clips need a hand-picked frame (the middle is a blur or a close-up).
+  case "$name" in
+    power_punch) mid=0.4 ;;
+    adv_bike_selfie) mid=3.4 ;;
+  esac
+  ffmpeg -v error -y -ss "$mid" -i "$f" -frames:v 1 \
+    -vf "scale=-2:200,crop=200:200" -c:v libwebp -quality 78 "$THUMBS/$name.webp"
+done
+ls -la "$THUMBS"
