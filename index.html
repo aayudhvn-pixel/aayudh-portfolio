@@ -9,6 +9,16 @@
       content="Aayudh Vijay Ninawe: UI/UX designer who also builds. iOS developer, AI filmmaker and illustrator."
     />
     <meta name="theme-color" content="#120603" />
+
+    <!-- Open Graph. og:url and absolute image URL get the real domain at deploy (domain not bought yet). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Aayudh Vijay Ninawe — UI/UX Designer" />
+    <meta property="og:description" content="UI/UX designer who also builds. iOS developer, AI filmmaker and illustrator." />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -17,96 +27,222 @@
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="i-trident" viewBox="-8 12 528 726">
+        <path d="M181.5 534.958C110.7 420.558 35 487.291 6 534.958V207.958V19.9576L79.5 131.15L181.5 285.458L259 85.4576L336 285.458L512.5 19.9576V534.958C483.667 488.458 408 423.358 336 534.958C329.226 545.458 325 576.458 325 612.458V729.458H193.5V612.458C193.5 569.658 185.5 542.958 181.5 534.958Z" fill="currentColor" stroke="currentColor" stroke-width="12" />
+        <path d="M6 207.958V19.9576L79.5 130.958L6 207.958Z" style="fill: var(--trident-cut, #fff)" stroke="currentColor" stroke-width="10" />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <path d="M3 5.5h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        <path d="m2.5 6.5 9.5 7 9.5-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="i-linkedin" viewBox="0 0 24 24">
+        <path d="M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm1.6 7.4V19h3V9.4h-3Zm1.5-4.6a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5Zm3.6 4.6V19h3v-5c0-1.4.6-2.4 1.9-2.4 1.2 0 1.6.9 1.6 2.3V19h3v-5.8c0-2.8-1.5-4.1-3.6-4.1-1.6 0-2.5.8-2.9 1.5V9.4h-3Z" fill="currentColor" />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" fill="currentColor" /></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" fill="currentColor" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      </symbol>
+    </svg>
+
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <main id="main">
-      <!-- Step 1 style check. Replaced by the page skeleton in step 3. -->
-      <section class="specimen section--dark">
-        <div class="container">
-          <img class="specimen__logo" src="/brand/trident-white.svg" alt="Aayudh trident logo" width="56" height="66" />
-          <h1>Designer. Developer. <span class="text-gold">AI filmmaker.</span></h1>
-          <p>Paper on ink, Satoshi 400 at body size. Gold is allowed as text here because this section is dark.</p>
-          <p class="meta">Barlow 800 · Satoshi 400/500/700 · JetBrains Mono 400</p>
-          <a class="btn" href="#light">See light section</a>
-        </div>
-      </section>
-
-      <section id="light" class="specimen section--light">
-        <div class="container">
-          <h2>Work</h2>
-          <h3 class="title-sentence">A long case-study title stays in sentence case</h3>
-          <p>
-            Ink on paper, Satoshi 400 with a 1.6 line height and a ~70 character measure for comfortable long-form
-            reading. <strong>Satoshi 700</strong> for emphasis, <span style="font-weight: 500">Satoshi 500</span>
-            for UI text, and <a href="#main">red links</a> with a red focus ring.
-          </p>
-          <p class="meta">UI/UX Designer · 2025 · Figma, SwiftUI</p>
-          <ul class="swatches" aria-label="Colour tokens">
-            <li class="swatch swatch--ink"><strong>Ink</strong><span class="tag">#120603</span></li>
-            <li class="swatch swatch--paper"><strong>Paper</strong><span class="tag">#FDF9ED</span></li>
-            <li class="swatch swatch--red"><strong>Red</strong><span class="tag">#EA2B1F</span></li>
-            <li class="swatch swatch--gold"><strong>Gold</strong><span class="tag">#ECA400</span></li>
+    <header class="site-header" data-theme="dark">
+      <div class="site-header__inner">
+        <a class="site-header__home" href="/#top" aria-label="Aayudh Vijay Ninawe, home">
+          <svg class="trident" aria-hidden="true"><use href="#i-trident" /></svg>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <ul class="nav__list">
+            <li><a class="nav__link nav__link--work" href="/#work">Work</a></li>
+            <li><a class="nav__link nav__link--films" href="/#films">Films</a></li>
+            <li><a class="nav__link nav__link--about" href="/#about">About</a></li>
+            <li>
+              <a class="nav__link nav__link--contact" href="/#contact"
+                >Contact<span class="nav__arrow" aria-hidden="true">↗</span></a
+              >
+            </li>
           </ul>
-          <a class="btn" href="/resume.pdf" download>Download resume</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 4.1 + 4.2 Entry: pack opening, then the cards settle into the hero (dark) -->
+      <section id="top" class="entry section--dark" data-theme="dark" aria-labelledby="hero-title">
+        <div class="container entry__inner">
+          <div class="hero">
+            <h1 id="hero-title" class="hero__title">Designer. Developer. <span class="text-gold">AI filmmaker.</span></h1>
+            <p class="hero__lede">
+              I'm Aayudh. I design
+              <span class="tile tile--screen" aria-hidden="true"></span>
+              interfaces people enjoy, build them in
+              <span class="tile tile--code" aria-hidden="true"><span>&lt;/&gt;</span></span>
+              code, and craft
+              <img class="tile tile--film" src="/assets/reel/reel-poster.webp" alt="" width="1280" height="720" />
+              cinematic AI films for brands.
+            </p>
+          </div>
+          <div class="stub stub--stage" aria-hidden="true">
+            <span class="tag">Step 4 · pack opening + card spread</span>
+          </div>
         </div>
       </section>
 
-      <!-- Step 2 asset review. Removed in step 3. -->
-      <section class="specimen section--dark review">
+      <!-- 4.3 Work: the drum (light) -->
+      <section id="work" class="work section--light" data-theme="light" aria-labelledby="work-title">
         <div class="container">
-          <h2>Pack</h2>
-          <div class="review__pack">
-            <picture>
-              <source srcset="/assets/pack/pack-top-1000.avif" type="image/avif" />
-              <source srcset="/assets/pack/pack-top-1000.webp" type="image/webp" />
-              <img src="/assets/pack/pack-top-600.png" alt="" width="1000" height="139" />
-            </picture>
-            <picture>
-              <source srcset="/assets/pack/pack-body-1000.avif" type="image/avif" />
-              <source srcset="/assets/pack/pack-body-1000.webp" type="image/webp" />
-              <img src="/assets/pack/pack-body-600.png" alt="AAYUDH Personal Card Game booster pack, ORIGINS" width="1000" height="1562" />
-            </picture>
-          </div>
-
-          <h2>Cards</h2>
-          <div class="review__cards" id="review-cards"></div>
-
-          <h2>Reel (draft)</h2>
-          <video class="review__reel" autoplay muted loop playsinline poster="/assets/reel/reel-poster.webp">
-            <source src="/assets/reel/reel.webm" type="video/webm" />
-            <source src="/assets/reel/reel.mp4" type="video/mp4" />
-          </video>
+          <h2 id="work-title" class="section-title">Work</h2>
+          <ol class="work__list" aria-label="Case studies">
+            <li>
+              <a class="panel" href="/work/memorease/">
+                <span class="panel__media" aria-hidden="true"></span>
+                <span class="panel__name">MemorEase</span>
+                <span class="panel__line">Dementia care iOS app for patients and caregivers.</span>
+                <span class="panel__meta meta">UX Lead · 2025–2026 · Figma, UIKit, Supabase</span>
+              </a>
+            </li>
+            <li>
+              <a class="panel" href="/work/tedx/">
+                <span class="panel__media" aria-hidden="true"></span>
+                <span class="panel__name">TEDxMITWPU</span>
+                <span class="panel__line">Brand identity and website for “Threads of Identity”.</span>
+                <span class="panel__meta meta">Lead Graphic Designer · 2025 · Figma</span>
+              </a>
+            </li>
+            <li>
+              <a class="panel" href="/work/path-of-stillness/">
+                <span class="panel__media" aria-hidden="true"></span>
+                <span class="panel__name">Path of Stillness</span>
+                <span class="panel__line">Narrative iOS game for the Swift Student Challenge 2026.</span>
+                <span class="panel__meta meta">Solo · 2026 · Swift, SwiftUI, SpriteKit</span>
+              </a>
+            </li>
+          </ol>
+          <p class="stub-note tag">Step 6 turns these into the drum.</p>
         </div>
       </section>
 
-      <section class="specimen section--light review">
-        <div class="container">
-          <h2>Stamps</h2>
-          <div class="review__stamps">
-            <img src="/assets/stamps/trident.webp" alt="" width="300" height="300" />
-            <img src="/assets/stamps/cat.webp" alt="" width="300" height="300" />
-            <img src="/assets/stamps/headphones.webp" alt="" width="300" height="300" />
-            <img src="/assets/stamps/lightning.webp" alt="" width="300" height="300" />
-            <img src="/assets/stamps/helmet.webp" alt="" width="300" height="300" />
-            <img src="/assets/stamps/stars.webp" alt="" width="300" height="300" />
+      <!-- 4.4 Films teaser (dark) -->
+      <section id="films" class="films section--dark" data-theme="dark" aria-labelledby="films-title">
+        <div class="container films__inner">
+          <div>
+            <h2 id="films-title" class="section-title">Films</h2>
+            <p class="films__line">Cinematic AI films for brands.</p>
           </div>
+          <a class="folder-stub" href="/films/">
+            <span class="folder-stub__icon" aria-hidden="true"></span>
+            <span class="folder-stub__label">/films</span>
+          </a>
+          <p class="stub-note tag">Step 7: reel backdrop + iOS-style folder.</p>
+        </div>
+      </section>
+
+      <!-- 4.5 About (light) -->
+      <section id="about" class="about section--light" data-theme="light" aria-labelledby="about-title">
+        <div class="container about__inner">
+          <div class="about__main">
+            <h2 id="about-title" class="section-title">About</h2>
+            <p class="about__story">
+              UI/UX designer with a computer science background. I research, design and prototype accessible,
+              user-centred interfaces, then build them in code. I also write and direct cinematic AI films.
+            </p>
+
+            <h3 class="about__subtitle">Experience &amp; proof</h3>
+            <ul class="proof">
+              <li>
+                <span class="proof__role">iOS Developer Intern, Infosys</span>
+                <span class="proof__meta meta">Apr 2026</span>
+              </li>
+              <li>
+                <span class="proof__role">Lead Graphic Designer, TEDxMITWPU</span>
+                <span class="proof__meta meta">2025</span>
+              </li>
+              <li>
+                <span class="proof__role">MIT-WPU iOS Student Development Program, 100 selected from the batch</span>
+                <span class="proof__meta meta">2025–2026</span>
+              </li>
+              <li>
+                <span class="proof__role">Design Team Organizer, Startup Expo</span>
+                <span class="proof__meta meta">2025</span>
+              </li>
+              <li>
+                <span class="proof__role">Design Team, SquadUp Esports Club</span>
+                <span class="proof__meta meta">2023–2025</span>
+              </li>
+            </ul>
+
+            <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
+              Download resume
+            </a>
+
+            <h3 class="about__subtitle">Tools</h3>
+            <ul class="tools">
+              <li>Figma</li>
+              <li>Illustrator</li>
+              <li>Photoshop</li>
+              <li>Canva</li>
+              <li>Spline</li>
+              <li>Higgsfield</li>
+              <li>Krita</li>
+              <li>Swift / SwiftUI</li>
+              <li>HTML / CSS</li>
+            </ul>
+          </div>
+          <aside class="stub stub--tray" aria-hidden="true">
+            <span class="tag">Step 8 · stamp tray</span>
+          </aside>
+        </div>
+      </section>
+
+      <!-- 4.6 Contact (dark) -->
+      <section id="contact" class="contact section--dark" data-theme="dark" aria-labelledby="contact-title">
+        <div class="container">
+          <h2 id="contact-title" class="section-title">Contact</h2>
+          <p class="contact__line">Open to UI/UX design internships. The quickest way to reach me is email.</p>
+          <p class="contact__email"><a href="mailto:aayudh.vn@gmail.com">aayudh.vn@gmail.com</a></p>
+          <ul class="socials">
+            <li>
+              <a class="social" href="mailto:aayudh.vn@gmail.com" aria-label="Email">
+                <svg aria-hidden="true"><use href="#i-mail" /></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social" href="https://www.linkedin.com/in/aayudh-ninawe" aria-label="LinkedIn" rel="me noopener" target="_blank">
+                <svg aria-hidden="true"><use href="#i-linkedin" /></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social" href="https://github.com/aayudhvn-pixel" aria-label="GitHub" rel="me noopener" target="_blank">
+                <svg aria-hidden="true"><use href="#i-github" /></svg>
+              </a>
+            </li>
+            <li>
+              <!-- PLACEHOLDER: Instagram handle not provided yet (PORTFOLIO.md §10). -->
+              <a class="social is-placeholder" href="#contact" aria-label="Instagram (handle coming soon)" title="Instagram handle needed">
+                <svg aria-hidden="true"><use href="#i-instagram" /></svg>
+              </a>
+            </li>
+          </ul>
+          <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
+            <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
+            Download resume
+          </a>
         </div>
       </section>
     </main>
 
-    <script type="module">
-      // Step 2 review only: render every card front + back.
-      const names = ['designer', 'runner', 'cook', 'anime-lover', 'artist', 'samurai', 'dojo', 'back'];
-      document.getElementById('review-cards').innerHTML = names
-        .map(
-          (n) => `<picture>
-            <source srcset="/assets/cards/${n}-500.avif 500w, /assets/cards/${n}-1000.avif 1000w" sizes="220px" type="image/avif" />
-            <source srcset="/assets/cards/${n}-500.webp 500w, /assets/cards/${n}-1000.webp 1000w" sizes="220px" type="image/webp" />
-            <img src="/assets/cards/${n}-500.png" alt="${n}" width="500" height="700" loading="lazy" />
-          </picture>`
-        )
-        .join('');
-    </script>
+    <!-- 4.7 Footer -->
+    <footer class="site-footer section--dark" data-theme="dark">
+      <div class="container site-footer__inner">
+        <svg class="trident trident--footer" aria-hidden="true"><use href="#i-trident" /></svg>
+        <p>Designed &amp; built by Aayudh</p>
+      </div>
+    </footer>
+
     <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

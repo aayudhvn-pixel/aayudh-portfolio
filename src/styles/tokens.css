@@ -41,6 +41,7 @@
   --space-2xl: clamp(5rem, 4rem + 5vw, 9rem);
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
   --max-width: 1280px;
+  --header-h: 64px;
 
   /* Shape */
   --radius-s: 6px;
