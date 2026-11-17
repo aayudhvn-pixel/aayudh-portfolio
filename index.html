@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aayudh Vijay Ninawe — UI/UX Designer</title>
+    <meta
+      name="description"
+      content="Aayudh Vijay Ninawe: UI/UX designer who also builds. iOS developer, AI filmmaker and illustrator."
+    />
+    <meta name="theme-color" content="#120603" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <main id="main">
+      <!-- Step 1 style check. Replaced by the page skeleton in step 3. -->
+      <section class="specimen section--dark">
+        <div class="container">
+          <img class="specimen__logo" src="/brand/trident-white.svg" alt="Aayudh trident logo" width="56" height="66" />
+          <h1>Designer. Developer. <span class="text-gold">AI filmmaker.</span></h1>
+          <p>Paper on ink, Satoshi 400 at body size. Gold is allowed as text here because this section is dark.</p>
+          <p class="meta">Barlow 800 · Satoshi 400/500/700 · JetBrains Mono 400</p>
+          <a class="btn" href="#light">See light section</a>
+        </div>
+      </section>
+
+      <section id="light" class="specimen section--light">
+        <div class="container">
+          <h2>Work</h2>
+          <h3 class="title-sentence">A long case-study title stays in sentence case</h3>
+          <p>
+            Ink on paper, Satoshi 400 with a 1.6 line height and a ~70 character measure for comfortable long-form
+            reading. <strong>Satoshi 700</strong> for emphasis, <span style="font-weight: 500">Satoshi 500</span>
+            for UI text, and <a href="#main">red links</a> with a red focus ring.
+          </p>
+          <p class="meta">UI/UX Designer · 2025 · Figma, SwiftUI</p>
+          <ul class="swatches" aria-label="Colour tokens">
+            <li class="swatch swatch--ink"><strong>Ink</strong><span class="tag">#120603</span></li>
+            <li class="swatch swatch--paper"><strong>Paper</strong><span class="tag">#FDF9ED</span></li>
+            <li class="swatch swatch--red"><strong>Red</strong><span class="tag">#EA2B1F</span></li>
+            <li class="swatch swatch--gold"><strong>Gold</strong><span class="tag">#ECA400</span></li>
+          </ul>
+          <button class="btn" type="button">Download resume</button>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

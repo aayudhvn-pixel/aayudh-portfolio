@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vercel/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.env
+.env.*
+
+# Private build notes (kept local)
+PORTFOLIO.md
+CLAUDE.md
+.claude/
