@@ -35,8 +35,12 @@ section[id] {
   place-items: center;
   min-height: max(100svh, 640px);
   padding: var(--header-h) var(--gutter) 0;
-  overflow: hidden;
+  /* Clip sideways only: the bottom cards hang over into the (also dark)
+     Work section instead of being cut off at the hero's edge. */
+  overflow-x: clip;
+  overflow-y: visible;
   isolation: isolate;
+  z-index: 2; /* paint the overhanging cards above the Work section */
 }
 .hero {
   position: relative;
@@ -284,4 +288,11 @@ img.tile {
 .btn__icon {
   width: 1.1em;
   height: 1.1em;
+}
+
+/* Adjacent dark sections overlap by a pixel so sub-pixel rounding (scaled
+   displays, e.g. Windows at 125%) can't show a hairline of the light page
+   background between them. */
+.section--dark + .section--dark {
+  margin-top: -1px;
 }
