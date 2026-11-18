@@ -67,7 +67,8 @@
   line-height: 1.5 !important;
   font-weight: 500;
 }
-.case-hero__media {
+.case-hero__media,
+.case-hero > .case-grid {
   margin: var(--space-xl) auto 0;
 }
 
@@ -210,6 +211,7 @@
 
 /* A row of images (screens, boards, before/after). */
 .case-grid {
+  margin-block: var(--space-xl); /* breathing room from the text around it */
   display: grid;
   grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
   gap: var(--space-m);
@@ -262,13 +264,12 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.case-compare__label.is-before {
+/* Both labels in the same grey: the after side is not a "win" colour. */
+.case-compare__label {
   color: var(--ink-70);
 }
-.case-compare__label.is-after {
-  color: var(--red);
-}
 .case-compare .case-grid {
+  margin-block: 0;
   --cols: 3;
   gap: var(--space-xs);
 }

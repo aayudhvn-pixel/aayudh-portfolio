@@ -1,5 +1,6 @@
 // Case study content, transcribed from "Portfolio Case Studies" (PORTFOLIO ASSETS,
 // 17 Nov 2026). Text is Aayudh's; do not add facts that aren't in the doc.
+// Correction from Aayudh (2026-11-18): MemorEase was built in UIKit, not SwiftUI.
 // scripts/build-case-studies.mjs turns this into /work/<slug>/index.html.
 //
 // Inline markup: **bold**, *italic*. Block types: p, impact, ol (bold lead +
@@ -17,10 +18,10 @@ export const CASES = {
     line: 'Dementia care iOS app for patients and caregivers.',
     lead: 'I led UX research and design for MemorEase, an iOS app that gives early-to-moderate dementia patients emotional comfort through reminiscence, and keeps their caregivers in the loop. Midway, we caught that our core feature was hurting the people it was built for, and rebuilt it in a month.',
     facts: {
-      Role: 'UX lead: research, flows, UI; coded parts in SwiftUI',
+      Role: 'UX lead: research, flows, UI; coded parts in UIKit',
       Team: '4, in the MIT-WPU iOS Student Development Program (Apple and Infosys)',
       Timeline: '2025–2026',
-      Tools: 'Figma, Swift, SwiftUI, UIKit, Supabase',
+      Tools: 'Figma, Swift, UIKit, Supabase',
     },
     hero: {
       grid: {
