@@ -106,7 +106,7 @@
 
 /* While a stamp is picked, the section shows it as the cursor
    (stamps.js sets --stamp-cursor). */
-.about.is-stamping .leaflet__panel {
+.about.is-stamping .sheet {
   cursor: var(--stamp-cursor), crosshair;
 }
 .about.is-stamping :is(a, button) {
@@ -114,14 +114,13 @@
 }
 
 /* ---------------------------------------------------------- pressed stamps */
-/* Inside the leaflet: on top of the paper, clipped to it. The ink is
+/* Inside the torn sheet: on top of the paper, clipped to its torn shape. The ink is
    multiplied onto the paper, so text under a stamp still reads through it. */
 .stamp-layer {
   position: absolute;
   inset: 0;
   z-index: 2;
   overflow: hidden;
-  border-radius: 4px;
   pointer-events: none;
 }
 .stamp {
@@ -215,6 +214,60 @@
 @media (prefers-reduced-motion: reduce) {
   .stamp.is-pressing,
   .stamp__shine::before {
+    animation: none;
+  }
+}
+
+/* The fact a stamp reveals: a short jotted note beside the mark. */
+.stamp-note {
+  position: absolute;
+  max-width: 190px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: #2a211c;
+  transform: translateY(-50%) rotate(var(--note-rot, -2deg));
+  animation: stamp-note-in 0.45s 0.18s var(--ease-out) both;
+}
+.stamp-note--left {
+  text-align: right;
+}
+.stamp-note::after {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 2px;
+  margin-top: 3px;
+  background: var(--red);
+  opacity: 0.6;
+  border-radius: 2px;
+}
+.stamp-note--left::after {
+  margin-left: auto;
+}
+@keyframes stamp-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 6px)) rotate(var(--note-rot, -2deg));
+  }
+}
+.stamp-note--below {
+  text-align: center;
+  transform: translateX(-50%) rotate(var(--note-rot, -2deg));
+  animation-name: stamp-note-in-below;
+}
+.stamp-note--below::after {
+  margin-inline: auto;
+}
+@keyframes stamp-note-in-below {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px) rotate(var(--note-rot, -2deg));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stamp-note {
     animation: none;
   }
 }
