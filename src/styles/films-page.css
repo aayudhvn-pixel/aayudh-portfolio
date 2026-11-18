@@ -73,11 +73,6 @@
   font-size: var(--step-1);
   font-weight: 800;
 }
-.film__line {
-  margin-top: 0.25rem;
-  font-size: var(--step--1);
-  color: var(--paper-70);
-}
 
 @media (max-width: 960px) {
   .film-grid {
