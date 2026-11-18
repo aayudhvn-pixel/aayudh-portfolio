@@ -210,3 +210,36 @@
     height: 30px;
   }
 }
+/* The smallest phones (320–360 px): tighter still, and Contact drops its
+   arrow, so all five items fit beside the trident. */
+@media (max-width: 360px) {
+  .nav__list {
+    gap: 0.5rem;
+  }
+  .nav__link {
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+  }
+  .nav__arrow {
+    display: none;
+  }
+}
+
+/* Touch screens: every small link and button gets a 44 px tall tap area
+   (WCAG target size), without changing how it looks. */
+@media (pointer: coarse) {
+  .nav__link,
+  .site-footer__top,
+  .case-back,
+  .films-page__back,
+  .copy-btn,
+  .stamp-tray__clear {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .contact__email a,
+  .todo__item {
+    padding-block: 0.4rem;
+  }
+}

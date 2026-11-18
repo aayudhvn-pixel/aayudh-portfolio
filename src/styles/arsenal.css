@@ -195,7 +195,8 @@
     padding: 22px 6px 10px;
   }
   .ema__name {
-    font-size: 0.62rem;
+    font-size: 0.72rem; /* 11.5px: readable on phones (was 10px) */
+    letter-spacing: 0;
   }
   .ema-row__list {
     gap: 0 10px;
