@@ -54,3 +54,6 @@ for f in "$SRC/AI Ad Clips/"*.mp4; do
   ffmpeg -v error -y -ss 0.8 -i "$CLIPS/$name.mp4" -frames:v 1 -vf "scale=960:-2" -q:v 4 "$CLIPS/$name-poster.jpg"
   echo "$name.mp4  $(du -h "$CLIPS/$name.mp4" | cut -f1)"
 done
+
+# Posters: JPEG frames → WebP (smaller).
+node "$ROOT/scripts/posters-to-webp.mjs"

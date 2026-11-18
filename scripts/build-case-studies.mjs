@@ -25,7 +25,8 @@ const inline = (s) =>
 // Column widths in CSS px, for the img sizes attribute.
 const COL = { text: 704, narrow: 768, wide: 1152 };
 
-function img(slug, item, colPx) {
+// phoneVw: how much of a phone's width the image takes (grids show two per row).
+function img(slug, item, colPx, phoneVw = 100) {
   if (item.raw === 'x-mark') {
     return `<img src="/assets/case/tedx/x-mark-900.webp" alt="${esc(item.alt)}" width="900" height="849" loading="lazy" decoding="async" />`;
   }
@@ -33,14 +34,14 @@ function img(slug, item, colPx) {
   if (!m) throw new Error(`${slug}: no media for ${item.img}`);
   const src = (w) => `/assets/case/${slug}/${item.img}-${w}.webp`;
   const srcset = m.widths.map((w) => `${src(w)} ${w}w`).join(', ');
-  const sizes = `(max-width: 860px) 100vw, ${Math.round(colPx)}px`;
+  const sizes = `(max-width: 860px) ${phoneVw}vw, ${Math.round(colPx)}px`;
   return `<img src="${src(m.widths.at(-1))}" srcset="${srcset}" sizes="${sizes}" alt="${esc(item.alt)}" width="${m.width}" height="${m.height}" loading="lazy" decoding="async" />`;
 }
 
 function video(slug, v) {
   const base = `/assets/case/${slug}/${v.src ?? v.video}`;
   // Muted loop with controls; case.js plays it only while on screen.
-  return `<video muted loop playsinline controls preload="none" poster="${base}-poster.jpg" width="${v.w}" height="${v.h}" aria-label="${esc(v.label)}" data-autoplay>
+  return `<video muted loop playsinline controls preload="none" poster="${base}-poster.webp" width="${v.w}" height="${v.h}" aria-label="${esc(v.label)}" data-autoplay>
             <source src="${base}.mp4" type="video/mp4" />
           </video>`;
 }
@@ -73,7 +74,8 @@ function grid(slug, g) {
   const items = g.items
     .map((it) => {
       const cl = [it.plain && 'is-plain', it.pixel && 'is-pixel', it.mark && 'is-mark'].filter(Boolean).join(' ');
-      const media = it.video ? video(slug, it) : img(slug, it, colPx);
+      // Phones: stacked rows (equal) use the full width; other grids show two per row.
+      const media = it.video ? video(slug, it) : img(slug, it, colPx, g.equal || g.cols === 1 ? 100 : 50);
       const flex = g.equal ? ` style="flex: ${ratio(it).toFixed(3)} 1 0"` : '';
       return `<figure class="case-fig ${cl}"${flex}>
             ${media}${it.caption ? `\n            <figcaption>${inline(it.caption)}</figcaption>` : ''}
@@ -93,7 +95,7 @@ function compare(slug, c) {
   const side = (s, kind) => `<div>
             <p class="case-compare__label is-${kind}">${esc(s.label)}</p>
             <div class="case-grid">
-              ${s.items.map((n, i) => `<figure class="case-fig">${img(slug, { img: n, alt: `${s.alt} ${i + 1}` }, COL.wide / 6)}</figure>`).join('\n              ')}
+              ${s.items.map((n, i) => `<figure class="case-fig">${img(slug, { img: n, alt: `${s.alt} ${i + 1}` }, COL.wide / 6, 50)}</figure>`).join('\n              ')}
             </div>
           </div>`;
   return `<div class="case-compare case-wide case-fig">

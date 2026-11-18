@@ -75,14 +75,15 @@ function renderRing(list) {
             <span class="ring-card__flip">
               <span class="holo-card__face">
                 <img src="${src(c.id, 500, 'png')}"
-                  srcset="${src(c.id, 500)} 500w, ${src(c.id, 1000)} 1000w"
+                  srcset="${src(c.id, 250)} 250w, ${src(c.id, 500)} 500w, ${src(c.id, 1000)} 1000w"
                   sizes="(max-width: 700px) 104px, 196px"
                   width="500" height="700" alt="${c.alt.replace(/"/g, '&quot;')}" />
                 <span class="holo-card__shine" aria-hidden="true"></span>
                 <span class="holo-card__glare" aria-hidden="true"></span>
               </span>
               <span class="holo-card__face holo-card__face--back" aria-hidden="true">
-                <img src="${src('back', 500)}" width="500" height="700" alt="" />
+                <img src="${src('back', 500)}" srcset="${src('back', 250)} 250w, ${src('back', 500)} 500w"
+                  sizes="(max-width: 700px) 104px, 196px" width="500" height="700" alt="" />
               </span>
             </span>
           </span>

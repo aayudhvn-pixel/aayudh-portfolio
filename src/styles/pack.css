@@ -116,7 +116,8 @@ html.intro-playing .ring-card__btn {
 }
 .pack-stage__role {
   font-size: var(--step--1);
-  color: var(--paper-70);
+  /* × the 0.55 group opacity ≈ 0.5: still faint, but 5:1 contrast on ink (WCAG AA). */
+  color: rgb(253 249 237 / 0.91);
 }
 .pack-stage {
   --pack-w: min(calc(min(62svh, 620px) / 1.701), 62vw);

@@ -1,0 +1,4 @@
+# Every page may be indexed.
+# Add "Sitemap: https://<domain>/sitemap.xml" once the domain is bought.
+User-agent: *
+Allow: /

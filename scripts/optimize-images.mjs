@@ -32,7 +32,7 @@ async function writeSet(pipeline, base, { png = false } = {}) {
 }
 
 // ---------------------------------------------------------------- Cards
-const CARD_W = [500, 1000];
+const CARD_W = [250, 500, 1000]; // 250: the ring on phones; 1000: the viewer
 const CARD_H = (w) => Math.round(w * 1.4); // fronts are 5:7
 const cards = {
   designer: 'Designer (3).png',
@@ -53,7 +53,7 @@ async function doCards() {
   for (const [name, file] of Object.entries(cards)) {
     for (const w of CARD_W) {
       const img = sharp(join(SRC, 'Cards', file)).resize(w, CARD_H(w), { fit: 'fill', kernel: 'lanczos3' });
-      await writeSet(img, join(dir, `${name}-${w}`), { png: w === CARD_W[0] });
+      await writeSet(img, join(dir, `${name}-${w}`), { png: w === 500 });
     }
   }
 }
