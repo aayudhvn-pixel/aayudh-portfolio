@@ -10,6 +10,7 @@ import { join, resolve } from 'node:path';
 import { CASES, ORDER } from '../content/case-studies/case-studies.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
+const SITE = 'https://aayudhninawe.com'; // the live domain, for canonical and preview URLs
 const MEDIA = JSON.parse(readFileSync(join(ROOT, 'content/case-studies/media.json'), 'utf8'));
 
 // The trident symbol, shared with the home page sprite.
@@ -159,10 +160,12 @@ function page(slug) {
     <title>${esc(c.name)}: case study — Aayudh Vijay Ninawe</title>
     <meta name="description" content="${esc(c.description)}" />
     <meta name="theme-color" content="#FDF9ED" />
+    <link rel="canonical" href="${SITE}/work/${slug}/" />
     <meta property="og:type" content="article" />
+    <meta property="og:url" content="${SITE}/work/${slug}/" />
     <meta property="og:title" content="${esc(c.title)}" />
     <meta property="og:description" content="${esc(c.description)}" />
-    <meta property="og:image" content="/assets/work/${slug}-800.jpg" />
+    <meta property="og:image" content="${SITE}/assets/work/${slug}-800.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
