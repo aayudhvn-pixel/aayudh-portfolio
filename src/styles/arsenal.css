@@ -236,3 +236,33 @@
     transform: translate(0, 0);
   }
 }
+
+/* Logos, burnt into the wood above the name (same tone as the lettering). */
+.ema__wood {
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: 8px;
+}
+.ema__logos {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.ema__logo {
+  width: 30px;
+  height: 30px;
+  color: #3a1a0b;
+  filter: drop-shadow(0 1px 0 rgb(255 225 180 / 0.35));
+}
+@media (max-width: 700px) {
+  .ema__wood {
+    gap: 4px;
+  }
+  .ema__logo {
+    width: 18px;
+    height: 18px;
+  }
+  .ema__logos {
+    gap: 3px;
+  }
+}
