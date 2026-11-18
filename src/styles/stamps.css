@@ -50,6 +50,7 @@
 }
 .stamp-tray__list {
   display: grid;
+  grid-template-columns: repeat(2, auto); /* two columns of stamps */
   gap: var(--space-xs);
   margin: var(--space-2xs) 0;
   padding: 0;
@@ -58,9 +59,9 @@
 .stamp-btn {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
-  padding: 6px;
+  width: 54px;
+  height: 54px;
+  padding: 5px;
   border-radius: 50%;
   border: 1.5px solid transparent;
   transition:

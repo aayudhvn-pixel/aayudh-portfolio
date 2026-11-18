@@ -183,7 +183,7 @@ section[id] {
 }
 @media (min-width: 960px) {
   .about__inner {
-    grid-template-columns: 1fr 132px;
+    grid-template-columns: 1fr 148px;
     align-items: start;
   }
 }

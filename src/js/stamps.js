@@ -36,7 +36,7 @@ export function initStamps() {
   function press(name, x, y) {
     const stamp = document.createElement('div');
     stamp.className = 'stamp is-pressing';
-    const size = window.innerWidth < 700 ? 84 : 112;
+    const size = window.innerWidth < 700 ? 64 : 84; // smaller than first built (112/84), 2026-11-18
     stamp.style.setProperty('--stamp-size', `${size}px`);
     stamp.style.setProperty('--rot', `${(Math.random() * 16 - 8).toFixed(1)}deg`);
     stamp.style.left = `${x}px`;
