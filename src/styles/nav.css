@@ -120,6 +120,17 @@
     repeat-x left center / 12px 6px;
 }
 
+/* Experience: the line draws itself out, like the timeline's. */
+.nav__link--experience::after {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.nav__link--experience:hover::after,
+.nav__link--experience:focus-visible::after,
+.nav__link--experience[aria-current='true']::after {
+  transform: scaleX(1);
+}
+
 /* Contact: no underline; an arrow nudges out instead. */
 .nav__link--contact::after {
   display: none;
@@ -158,4 +169,28 @@
 .trident--footer {
   width: 20px;
   height: 28px;
+}
+
+/* Five items on small phones: tighter spacing and smaller labels so the
+   trident and every link fit (full mobile pass: build-order step 13). */
+@media (max-width: 440px) {
+  .site-header__inner {
+    gap: var(--space-xs);
+  }
+  .nav__list {
+    gap: 0.7rem;
+  }
+  .nav__link {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  .site-header__home {
+    flex: none;
+    width: 36px;
+    margin-left: -4px;
+  }
+  .trident {
+    width: 22px;
+    height: 30px;
+  }
 }

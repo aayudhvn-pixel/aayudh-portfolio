@@ -1,0 +1,176 @@
+/* 4.5 Experience: the scroll-drawn timeline.
+   A faint line runs down the middle (down the left on phones). As you
+   scroll, a red→gold line draws over it (timeline.js scrubs it to normal
+   scroll). When it reaches an entry, the dot fills red and the entry
+   slides in; the trident at the end fills gold. Without JS, or under
+   reduced motion, everything is simply shown. */
+
+.timeline {
+  --dot: 16px;
+  --gap: clamp(2rem, 4vw, 3.5rem); /* distance from the line to the text */
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* The faint base line and the drawn line on top of it. */
+.timeline__track {
+  position: absolute;
+  top: 0;
+  bottom: 22px; /* stops at the trident's centre */
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--paper-12);
+}
+.timeline__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--red), var(--red) 70%, var(--gold));
+  transform-origin: top;
+  transform: scaleY(1); /* JS starts it at 0 and draws it */
+}
+
+/* Entries alternate sides on wide screens. */
+.timeline__item {
+  position: relative;
+  width: 50%;
+  padding-bottom: var(--space-xl);
+}
+.timeline__item:nth-of-type(odd) {
+  padding-right: var(--gap);
+  text-align: right;
+}
+.timeline__item:nth-of-type(even) {
+  margin-left: 50%;
+  padding-left: var(--gap);
+}
+
+.timeline__dot {
+  position: absolute;
+  top: 0.45rem;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  border: 2px solid rgb(253 249 237 / 0.35);
+  background: var(--ink);
+  transition:
+    background-color var(--dur-med) var(--ease-out),
+    border-color var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+.timeline__item:nth-of-type(odd) .timeline__dot {
+  right: calc(var(--dot) / -2);
+}
+.timeline__item:nth-of-type(even) .timeline__dot {
+  left: calc(var(--dot) / -2);
+}
+
+.timeline__meta {
+  margin-bottom: 0.25rem;
+  color: var(--paper-70);
+}
+.timeline__role {
+  font-size: var(--step-2);
+  font-weight: 700;
+  margin-bottom: var(--space-2xs);
+}
+.timeline__desc {
+  color: var(--paper-70);
+}
+.timeline__item:nth-of-type(odd) .timeline__desc {
+  margin-left: auto;
+}
+
+/* The end of the line: the trident, which fills gold when reached. */
+.timeline__end {
+  display: grid;
+  place-items: center;
+}
+.timeline__trident {
+  width: 32px;
+  height: 44px;
+  color: rgb(253 249 237 / 0.25);
+  --trident-cut: var(--ink);
+  transition:
+    color var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+
+.timeline__resume {
+  margin-top: var(--space-xl);
+  max-width: none;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------- animated states */
+.timeline.is-animated .timeline__card {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+.timeline.is-animated .timeline__item.is-on .timeline__card {
+  opacity: 1;
+  transform: none;
+}
+/* Unanimated (no JS / reduced motion) and reached dots are filled. */
+.timeline:not(.is-animated) .timeline__dot,
+.timeline__item.is-on .timeline__dot {
+  background: var(--red);
+  border-color: var(--red);
+}
+.timeline__item.is-on .timeline__dot {
+  transform: scale(1.15);
+}
+.timeline:not(.is-animated) .timeline__trident,
+.timeline__end.is-on .timeline__trident {
+  color: var(--gold);
+  filter: drop-shadow(0 0 10px rgb(236 164 0 / 0.45));
+}
+.timeline__end.is-on .timeline__trident {
+  transform: scale(1.08);
+}
+
+/* ---------------------------------------------------------- narrow: one side */
+@media (max-width: 760px) {
+  .timeline__track {
+    left: 7px;
+    transform: none;
+  }
+  .timeline__item,
+  .timeline__item:nth-of-type(odd),
+  .timeline__item:nth-of-type(even) {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 0 var(--space-l) 2.25rem;
+    text-align: left;
+  }
+  .timeline__item:nth-of-type(odd) .timeline__dot,
+  .timeline__item:nth-of-type(even) .timeline__dot {
+    left: 0;
+    right: auto;
+  }
+  .timeline__item:nth-of-type(odd) .timeline__desc {
+    margin-left: 0;
+  }
+  .timeline__end {
+    justify-items: start;
+  }
+  .timeline__trident {
+    margin-left: -8px; /* centre the 32px trident on the line at 8px */
+  }
+}
+
+/* Arsenal stub: centred chips until step 9. */
+.tools--center {
+  justify-content: center;
+}
+.stub-note--center {
+  text-align: center;
+  margin-inline: auto;
+}

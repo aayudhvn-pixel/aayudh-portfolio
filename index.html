@@ -74,6 +74,7 @@
           <ul class="nav__list">
             <li><a class="nav__link nav__link--work" href="/#work">Work</a></li>
             <li><a class="nav__link nav__link--films" href="/#films">Films</a></li>
+            <li><a class="nav__link nav__link--experience" href="/#experience">Experience</a></li>
             <li><a class="nav__link nav__link--about" href="/#about">About</a></li>
             <li>
               <a class="nav__link nav__link--contact" href="/#contact"
@@ -230,136 +231,73 @@
         </div>
       </section>
 
-      <!-- 4.5 About (dark). The pack's folded insert, opened flat: "ORIGINS · Player's Guide".
-           Panel 01 = the player (photo, About, story); panel 02 = story so far (experience,
-           resume, contact). Stamps press onto the leaflet's paper only. -->
-      <section id="about" class="about section--dark" data-theme="dark" aria-labelledby="about-title">
-        <div class="container about__inner">
-          <div class="leaflet">
-            <div class="leaflet__panel leaflet__panel--left">
-              <p class="leaflet__kicker" aria-hidden="true"><svg class="leaflet__mark" aria-hidden="true"><use href="#i-trident" /></svg><span>Origins · Player's Guide</span></p>
-              <p class="leaflet__section" aria-hidden="true">01 · The player</p>
-              <figure class="leaflet__photo">
-                <picture>
-                  <source type="image/avif" srcset="/assets/about/portrait-320.avif 320w, /assets/about/portrait-640.avif 640w" sizes="220px" />
-                  <source type="image/webp" srcset="/assets/about/portrait-320.webp 320w, /assets/about/portrait-640.webp 640w" sizes="220px" />
-                  <img src="/assets/about/portrait-320.jpg" alt="Aayudh in an off-white cable-knit quarter-zip with blue headphones around his neck" width="640" height="800" loading="lazy" decoding="async" />
-                </picture>
-                <figcaption>
-                  <span class="leaflet__name">Aayudh Vijay Ninawe</span>
-                  <span class="leaflet__types">Designer · Developer · AI Filmmaker</span>
-                </figcaption>
-              </figure>
-              <h2 id="about-title" class="leaflet__title">About</h2>
-              <p class="about__story">
-                I'm a final-year Computer Science student at MIT World Peace University, Pune. I research, design and
-                prototype accessible, user-centred interfaces, then build them in code. I also write and direct
-                cinematic AI films. Discipline drives all of it.
-              </p>
-            </div>
-
-            <div class="leaflet__panel leaflet__panel--right">
-              <p class="leaflet__kicker leaflet__kicker--right" aria-hidden="true"><span>Aayudh · Personal Card Game</span></p>
-              <p class="leaflet__section" aria-hidden="true">02 · Story so far</p>
-              <h3 class="leaflet__subtitle">Experience &amp; proof</h3>
-              <ul class="proof">
-                <li>
-                  <span class="proof__role">iOS Developer Intern, Infosys</span>
-                  <span class="proof__meta meta">Apr 2026</span>
-                </li>
-                <li>
-                  <span class="proof__role">Lead Graphic Designer, TEDxMITWPU</span>
-                  <span class="proof__meta meta">2025</span>
-                </li>
-                <li>
-                  <span class="proof__role">MIT-WPU iOS Student Development Program, 100 selected from the batch</span>
-                </li>
-                <li>
-                  <span class="proof__role">Design Team Organizer, Startup Expo: led a 5-person team on all event branding</span>
-                  <span class="proof__meta meta">2025</span>
-                </li>
-                <li>
-                  <span class="proof__role">Design Team Member, SquadUp Esports Club</span>
-                  <span class="proof__meta meta">2023–2025</span>
-                </li>
-              </ul>
-
-              <div class="leaflet__actions">
-                <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
-                  <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
-                  Download resume
-                </a>
-                <ul class="socials">
-                  <li>
-                    <a class="social" href="mailto:aayudh.vn@gmail.com" aria-label="Email">
-                      <svg aria-hidden="true"><use href="#i-mail" /></svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="social" href="https://www.linkedin.com/in/aayudh-ninawe" aria-label="LinkedIn" rel="me noopener" target="_blank">
-                      <svg aria-hidden="true"><use href="#i-linkedin" /></svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="social" href="https://github.com/aayudhvn-pixel" aria-label="GitHub" rel="me noopener" target="_blank">
-                      <svg aria-hidden="true"><use href="#i-github" /></svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="social" href="https://www.instagram.com/aayudh_ninawe/" aria-label="Instagram" rel="me noopener" target="_blank">
-                      <svg aria-hidden="true"><use href="#i-instagram" /></svg>
-                    </a>
-                  </li>
-                </ul>
+      <!-- 4.5 Experience (dark). Signature interaction: the timeline line draws itself as you
+           scroll (ScrollTrigger scrubbed to normal scroll, never scroll-jacked). -->
+      <section id="experience" class="experience section--dark" data-theme="dark" aria-labelledby="experience-title">
+        <div class="container">
+          <h2 id="experience-title" class="section-title section-title--center">Experience</h2>
+        </div>
+        <div class="container no-reveal">
+          <ol class="timeline">
+            <li class="timeline__track" aria-hidden="true"><span class="timeline__fill"></span></li>
+            <li class="timeline__item">
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__card">
+                <p class="timeline__meta meta">Apr 2026 · Mysore</p>
+                <h3 class="timeline__role">iOS Developer Intern, Infosys</h3>
+                <p class="timeline__desc">Built role-based UI flows across 3 SwiftUI apps for a Loan Management System, team of 10.</p>
               </div>
-            </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__card">
+                <p class="timeline__meta meta">2025</p>
+                <h3 class="timeline__role">Lead Graphic Designer, TEDxMITWPU</h3>
+                <p class="timeline__desc">Event identity and website; site drove 100+ of 192 ticket sales in 72 hours.</p>
+              </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__card">
+                <p class="timeline__meta meta">2025–2026</p>
+                <h3 class="timeline__role">MIT-WPU iOS Student Development Program</h3>
+                <p class="timeline__desc">1 of 100 selected from the batch; built MemorEase.</p>
+              </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__card">
+                <p class="timeline__meta meta">2025</p>
+                <h3 class="timeline__role">Design Team Organizer, Startup Expo 2025</h3>
+                <p class="timeline__desc">Led a 5-person team on all event branding.</p>
+              </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__dot" aria-hidden="true"></span>
+              <div class="timeline__card">
+                <p class="timeline__meta meta">2023–2025</p>
+                <h3 class="timeline__role">Design Team Member, SquadUp Esports &amp; Game Dev Club</h3>
+                <p class="timeline__desc">Posters and social graphics.</p>
+              </div>
+            </li>
+            <li class="timeline__end" aria-hidden="true">
+              <svg class="timeline__trident"><use href="#i-trident" /></svg>
+            </li>
+          </ol>
+          <p class="timeline__resume">
+            <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
+              Download resume
+            </a>
+          </p>
+        </div>
+      </section>
 
-            <!-- Pressed stamps land on the leaflet. Decoration only. -->
-            <div class="stamp-layer" aria-hidden="true"></div>
-          </div>
-
-          <aside class="stamp-tray" aria-labelledby="stamp-tray-title">
-            <p id="stamp-tray-title" class="stamp-tray__title">Stamps</p>
-            <p class="stamp-tray__hint" id="stamp-tray-hint">Pick one, then click on the guide.</p>
-            <ul class="stamp-tray__list" aria-describedby="stamp-tray-hint">
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="trident" aria-pressed="false" aria-label="Trident stamp">
-                  <img src="/assets/stamps/trident.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="cat" aria-pressed="false" aria-label="Cat stamp">
-                  <img src="/assets/stamps/cat.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="headphones" aria-pressed="false" aria-label="Headphones stamp">
-                  <img src="/assets/stamps/headphones.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="lightning" aria-pressed="false" aria-label="Lightning stamp">
-                  <img src="/assets/stamps/lightning.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="helmet" aria-pressed="false" aria-label="Samurai helmet stamp">
-                  <img src="/assets/stamps/helmet.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-              <li>
-                <button class="stamp-btn" type="button" data-stamp="stars" aria-pressed="false" aria-label="Stars stamp">
-                  <img src="/assets/stamps/stars.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
-                </button>
-              </li>
-            </ul>
-            <button class="stamp-tray__clear" type="button">Clear</button>
-            <p class="visually-hidden" aria-live="polite" data-stamp-status></p>
-          </aside>
-
-          <div class="about__tools">
-          <h3 class="about__subtitle">Tools</h3>
-          <ul class="tools">
+      <!-- 4.6 Arsenal (dark). STUB until step 9 (trial): wooden ema plaques on cords. -->
+      <section id="arsenal" class="arsenal section--dark" data-theme="dark" aria-labelledby="arsenal-title">
+        <div class="container">
+          <h2 id="arsenal-title" class="section-title section-title--center">Arsenal</h2>
+          <ul class="tools tools--center">
             <li>Figma</li>
             <li>Illustrator</li>
             <li>Photoshop</li>
@@ -370,11 +308,20 @@
             <li>Swift / SwiftUI</li>
             <li>HTML / CSS</li>
           </ul>
-          </div>
+          <p class="stub-note tag">Step 9 (trial): wooden plaques on cords.</p>
         </div>
       </section>
 
-      <!-- 4.6 Contact (dark) -->
+      <!-- 4.7 About (dark, paper pages). STUB until step 10: open-book spread, photo,
+           stamps that reveal facts. -->
+      <section id="about" class="about section--dark" data-theme="dark" aria-labelledby="about-title">
+        <div class="container">
+          <h2 id="about-title" class="section-title section-title--center">About</h2>
+          <p class="stub-note tag stub-note--center">Step 10: open-book spread, photo, stamps that reveal facts.</p>
+        </div>
+      </section>
+
+      <!-- 4.8 Contact (simple placeholder until it is redesigned with Aayudh) (dark) -->
       <section id="contact" class="contact section--dark" data-theme="dark" aria-labelledby="contact-title">
         <div class="container">
           <h2 id="contact-title" class="section-title">Contact</h2>
