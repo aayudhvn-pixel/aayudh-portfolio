@@ -259,8 +259,98 @@ async function doAbout() {
   }
 }
 
+// ---------------------------------------------------------------- Case studies
+// Every image the case study doc's [Visual] notes call for, as WebP at two
+// widths (half and full, full capped at 1600 px). Pixel art is scaled with
+// nearest-neighbour so it stays crisp. Writes content/case-studies/media.json
+// (sizes for width/height attributes), which build-case-studies.mjs reads.
+const CASE_IMAGES = {
+  memorease: {
+    'patient-memorylane': 'MemorEase/Patient_memorylane.png',
+    'patient-main': 'MemorEase/Patient_screen_main.png',
+    'patient-routine': 'MemorEase/Patient_routine.png',
+    'caregiver-main': 'MemorEase/Caregiver_screen_main.png',
+    'caregiver-1': 'MemorEase/Caregiver_screen1.png',
+    'caregiver-2': 'MemorEase/Caregiver_screen2.png',
+    'caregiver-3': 'MemorEase/Caregiver_Screen3.png',
+    'caregiver-4': 'MemorEase/Caregiver_screen4.png',
+    'caregiver-5': 'MemorEase/Caregiver_screen5.png',
+    'caregiver-6': 'MemorEase/Caregiver_screen6.png',
+    'before-1': 'MemorEase/before_1.png',
+    'before-2': 'MemorEase/before_2.png',
+    'before-3': 'MemorEase/before_3.png',
+    'after-1': 'MemorEase/after_1.png',
+    'after-2': 'MemorEase/after_2.png',
+    'after-3': 'MemorEase/after_3.png',
+    'design-initial': 'MemorEase/MemorEase initial figma design.png',
+    'design-mid': 'MemorEase/MemorEase mid stage design.png',
+    'design-final': 'MemorEase/MemorEase final Design.png',
+  },
+  tedx: {
+    mainscreen: 'TEDx/TEDxMITWPU_mainscreen.png',
+    moodboard: 'TEDx/Moodboard initial tedx.png',
+    'figma-board': 'TEDx/TEDx figma board.png',
+    'tickets-front': 'TEDx/TEDx Tickets front.png',
+    'tickets-back': 'TEDx/TEDx Tickets back.png',
+    'diary-front': 'TEDx/Front diary.png',
+    'diary-back': 'TEDx/Back design - diary.png',
+    badges: 'TEDx/badges and stickers (55 x 55 mm).png',
+    lanyard: 'TEDx/lanyard.png',
+    story: 'TEDx/Ted Talks Thursday Story.png',
+    'theme-reveal': 'TEDx/Theme_reveal_ss.png',
+    'past-speakers': 'TEDx/Past Speakers.png',
+    contact: 'TEDx/Contact_Us.png',
+    faq: 'TEDx/FAQ.png',
+    'mobile-main': 'TEDx/Mainscreen_mobile.png',
+    'mobile-menu': 'TEDx/menu_mobile.png',
+    'mobile-speakers': 'TEDx/past speakers_mobile.png',
+    'mobile-contact': 'TEDx/contact us_mobile.png',
+  },
+  'path-of-stillness': {
+    title: 'Path Of Stillness/Path_of_Stillness.png',
+    'moodboard-1': 'Path Of Stillness/Path of stillness moodboard 1.png',
+    'moodboard-2': 'Path Of Stillness/Path of Stillness moodboard 2.png',
+    'moodboard-3': 'Path Of Stillness/Path of Stillness moodboard 3.png',
+    'figma-board': 'Path Of Stillness/Figma board.png',
+    'chapter-2': 'Path Of Stillness/chapter_2_ss.jpeg',
+    'final-chapter': 'Path Of Stillness/final_chapter_ss.jpeg',
+    'ronin-ch2': 'Path Of Stillness/chp_2_ronin.png',
+    'ronin-ch4': 'Path Of Stillness/chp_4_ronin_brace.png',
+  },
+};
+const PIXEL_ART = new Set(['ronin-ch2', 'ronin-ch4']);
+
+async function doCases() {
+  const manifest = {};
+  for (const [project, images] of Object.entries(CASE_IMAGES)) {
+    const dir = join(OUT, 'case', project);
+    await mkdir(dir, { recursive: true });
+    manifest[project] = {};
+    for (const [name, file] of Object.entries(images)) {
+      const src = join(SRC, file);
+      const m = await sharp(src).metadata();
+      const pixel = PIXEL_ART.has(name);
+      const full = pixel ? 1024 : Math.min(m.width, 1600);
+      const widths = [...new Set([Math.round(full / 2), full])];
+      for (const w of widths) {
+        const out = join(dir, `${name}-${w}.webp`);
+        await sharp(src)
+          .resize({ width: w, kernel: pixel ? 'nearest' : 'lanczos3' })
+          .webp({ quality: pixel ? 90 : 80, alphaQuality: 90, effort: 6, lossless: pixel })
+          .toFile(out);
+        await log(out);
+      }
+      manifest[project][name] = { widths, height: Math.round((m.height / m.width) * full), width: full, pixel };
+    }
+  }
+  const file = join(ROOT, 'content', 'case-studies', 'media.json');
+  await mkdir(join(ROOT, 'content', 'case-studies'), { recursive: true });
+  await writeFile(file, JSON.stringify(manifest, null, 2));
+  console.log('manifest →', file);
+}
+
 const only = process.env.ONLY?.split(',');
-const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers, hero: doHero, about: doAbout };
+const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers, hero: doHero, about: doAbout, cases: doCases };
 for (const [name, fn] of Object.entries(tasks)) {
   if (only && !only.includes(name)) continue;
   console.log(`→ ${name}`);

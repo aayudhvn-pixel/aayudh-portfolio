@@ -1,0 +1,75 @@
+/* 4.12 /films: every ad clip in a grid, with a title and one line each.
+   Clips load nothing until played (preload="none", poster frame shown). */
+
+.films-page {
+  padding: calc(var(--header-h) + var(--space-xl)) var(--gutter) var(--space-2xl);
+}
+.films-page__head {
+  max-width: var(--max-width);
+  margin: 0 auto var(--space-xl);
+}
+.films-page__back {
+  display: inline-flex;
+  gap: 0.4em;
+  margin-bottom: var(--space-l);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.films-page__back:hover {
+  color: var(--paper);
+}
+.films-page__title {
+  font-size: var(--step-4);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.films-page__line {
+  margin-top: var(--space-s);
+  font-size: var(--step-1);
+  color: var(--paper-70);
+}
+
+.film-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-l) var(--space-m);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.film video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #000;
+}
+.film__title {
+  margin-top: var(--space-s);
+  font-size: var(--step-1);
+  font-weight: 800;
+}
+.film__line {
+  margin-top: 0.25rem;
+  font-size: var(--step--1);
+  color: var(--paper-70);
+}
+
+@media (max-width: 960px) {
+  .film-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .film-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -6,33 +6,132 @@
     <title>Films — Aayudh Vijay Ninawe</title>
     <meta name="description" content="Cinematic AI films for brands by Aayudh Vijay Ninawe." />
     <meta name="theme-color" content="#120603" />
+    <meta property="og:title" content="Films — Aayudh Vijay Ninawe" />
+    <meta property="og:description" content="Cinematic AI films for brands." />
+    <meta property="og:image" content="/og-image.jpg" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/barlow-800.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/src/styles/main.css" />
-    <style>
-      /* PLACEHOLDER page: the real /films grid is build-order step 10. */
-      body { background: var(--ink); color: var(--paper); }
-      .films-stub { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: var(--space-m); padding: var(--space-xl) var(--gutter); text-align: center; }
-      .films-stub .folder-open__panel { width: min(78vw, 52svh, 480px); }
-      .films-stub p { color: var(--paper-70); margin-inline: auto; }
-    </style>
   </head>
-  <body>
-    <main class="films-stub">
-      <h1 class="folder-open__title" style="font-size: var(--step-3); text-transform: none; letter-spacing: 0">/films</h1>
-      <div class="folder-open__panel" aria-hidden="true">
-        <img class="folder-open__app" src="/assets/films/thumbs/adv_bike.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/adv_bike_jump.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/adv_bike_selfie.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/dharohar_1.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/dharohar_2.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/midnight_random.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/power_punch.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/shock.webp" alt="" width="200" height="200" />
-        <img class="folder-open__app" src="/assets/films/thumbs/tiger.webp" alt="" width="200" height="200" />
+  <body class="page-dark">
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="i-trident" viewBox="-8 12 528 726">
+        <path d="M181.5 534.958C110.7 420.558 35 487.291 6 534.958V207.958V19.9576L79.5 131.15L181.5 285.458L259 85.4576L336 285.458L512.5 19.9576V534.958C483.667 488.458 408 423.358 336 534.958C329.226 545.458 325 576.458 325 612.458V729.458H193.5V612.458C193.5 569.658 185.5 542.958 181.5 534.958Z" fill="currentColor" stroke="currentColor" stroke-width="12" />
+        <path d="M6 207.958V19.9576L79.5 130.958L6 207.958Z" style="fill: var(--trident-cut, #fff)" stroke="currentColor" stroke-width="10" />
+      </symbol>
+    </svg>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-theme="dark">
+      <div class="site-header__inner">
+        <a class="site-header__home" href="/#top" aria-label="Aayudh Vijay Ninawe, home">
+          <svg class="trident" aria-hidden="true"><use href="#i-trident" /></svg>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <ul class="nav__list">
+            <li><a class="nav__link nav__link--work" href="/#work">Work</a></li>
+            <li><a class="nav__link nav__link--films" href="/#films" aria-current="page">Films</a></li>
+            <li><a class="nav__link nav__link--experience" href="/#experience">Experience</a></li>
+            <li><a class="nav__link nav__link--about" href="/#about">About</a></li>
+            <li>
+              <a class="nav__link nav__link--contact" href="/#contact"
+                >Contact<span class="nav__arrow" aria-hidden="true">↗</span></a
+              >
+            </li>
+          </ul>
+        </nav>
       </div>
-      <p><strong>Placeholder.</strong> The full films page (all nine ads with titles and descriptions) is built in step 10.</p>
-      <a class="btn" href="/#films">← Back to the site</a>
+    </header>
+
+    <main id="main">
+      <!-- 4.12 Films: every ad. Titles are working names and descriptions are PLACEHOLDERS
+           until Aayudh provides them. -->
+      <section class="films-page section--dark" data-theme="dark" aria-labelledby="films-title">
+        <div class="films-page__head">
+          <a class="films-page__back" href="/#films"><span aria-hidden="true">←</span> Back to the site</a>
+          <h1 id="films-title" class="films-page__title">/films</h1>
+          <p class="films-page__line">Cinematic AI films for brands.</p>
+        </div>
+        <ul class="film-grid">
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/adv_bike-poster.jpg" width="1920" height="1080" aria-label="Adv Bike (film)">
+              <source src="/assets/films/clips/adv_bike.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Adv Bike</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/adv_bike_jump-poster.jpg" width="1920" height="1080" aria-label="Adv Bike Jump (film)">
+              <source src="/assets/films/clips/adv_bike_jump.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Adv Bike Jump</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/adv_bike_selfie-poster.jpg" width="1920" height="1080" aria-label="Adv Bike Selfie (film)">
+              <source src="/assets/films/clips/adv_bike_selfie.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Adv Bike Selfie</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/power_punch-poster.jpg" width="1920" height="1080" aria-label="Power Punch (film)">
+              <source src="/assets/films/clips/power_punch.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Power Punch</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/midnight_random-poster.jpg" width="1920" height="1080" aria-label="Midnight Random (film)">
+              <source src="/assets/films/clips/midnight_random.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Midnight Random</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/tiger-poster.jpg" width="1920" height="1080" aria-label="Tiger (film)">
+              <source src="/assets/films/clips/tiger.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Tiger</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/dharohar_1-poster.jpg" width="1920" height="1080" aria-label="Dharohar 1 (film)">
+              <source src="/assets/films/clips/dharohar_1.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Dharohar 1</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/dharohar_2-poster.jpg" width="1920" height="1080" aria-label="Dharohar 2 (film)">
+              <source src="/assets/films/clips/dharohar_2.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Dharohar 2</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+          <li class="film">
+            <video controls playsinline preload="none" poster="/assets/films/clips/shock-poster.jpg" width="1920" height="1080" aria-label="Shock (film)">
+              <source src="/assets/films/clips/shock.mp4" type="video/mp4" />
+            </video>
+            <h2 class="film__title">Shock</h2>
+            <p class="film__line">PLACEHOLDER: one line about this film.</p>
+          </li>
+        </ul>
+      </section>
     </main>
+
+    <footer class="site-footer section--dark" data-theme="dark">
+      <div class="container site-footer__inner">
+        <svg class="trident trident--footer" aria-hidden="true"><use href="#i-trident" /></svg>
+        <p>Designed &amp; built by Aayudh</p>
+        <a class="site-footer__top" href="#main">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/films-page.js"></script>
   </body>
 </html>

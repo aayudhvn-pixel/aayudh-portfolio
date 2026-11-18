@@ -1,0 +1,422 @@
+{
+  "memorease": {
+    "patient-memorylane": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "patient-main": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "patient-routine": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-main": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-1": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-2": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-3": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-4": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-5": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "caregiver-6": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "before-1": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "before-2": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "before-3": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "after-1": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "after-2": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "after-3": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1350,
+      "width": 1080,
+      "pixel": false
+    },
+    "design-initial": {
+      "widths": [
+        443,
+        885
+      ],
+      "height": 711,
+      "width": 885,
+      "pixel": false
+    },
+    "design-mid": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 727,
+      "width": 1600,
+      "pixel": false
+    },
+    "design-final": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 687,
+      "width": 1600,
+      "pixel": false
+    }
+  },
+  "tedx": {
+    "mainscreen": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 900,
+      "width": 1600,
+      "pixel": false
+    },
+    "moodboard": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 623,
+      "width": 1600,
+      "pixel": false
+    },
+    "figma-board": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 724,
+      "width": 1600,
+      "pixel": false
+    },
+    "tickets-front": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 566,
+      "width": 1600,
+      "pixel": false
+    },
+    "tickets-back": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 566,
+      "width": 1600,
+      "pixel": false
+    },
+    "diary-front": {
+      "widths": [
+        773,
+        1545
+      ],
+      "height": 1999,
+      "width": 1545,
+      "pixel": false
+    },
+    "diary-back": {
+      "widths": [
+        773,
+        1545
+      ],
+      "height": 1999,
+      "width": 1545,
+      "pixel": false
+    },
+    "badges": {
+      "widths": [
+        325,
+        650
+      ],
+      "height": 650,
+      "width": 650,
+      "pixel": false
+    },
+    "lanyard": {
+      "widths": [
+        67,
+        133
+      ],
+      "height": 1995,
+      "width": 133,
+      "pixel": false
+    },
+    "story": {
+      "widths": [
+        540,
+        1080
+      ],
+      "height": 1920,
+      "width": 1080,
+      "pixel": false
+    },
+    "theme-reveal": {
+      "widths": [
+        701,
+        1402
+      ],
+      "height": 847,
+      "width": 1402,
+      "pixel": false
+    },
+    "past-speakers": {
+      "widths": [
+        745,
+        1489
+      ],
+      "height": 832,
+      "width": 1489,
+      "pixel": false
+    },
+    "contact": {
+      "widths": [
+        698,
+        1395
+      ],
+      "height": 799,
+      "width": 1395,
+      "pixel": false
+    },
+    "faq": {
+      "widths": [
+        709,
+        1417
+      ],
+      "height": 807,
+      "width": 1417,
+      "pixel": false
+    },
+    "mobile-main": {
+      "widths": [
+        234,
+        468
+      ],
+      "height": 804,
+      "width": 468,
+      "pixel": false
+    },
+    "mobile-menu": {
+      "widths": [
+        235,
+        469
+      ],
+      "height": 787,
+      "width": 469,
+      "pixel": false
+    },
+    "mobile-speakers": {
+      "widths": [
+        240,
+        480
+      ],
+      "height": 807,
+      "width": 480,
+      "pixel": false
+    },
+    "mobile-contact": {
+      "widths": [
+        238,
+        475
+      ],
+      "height": 798,
+      "width": 475,
+      "pixel": false
+    }
+  },
+  "path-of-stillness": {
+    "title": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 873,
+      "width": 1600,
+      "pixel": false
+    },
+    "moodboard-1": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 635,
+      "width": 1600,
+      "pixel": false
+    },
+    "moodboard-2": {
+      "widths": [
+        562,
+        1123
+      ],
+      "height": 697,
+      "width": 1123,
+      "pixel": false
+    },
+    "moodboard-3": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 609,
+      "width": 1600,
+      "pixel": false
+    },
+    "figma-board": {
+      "widths": [
+        452,
+        903
+      ],
+      "height": 457,
+      "width": 903,
+      "pixel": false
+    },
+    "chapter-2": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 1112,
+      "width": 1600,
+      "pixel": false
+    },
+    "final-chapter": {
+      "widths": [
+        800,
+        1600
+      ],
+      "height": 1112,
+      "width": 1600,
+      "pixel": false
+    },
+    "ronin-ch2": {
+      "widths": [
+        512,
+        1024
+      ],
+      "height": 1024,
+      "width": 1024,
+      "pixel": true
+    },
+    "ronin-ch4": {
+      "widths": [
+        512,
+        1024
+      ],
+      "height": 1024,
+      "width": 1024,
+      "pixel": true
+    }
+  }
+}
