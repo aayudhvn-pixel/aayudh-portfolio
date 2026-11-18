@@ -174,3 +174,8 @@
   text-align: center;
   margin-inline: auto;
 }
+
+/* Experience → Arsenal: one section's spacing, not two stacked. */
+.experience {
+  padding-bottom: var(--space-l);
+}
