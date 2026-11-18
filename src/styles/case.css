@@ -225,6 +225,11 @@
   width: auto;
   font-size: 0.875rem !important;
 }
+/* A single mark (the TEDx X): drawn smaller inside its box, with room around it. */
+.case-fig.is-mark img {
+  box-sizing: border-box;
+  padding: 16%;
+}
 /* Uniform row: every image and recording takes the same shape (top-anchored),
    so a row of phone screens lines up exactly. */
 .case-grid.is-uniform :is(img, video) {
@@ -345,6 +350,11 @@
   .case-grid.is-equal > figure {
     flex: none !important;
     width: 100%;
+  }
+  /* Stacked on phones, the mark doesn't need the full width. */
+  .case-grid.is-equal > figure.is-mark {
+    width: min(100%, 16rem);
+    align-self: center;
   }
   .case-grid.is-steps,
   .case-compare,

@@ -44,4 +44,52 @@ export function initNav() {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+  initMenu(header);
+}
+
+// Phones (≤640px, see nav.css): the nav sits behind a menu button and opens
+// as a full-screen panel. Esc, the button or any link closes it; focus moves
+// into the menu and back to the button; Tab stays inside while it's open.
+function initMenu(header) {
+  const toggle = header.querySelector('.nav-toggle');
+  const nav = header.querySelector('.nav');
+  if (!toggle || !nav) return;
+  const phone = window.matchMedia('(max-width: 640px)');
+  const links = [...nav.querySelectorAll('a')];
+  let open = false;
+
+  function set(next, { focus = true } = {}) {
+    if (open === next) return;
+    open = next;
+    nav.classList.toggle('is-open', open);
+    header.classList.toggle('is-menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (focus) (open ? links[0] : toggle).focus({ preventScroll: true });
+  }
+
+  toggle.addEventListener('click', () => set(!open));
+  // A link closes the menu first, then the page goes where the link points.
+  links.forEach((a) => a.addEventListener('click', () => set(false, { focus: false })));
+
+  document.addEventListener('keydown', (e) => {
+    if (!open) return;
+    if (e.key === 'Escape') {
+      set(false);
+      return;
+    }
+    if (e.key === 'Tab') {
+      const items = [toggle, ...links];
+      const i = items.indexOf(document.activeElement);
+      const next = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i + 1) % items.length;
+      e.preventDefault();
+      items[next].focus();
+    }
+  });
+
+  // Rotating to landscape or resizing past phone width: the menu just closes.
+  phone.addEventListener('change', (e) => {
+    if (!e.matches) set(false, { focus: false });
+  });
 }

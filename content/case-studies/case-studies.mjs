@@ -216,7 +216,7 @@ export const CASES = {
               equal: true,
               items: [
                 { img: 'moodboard', alt: 'TEDxMITWPU initial moodboard: hands, threads, butterflies, x-ray textures', caption: 'Moodboard' },
-                { raw: 'x-mark', alt: 'The hand-drawn TEDx X mark', caption: 'The X mark, drawn in Krita' },
+                { raw: 'x-mark', mark: true, alt: 'The hand-drawn TEDx X mark', caption: 'The X mark, drawn in Krita' },
                 { img: 'figma-board', alt: 'TEDxMITWPU Figma board', caption: 'Figma board' },
               ],
             },

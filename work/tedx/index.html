@@ -34,7 +34,7 @@
         <a class="site-header__home" href="/#top" aria-label="Aayudh Vijay Ninawe, home">
           <svg class="trident" aria-hidden="true"><use href="#i-trident" /></svg>
         </a>
-        <nav class="nav" aria-label="Main">
+        <nav class="nav" id="site-nav" aria-label="Main">
           <ul class="nav__list">
             <li><a class="nav__link nav__link--work" href="/#work">Work</a></li>
             <li><a class="nav__link nav__link--films" href="/#films">Films</a></li>
@@ -47,6 +47,11 @@
             </li>
           </ul>
         </nav>
+        <!-- Phones only: opens the nav as a full-screen menu (nav.js). -->
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 
@@ -107,7 +112,7 @@
             <img src="/assets/case/tedx/moodboard-1600.webp" srcset="/assets/case/tedx/moodboard-800.webp 800w, /assets/case/tedx/moodboard-1600.webp 1600w" sizes="(max-width: 860px) 100vw, 384px" alt="TEDxMITWPU initial moodboard: hands, threads, butterflies, x-ray textures" width="1600" height="623" loading="lazy" decoding="async" />
             <figcaption>Moodboard</figcaption>
           </figure>
-          <figure class="case-fig " style="flex: 1.060 1 0">
+          <figure class="case-fig is-mark" style="flex: 1.060 1 0">
             <img src="/assets/case/tedx/x-mark-900.webp" alt="The hand-drawn TEDx X mark" width="900" height="849" loading="lazy" decoding="async" />
             <figcaption>The X mark, drawn in Krita</figcaption>
           </figure>

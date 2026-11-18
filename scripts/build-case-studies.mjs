@@ -72,7 +72,7 @@ function grid(slug, g) {
   };
   const items = g.items
     .map((it) => {
-      const cl = [it.plain && 'is-plain', it.pixel && 'is-pixel'].filter(Boolean).join(' ');
+      const cl = [it.plain && 'is-plain', it.pixel && 'is-pixel', it.mark && 'is-mark'].filter(Boolean).join(' ');
       const media = it.video ? video(slug, it) : img(slug, it, colPx);
       const flex = g.equal ? ` style="flex: ${ratio(it).toFixed(3)} 1 0"` : '';
       return `<figure class="case-fig ${cl}"${flex}>
@@ -181,7 +181,7 @@ function page(slug) {
         <a class="site-header__home" href="/#top" aria-label="Aayudh Vijay Ninawe, home">
           <svg class="trident" aria-hidden="true"><use href="#i-trident" /></svg>
         </a>
-        <nav class="nav" aria-label="Main">
+        <nav class="nav" id="site-nav" aria-label="Main">
           <ul class="nav__list">
 ${nav.map(([id, label]) => `            <li><a class="nav__link nav__link--${id}" href="/#${id}">${label}</a></li>`).join('\n')}
             <li>
@@ -191,6 +191,11 @@ ${nav.map(([id, label]) => `            <li><a class="nav__link nav__link--${id}
             </li>
           </ul>
         </nav>
+        <!-- Phones only: opens the nav as a full-screen menu (nav.js). -->
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 

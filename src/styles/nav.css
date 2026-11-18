@@ -243,3 +243,111 @@
     padding-block: 0.4rem;
   }
 }
+
+/* ---------------------------------------------------------- phone menu */
+/* Desktop and tablets: the toggle doesn't exist. */
+.nav-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  /* Two bars at the top right; they turn into an × while the menu is open. */
+  .nav-toggle {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-content: center;
+    gap: 7px;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    color: inherit;
+  }
+  .nav-toggle__bar {
+    display: block;
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform var(--dur-med) var(--ease-out);
+  }
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bar:first-child {
+    transform: translateY(4.5px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bar:last-child {
+    transform: translateY(-4.5px) rotate(-45deg);
+  }
+
+  /* The nav becomes a full-screen ink panel, hidden until opened. */
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    padding: var(--header-h) var(--gutter);
+    background: var(--ink);
+    color: var(--paper);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dur-med) var(--ease-out),
+      visibility 0s linear var(--dur-med);
+  }
+  .nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--dur-med) var(--ease-out);
+  }
+  .nav__list {
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+  .nav .nav__link {
+    min-height: 0;
+    padding: 0.35em 0;
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    letter-spacing: 0.04em;
+  }
+  /* No arrow in the menu, so every item centres evenly. */
+  .nav .nav__arrow {
+    display: none;
+  }
+  /* Items rise in one after another when the menu opens. */
+  .nav__list li {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-med) var(--ease-out),
+      transform var(--dur-med) var(--ease-out);
+  }
+  .nav.is-open .nav__list li {
+    opacity: 1;
+    transform: none;
+  }
+  .nav.is-open .nav__list li:nth-child(2) { transition-delay: 40ms; }
+  .nav.is-open .nav__list li:nth-child(3) { transition-delay: 80ms; }
+  .nav.is-open .nav__list li:nth-child(4) { transition-delay: 120ms; }
+  .nav.is-open .nav__list li:nth-child(5) { transition-delay: 160ms; }
+
+  /* While open: the header goes solid ink (no blur, which would also trap
+     the fixed panel inside the header's box) and its icons turn paper. */
+  .site-header.is-menu-open {
+    --header-fg: var(--paper);
+    --trident-cut: var(--ink);
+    background: var(--ink);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .site-header.is-menu-open .site-header__home {
+    position: relative;
+    z-index: 2;
+  }
+}
+@media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  .nav,
+  .nav__list li,
+  .nav-toggle__bar {
+    transition: none;
+  }
+}
