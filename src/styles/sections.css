@@ -238,12 +238,13 @@ section[id] {
 }
 
 /* ---------------------------------------------------------- gaps between sections */
-/* One gap between every pair of home sections (2026-11-18): from the end of
-   one section's content to the next heading, 330px on desktop, scaling down
-   on smaller screens. Hero → Work keeps its own spacing. Each padding below
-   offsets that section's own inner spacing (measured, e.g. centred titles
-   sit 32px into their padding; Films keeps part of the gap below the folder
-   so its reel backdrop can fade out). */
+/* One visible gap between every pair of home sections (2026-11-18): from the
+   last thing you see in one section to the next heading, 330px on desktop,
+   scaling down on smaller screens. Hero → Selected Work keeps its own
+   spacing. Films is different: its reel backdrop fills the whole section and
+   is itself visible content, so the gap sits outside it (margin) on both
+   sides, less the ~60px the reel spends fading in and out of the ink. The
+   small px offsets match each section's inner spacing (measured). */
 :root {
   --section-gap: clamp(180px, 24vw, 330px);
 }
@@ -254,18 +255,18 @@ section[id] {
   padding-bottom: 0;
 }
 #films {
-  padding-top: var(--section-gap);
-  padding-bottom: calc(var(--section-gap) * 0.6);
+  margin-top: calc(var(--section-gap) - 60px);
+  padding-block: calc(var(--section-gap) * 0.55);
 }
 #experience {
-  padding-top: calc(var(--section-gap) * 0.4);
+  padding-top: calc(var(--section-gap) - 60px);
 }
 #arsenal {
   padding-top: var(--section-gap);
 }
 #about {
-  padding-top: calc(var(--section-gap) + 3px);
+  padding-top: var(--section-gap);
 }
 #contact {
-  padding-top: var(--section-gap);
+  padding-top: calc(var(--section-gap) - 27px);
 }
