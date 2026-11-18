@@ -1,0 +1,184 @@
+/* 4.5 About: the open book.
+   Two fixed pages on a dark leather cover (no page turning). Left page:
+   photo print + About + story. Right page: experience, resume, contact
+   links. Text on the paper is ink; red stamps press onto the pages. */
+
+.about__inner {
+  align-items: start;
+}
+.about__tools {
+  grid-column: 1 / -1;
+}
+
+.book {
+  --paper-1: #f8f2e3;
+  --paper-2: #f2e9d4;
+  --paper-fold: #ddd0b2;
+  --cover: #3b1e12;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 14px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, #4a2617 0%, var(--cover) 60%, #2a140b 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.06),
+    0 50px 90px -40px rgb(0 0 0 / 0.85);
+  color: var(--ink);
+}
+
+.book__page {
+  position: relative;
+  padding: clamp(1.75rem, 3.2vw, 3rem);
+}
+/* Pages shade toward the fold; stacked page edges show at the outer side. */
+.book__page--left {
+  border-radius: 8px 2px 2px 8px;
+  background: linear-gradient(to right, var(--paper-1) 0%, var(--paper-2) 86%, var(--paper-fold) 100%);
+  box-shadow:
+    -2px 0 0 #e8dec6,
+    -4px 0 0 #d9ccb0,
+    -6px 0 0 #cdbf9f;
+}
+.book__page--right {
+  border-radius: 2px 8px 8px 2px;
+  background: linear-gradient(to left, var(--paper-1) 0%, var(--paper-2) 86%, var(--paper-fold) 100%);
+  box-shadow:
+    2px 0 0 #e8dec6,
+    4px 0 0 #d9ccb0,
+    6px 0 0 #cdbf9f;
+}
+/* The fold down the middle. */
+.book::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-1px);
+  background: rgb(18 6 3 / 0.22);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------- left page */
+.book__photo {
+  position: relative;
+  width: min(100%, 250px);
+  margin: 0.5rem 0 var(--space-l) 0.25rem;
+  transform: rotate(-3deg);
+}
+.book__photo-print {
+  aspect-ratio: 4 / 5;
+  padding: 10px 10px 40px; /* instant-print border, wider at the bottom */
+  background: #fffdf8;
+  box-shadow:
+    0 1px 0 rgb(18 6 3 / 0.08),
+    0 10px 22px -8px rgb(18 6 3 / 0.35);
+}
+.book__photo-print img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.book__photo-print.is-placeholder span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1.5px dashed var(--ink-12);
+  color: var(--ink-70);
+  font-size: var(--step--1);
+}
+/* Two strips of paper tape holding the print. */
+.book__tape {
+  position: absolute;
+  top: -10px;
+  width: 86px;
+  height: 24px;
+  background: rgb(236 164 0 / 0.3);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.book__tape--a {
+  left: -22px;
+  transform: rotate(-34deg);
+}
+.book__tape--b {
+  right: -22px;
+  transform: rotate(34deg);
+}
+
+.book__title {
+  font-size: var(--step-3);
+  margin-bottom: var(--space-s);
+}
+.book .about__story {
+  margin-bottom: 0;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------- right page */
+.book__subtitle {
+  font-size: var(--step-1);
+  margin-bottom: var(--space-s);
+}
+.book .proof {
+  margin-bottom: var(--space-l);
+}
+.book .proof li {
+  border-bottom-color: var(--ink-12);
+}
+.book .proof__meta {
+  color: var(--ink-70);
+}
+.book__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+}
+.book .socials {
+  margin: 0;
+  gap: var(--space-xs);
+}
+.book .social {
+  width: 46px;
+  height: 46px;
+  color: var(--ink);
+  border-color: var(--ink-12);
+}
+.book .social svg {
+  width: 20px;
+  height: 20px;
+}
+.book .social:hover {
+  color: var(--paper);
+}
+
+/* ---------------------------------------------------------- narrow: pages stack */
+@media (max-width: 860px) {
+  .book {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+  .book::after {
+    display: none;
+  }
+  .book__page--left {
+    border-radius: 8px 8px 2px 2px;
+    background: linear-gradient(to bottom, var(--paper-1) 0%, var(--paper-2) 90%, var(--paper-fold) 100%);
+    box-shadow: none;
+  }
+  .book__page--right {
+    border-radius: 2px 2px 8px 8px;
+    background: linear-gradient(to top, var(--paper-1) 0%, var(--paper-2) 90%, var(--paper-fold) 100%);
+    box-shadow: none;
+    border-top: 2px solid rgb(18 6 3 / 0.18);
+  }
+  .book__photo {
+    width: min(70%, 230px);
+  }
+}

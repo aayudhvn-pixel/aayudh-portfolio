@@ -1,12 +1,12 @@
 // 4.5 About: ink stamps (the section's signature interaction).
-// Pick a stamp in the tray, then click / tap anywhere in About to press it:
+// Pick a stamp in the tray, then click / tap on the book's pages to press it:
 // red ink, a random tilt (±8°), a quick press (comes down, squashes, ink
 // fades in). The trident gets a brief gold shimmer. "Clear" removes them.
 //
-// Stamps are decoration (the layer is aria-hidden) and sit behind the
-// text, so they never cover the content. Keyboard: Enter / Space on a
-// tray stamp presses it near the centre of the section. Esc puts the
-// picked stamp down.
+// Stamps are decoration (the layer is aria-hidden). They land only on the
+// pages, multiplied onto the paper so the text stays readable through the
+// ink. Keyboard: Enter / Space on a tray stamp presses it near the centre
+// of the book. Esc puts the picked stamp down.
 
 const MAX_STAMPS = 40; // oldest goes when the page gets crowded
 
@@ -32,7 +32,7 @@ export function initStamps() {
     if (picked) section.style.setProperty('--stamp-cursor', `url(/assets/stamps/cursor-${picked}.png) 24 24`);
   }
 
-  // Press a stamp at (x, y) in section coordinates.
+  // Press a stamp at (x, y) in book coordinates (the layer covers the book).
   function press(name, x, y) {
     const stamp = document.createElement('div');
     stamp.className = 'stamp is-pressing';
@@ -66,7 +66,7 @@ export function initStamps() {
       const name = btn.dataset.stamp;
       if (e.detail === 0) {
         const jitter = () => (Math.random() - 0.5) * 120;
-        press(name, section.clientWidth / 2 + jitter(), section.clientHeight / 2 + jitter());
+        press(name, layer.clientWidth / 2 + jitter(), layer.clientHeight / 2 + jitter());
         status.textContent = `${label(name)} pressed.`;
         return;
       }
@@ -74,10 +74,10 @@ export function initStamps() {
     });
   });
 
-  // Press wherever the section is clicked (not on links, buttons or the tray).
+  // Press wherever a page is clicked (not on its links or buttons).
   section.addEventListener('click', (e) => {
-    if (!picked || e.target.closest('a, button, .stamp-tray')) return;
-    const r = section.getBoundingClientRect();
+    if (!picked || !e.target.closest('.book__page') || e.target.closest('a, button')) return;
+    const r = layer.getBoundingClientRect();
     press(picked, e.clientX - r.left, e.clientY - r.top);
   });
 
