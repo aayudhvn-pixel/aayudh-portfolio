@@ -55,6 +55,7 @@ function initMenu(header) {
   const nav = header.querySelector('.nav');
   if (!toggle || !nav) return;
   const phone = window.matchMedia('(max-width: 640px)');
+  const home = header.querySelector('.site-header__home'); // the trident stays usable over the menu
   const links = [...nav.querySelectorAll('a')];
   let open = false;
 
@@ -71,7 +72,8 @@ function initMenu(header) {
 
   toggle.addEventListener('click', () => set(!open));
   // A link closes the menu first, then the page goes where the link points.
-  links.forEach((a) => a.addEventListener('click', () => set(false, { focus: false })));
+  // The trident (home) does the same: close, then go to the hero.
+  [...links, home].filter(Boolean).forEach((a) => a.addEventListener('click', () => set(false, { focus: false })));
 
   document.addEventListener('keydown', (e) => {
     if (!open) return;
@@ -80,12 +82,18 @@ function initMenu(header) {
       return;
     }
     if (e.key === 'Tab') {
-      const items = [toggle, ...links];
+      const items = [home, toggle, ...links].filter(Boolean);
       const i = items.indexOf(document.activeElement);
       const next = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i + 1) % items.length;
       e.preventDefault();
       items[next].focus();
     }
+  });
+
+  // Coming back with the browser's Back button can restore the page exactly as
+  // it was left (menu open); always show it closed.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) set(false, { focus: false });
   });
 
   // Rotating to landscape or resizing past phone width: the menu just closes.
