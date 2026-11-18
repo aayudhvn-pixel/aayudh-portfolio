@@ -236,8 +236,31 @@ async function doHero() {
   await log(file);
 }
 
+// ---------------------------------------------------------------- About photo
+// The portrait for the book's instant-print slot: cropped to 4:5 around the face.
+async function doAbout() {
+  const dir = join(OUT, 'about');
+  await mkdir(dir, { recursive: true });
+  const src = join(SRC, 'About', 'aayudh_portrait.png');
+  const m = await sharp(src).metadata();
+  const w = Math.round(m.height * 0.8); // 4:5
+  const left = Math.max(0, Math.min(m.width - w, Math.round(m.width * 0.48 - w / 2)));
+  const base = sharp(src).extract({ left, top: 0, width: w, height: m.height });
+  for (const width of [320, 640]) {
+    const img = base.clone().resize({ width });
+    const out = join(dir, `portrait-${width}`);
+    await img.clone().avif({ quality: 55, effort: 6 }).toFile(`${out}.avif`);
+    await img.clone().webp({ quality: 80 }).toFile(`${out}.webp`);
+    await Promise.all([log(`${out}.avif`), log(`${out}.webp`)]);
+    if (width === 320) {
+      await img.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(`${out}.jpg`);
+      await log(`${out}.jpg`);
+    }
+  }
+}
+
 const only = process.env.ONLY?.split(',');
-const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers, hero: doHero };
+const tasks = { cards: doCards, pack: doPack, stamps: doStamps, favicons: doFavicons, covers: doCovers, hero: doHero, about: doAbout };
 for (const [name, fn] of Object.entries(tasks)) {
   if (only && !only.includes(name)) continue;
   console.log(`→ ${name}`);
