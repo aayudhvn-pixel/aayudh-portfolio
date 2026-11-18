@@ -129,14 +129,7 @@
   transform-origin: center;
 }
 
-/* Selected Work → Films: a 250px gap between the project row and the
-   Films heading on desktop (Work's 40px + Films' 211px − the 1px overlap
-   of adjacent dark sections), scaling down on small screens. */
-.work {
-  padding-bottom: var(--space-l);
-}
+/* The gaps around Films (and every home section) live in sections.css (--section-gap). */
 .films {
   min-height: 0;
-  padding-top: clamp(150px, 15vw, 211px);
-  padding-bottom: var(--space-2xl);
 }

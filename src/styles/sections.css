@@ -236,3 +236,36 @@ section[id] {
 .section-title--center {
   text-align: center;
 }
+
+/* ---------------------------------------------------------- gaps between sections */
+/* One gap between every pair of home sections (2026-11-18): from the end of
+   one section's content to the next heading, 330px on desktop, scaling down
+   on smaller screens. Hero → Work keeps its own spacing. Each padding below
+   offsets that section's own inner spacing (measured, e.g. centred titles
+   sit 32px into their padding; Films keeps part of the gap below the folder
+   so its reel backdrop can fade out). */
+:root {
+  --section-gap: clamp(180px, 24vw, 330px);
+}
+#work,
+#experience,
+#arsenal,
+#about {
+  padding-bottom: 0;
+}
+#films {
+  padding-top: var(--section-gap);
+  padding-bottom: calc(var(--section-gap) * 0.6);
+}
+#experience {
+  padding-top: calc(var(--section-gap) * 0.4);
+}
+#arsenal {
+  padding-top: var(--section-gap);
+}
+#about {
+  padding-top: calc(var(--section-gap) + 3px);
+}
+#contact {
+  padding-top: var(--section-gap);
+}
