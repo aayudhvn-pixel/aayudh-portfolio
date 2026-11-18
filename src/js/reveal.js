@@ -11,14 +11,16 @@
 // animating, so this never fights the pack intro.
 //
 // Only content moves; section backgrounds stay put, so the dark run stays
-// continuous. Off under reduced motion; without JS everything is visible.
+// continuous. The footer is left out: it sits at the very bottom, so it
+// could never scroll far enough up to trigger. Off under reduced motion;
+// without JS everything is visible.
 
 import { prefersReducedMotion } from './util.js';
 
 export function initReveal() {
   if (prefersReducedMotion()) return;
 
-  const sectionBlocks = [...document.querySelectorAll('main > section:not(#top) > *, .site-footer > *')];
+  const sectionBlocks = [...document.querySelectorAll('main > section:not(#top) > *')];
   const heroBlocks = [...document.querySelectorAll('#top .hero > *')];
   const ring = document.querySelector('#top .card-ring');
 
