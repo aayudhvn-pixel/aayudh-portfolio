@@ -1,0 +1,238 @@
+/* 4.6 Arsenal (TRIAL): tools on wooden ema-style plaques.
+   Each row is a dark wooden beam; plaques hang from it on red shrine
+   cords, each at its own cord length and resting tilt. arsenal.js sways
+   them in on scroll and swings one on hover / tap / focus, showing its
+   one-line note. Built entirely in CSS: no images. */
+
+.arsenal__kicker {
+  margin: calc(var(--space-l) * -1 + var(--space-xs)) auto var(--space-xl);
+  text-align: center;
+  color: var(--paper-70);
+}
+
+.arsenal__rows {
+  display: grid;
+  gap: var(--space-l);
+  max-width: 980px;
+}
+
+.ema-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: start;
+  gap: var(--space-m);
+}
+.ema-row__label {
+  padding-top: 0.1rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+  text-align: right;
+}
+
+.ema-row__rack {
+  position: relative;
+  padding-top: 10px; /* the beam */
+}
+/* The beam the plaques hang from. */
+.ema-row__beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  border-radius: 5px;
+  background:
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.12) 0 2px, transparent 2px 11px),
+    linear-gradient(to bottom, #6b3a1f, #4a2412 60%, #2f160a);
+  box-shadow: 0 6px 12px -4px rgb(0 0 0 / 0.6);
+}
+.ema-row__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(1rem, 2.5vw, 2rem);
+  margin: 0;
+  padding: 0 clamp(0.75rem, 2vw, 1.5rem);
+  list-style: none;
+}
+
+/* ---------------------------------------------------------- one plaque */
+.ema {
+  --w: 132px;
+  position: relative;
+  width: var(--w);
+}
+.ema__plaque {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: 0;
+  border-radius: 12px;
+  /* Swings from where its cord meets the beam. */
+  transform-origin: 50% 0;
+  transform: rotate(var(--rest, 0deg));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ema__plaque:focus-visible {
+  outline-offset: 4px;
+}
+/* Red shrine cord: two strands, slightly twisted. */
+.ema__cord {
+  width: 3px;
+  height: var(--cord, 40px);
+  background: repeating-linear-gradient(
+    to bottom,
+    #c41f15 0 3px,
+    #ff4a3d 3px 5px
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.3);
+}
+.ema__wood {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 116 / 128;
+  margin-top: -6px; /* the cord tucks into the hole */
+  padding: 30px 10px 14px;
+  /* Arched top, square-ish bottom, like an ema plaque. */
+  border-radius: 48% 48% 10px 10px / 24% 24% 10px 10px;
+  background:
+    /* grain */
+    repeating-linear-gradient(91deg, rgb(90 45 20 / 0.12) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(88deg, rgb(255 230 190 / 0.07) 0 1px, transparent 1px 13px),
+    /* a soft knot */
+    radial-gradient(ellipse 14% 9% at 74% 70%, rgb(90 45 20 / 0.28), transparent 70%),
+    /* the board */
+    linear-gradient(170deg, #dca46c 0%, #c0814a 45%, #a2653a 100%);
+  box-shadow:
+    inset 0 2px 0 rgb(255 230 190 / 0.35),
+    inset 0 -3px 0 rgb(70 30 10 / 0.35),
+    inset 0 0 0 1px rgb(70 30 10 / 0.35),
+    0 14px 20px -12px rgb(0 0 0 / 0.75);
+  transition: filter var(--dur-fast) var(--ease-out);
+}
+.ema__hole {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: #2a1208;
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.8), 0 1px 0 rgb(255 230 190 / 0.3);
+}
+/* The name, as if burnt into the wood. */
+.ema__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.82rem;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #3a1a0b;
+  text-shadow: 0 1px 0 rgb(255 225 180 / 0.35);
+  /* wrap only between words (e.g. "Swift /" + "SwiftUI"), never mid-word */
+  overflow-wrap: normal;
+  hyphens: none;
+}
+.ema__plaque:hover .ema__wood,
+.ema__plaque:focus-visible .ema__wood,
+.ema.is-active .ema__wood {
+  filter: brightness(1.08);
+}
+
+/* The one-line note: a small paper tag under the plaque. */
+.ema__note {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  z-index: 5;
+  width: max-content;
+  max-width: 220px;
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 10px 22px -8px rgb(0 0 0 / 0.7);
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+.ema__plaque:hover + .ema__note,
+.ema__plaque:focus-visible + .ema__note,
+.ema.is-active .ema__note {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------------------------------------------------------- narrow */
+@media (max-width: 700px) {
+  .ema-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
+  .ema-row__label {
+    text-align: left;
+  }
+  .ema {
+    --w: 72px; /* four fit on one beam at 375px */
+  }
+  .ema__wood {
+    padding: 22px 6px 10px;
+  }
+  .ema__name {
+    font-size: 0.62rem;
+  }
+  .ema-row__list {
+    gap: 0 10px;
+    padding: 0 6px;
+  }
+  .ema__note {
+    max-width: 170px;
+  }
+}
+
+/* Phones: the last plaque in a row sits near the screen edge, so its note
+   opens leftward instead of centred; the section never scrolls sideways. */
+.arsenal {
+  overflow-x: clip;
+}
+@media (max-width: 700px) {
+  .ema:last-child .ema__note {
+    left: auto;
+    right: 0;
+    transform: translate(0, -4px);
+  }
+  .ema:last-child .ema__plaque:hover + .ema__note,
+  .ema:last-child .ema__plaque:focus-visible + .ema__note,
+  .ema.is-active:last-child .ema__note {
+    transform: translate(0, 0);
+  }
+}
+@media (max-width: 700px) {
+  /* …and the first plaque's note opens rightward. */
+  .ema:first-child .ema__note {
+    left: 0;
+    right: auto;
+    transform: translate(0, -4px);
+  }
+  .ema:first-child .ema__plaque:hover + .ema__note,
+  .ema:first-child .ema__plaque:focus-visible + .ema__note,
+  .ema.is-active:first-child .ema__note {
+    transform: translate(0, 0);
+  }
+}
