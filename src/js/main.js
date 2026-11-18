@@ -7,6 +7,7 @@ import { initStamps } from './stamps.js';
 import { initReveal } from './reveal.js';
 import { initTimeline } from './timeline.js';
 import { initArsenal } from './arsenal.js';
+import { initContact } from './contact.js';
 
 initNav();
 const ring = initCards(); // renders the hero cards in their resting ring
@@ -16,4 +17,5 @@ initReel();
 initTimeline();
 initArsenal();
 initStamps();
+initContact();
 initReveal(); // sections fade in as they scroll into view

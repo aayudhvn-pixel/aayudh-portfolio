@@ -220,58 +220,6 @@ section[id] {
   font-size: var(--step--1);
 }
 
-/* ---------------------------------------------------------- Contact */
-.contact__line {
-  font-size: var(--step-1);
-  color: var(--paper-70);
-}
-.contact__email {
-  margin-block: var(--space-m) var(--space-l);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--step-3);
-  letter-spacing: 0.01em;
-  overflow-wrap: anywhere;
-}
-.contact__email a {
-  color: var(--paper);
-  text-decoration-color: var(--red);
-}
-.contact__email a:hover {
-  color: var(--red);
-}
-.socials {
-  display: flex;
-  gap: var(--space-s);
-  padding: 0;
-  margin-bottom: var(--space-l);
-  list-style: none;
-}
-.social {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border: 1px solid var(--paper-12);
-  border-radius: 50%;
-  color: var(--paper);
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) var(--ease-out);
-}
-.social svg {
-  width: 22px;
-  height: 22px;
-}
-.social:hover {
-  transform: translateY(-3px);
-  background: var(--red);
-}
-.social.is-placeholder {
-  border-style: dashed;
-  opacity: 0.45;
-}
-
 /* Buttons with an icon */
 .btn__icon {
   width: 1.1em;

@@ -1,0 +1,180 @@
+/* 4.8 Contact: a simple form (name, email, message) beside the direct ways to
+   reach Aayudh: the email written out (with a copy button), handle buttons and
+   the resume. Messages are delivered by Web3Forms (contact.js). */
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+.contact__line {
+  max-width: 34ch;
+  font-size: var(--step-1);
+  color: var(--paper-70);
+}
+
+/* Email, written out, with a copy button. */
+.contact__email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-s);
+  margin-block: var(--space-l) var(--space-m);
+}
+.contact__email a {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--step-2);
+  letter-spacing: 0.01em;
+  color: var(--paper);
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+.contact__email a:hover {
+  color: var(--red);
+}
+.copy-btn {
+  padding: 0.4em 0.95em;
+  border: 1px solid var(--paper-12);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.copy-btn:hover,
+.copy-btn.is-done {
+  color: var(--paper);
+  border-color: var(--red);
+}
+
+/* Handle buttons: icon + name. */
+.handles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0 0 var(--space-l);
+  padding: 0;
+  list-style: none;
+}
+.handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.6em 1.1em;
+  border: 1px solid var(--paper-12);
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: var(--step--1);
+  color: var(--paper);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.handle svg {
+  width: 18px;
+  height: 18px;
+}
+.handle:hover {
+  transform: translateY(-2px);
+  background: var(--red);
+  border-color: var(--red);
+}
+
+/* ---------------------------------------------------------- the form */
+.contact-form {
+  display: grid;
+  gap: var(--space-s);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid var(--paper-12);
+  border-radius: 18px;
+  background: rgb(253 249 237 / 0.03);
+}
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+.field label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-70);
+}
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.8em 1em;
+  border: 1px solid rgb(253 249 237 / 0.18);
+  border-radius: 10px;
+  background: rgb(253 249 237 / 0.04);
+  color: var(--paper);
+  font: inherit;
+  font-size: var(--step-0);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgb(253 249 237 / 0.35);
+}
+.field input:hover,
+.field textarea:hover {
+  border-color: rgb(253 249 237 / 0.32);
+}
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 1px;
+  border-color: transparent;
+  background: rgb(253 249 237 / 0.07);
+}
+/* Shown only after a send attempt, so empty fields don't start red. */
+.contact-form.was-tried :is(input, textarea):invalid {
+  border-color: var(--red);
+}
+.contact-form__honey {
+  display: none;
+}
+.contact-form__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+  margin-top: var(--space-2xs);
+}
+.contact-form .btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+.contact-form__status {
+  font-size: var(--step--1);
+  color: var(--paper-70);
+}
+.contact-form__status.is-ok {
+  color: var(--paper);
+}
+.contact-form__status.is-error {
+  color: #ff8a80;
+}
+
+@media (max-width: 860px) {
+  .contact__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

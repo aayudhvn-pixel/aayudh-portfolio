@@ -574,38 +574,61 @@
         </div>
       </section>
 
-      <!-- 4.8 Contact (simple placeholder until it is redesigned with Aayudh) (dark) -->
+      <!-- 4.8 Contact (dark). Direct links on the left, a simple form on the right.
+           The form posts to Web3Forms, which emails Aayudh. -->
       <section id="contact" class="contact section--dark" data-theme="dark" aria-labelledby="contact-title">
-        <div class="container">
-          <h2 id="contact-title" class="section-title">Contact</h2>
-          <p class="contact__line">Open to UI/UX design internships. The quickest way to reach me is email.</p>
-          <p class="contact__email"><a href="mailto:aayudh.vn@gmail.com">aayudh.vn@gmail.com</a></p>
-          <ul class="socials">
-            <li>
-              <a class="social" href="mailto:aayudh.vn@gmail.com" aria-label="Email">
-                <svg aria-hidden="true"><use href="#i-mail" /></svg>
-              </a>
-            </li>
-            <li>
-              <a class="social" href="https://www.linkedin.com/in/aayudh-ninawe" aria-label="LinkedIn" rel="me noopener" target="_blank">
-                <svg aria-hidden="true"><use href="#i-linkedin" /></svg>
-              </a>
-            </li>
-            <li>
-              <a class="social" href="https://github.com/aayudhvn-pixel" aria-label="GitHub" rel="me noopener" target="_blank">
-                <svg aria-hidden="true"><use href="#i-github" /></svg>
-              </a>
-            </li>
-            <li>
-              <a class="social" href="https://www.instagram.com/aayudh_ninawe/" aria-label="Instagram" rel="me noopener" target="_blank">
-                <svg aria-hidden="true"><use href="#i-instagram" /></svg>
-              </a>
-            </li>
-          </ul>
-          <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
-            <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
-            Download resume
-          </a>
+        <div class="container contact__grid">
+          <div class="contact__direct">
+            <h2 id="contact-title" class="section-title">Contact</h2>
+            <p class="contact__line">Open to UI/UX design internships. Send a message, or reach me directly.</p>
+            <p class="contact__email">
+              <a href="mailto:aayudh.vn@gmail.com">aayudh.vn@gmail.com</a>
+              <button class="copy-btn" type="button" data-copy="aayudh.vn@gmail.com" hidden>Copy</button>
+            </p>
+            <ul class="handles">
+              <li>
+                <a class="handle" href="https://www.linkedin.com/in/aayudh-ninawe" rel="me noopener" target="_blank">
+                  <svg aria-hidden="true"><use href="#i-linkedin" /></svg>LinkedIn
+                </a>
+              </li>
+              <li>
+                <a class="handle" href="https://github.com/aayudhvn-pixel" rel="me noopener" target="_blank">
+                  <svg aria-hidden="true"><use href="#i-github" /></svg>GitHub
+                </a>
+              </li>
+              <li>
+                <a class="handle" href="https://www.instagram.com/aayudh_ninawe/" rel="me noopener" target="_blank">
+                  <svg aria-hidden="true"><use href="#i-instagram" /></svg>Instagram
+                </a>
+              </li>
+            </ul>
+            <a class="btn" href="/resume.pdf" download="Aayudh-Ninawe-Resume.pdf">
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-download" /></svg>
+              Download resume
+            </a>
+          </div>
+
+          <!-- PLACEHOLDER access key: replace YOUR-WEB3FORMS-ACCESS-KEY with Aayudh's key from web3forms.com. -->
+          <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate data-access-key="YOUR-WEB3FORMS-ACCESS-KEY" aria-labelledby="contact-form-title">
+            <h3 id="contact-form-title" class="visually-hidden">Send a message</h3>
+            <div class="field">
+              <label for="cf-name">Name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="100" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="you@company.com" />
+            </div>
+            <div class="field">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" required maxlength="5000" placeholder="What would you like to talk about?"></textarea>
+            </div>
+            <input class="contact-form__honey" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="contact-form__foot">
+              <button class="btn" type="submit">Send message</button>
+              <p class="contact-form__status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
         </div>
       </section>
     </main>
@@ -615,6 +638,7 @@
       <div class="container site-footer__inner">
         <svg class="trident trident--footer" aria-hidden="true"><use href="#i-trident" /></svg>
         <p>Designed &amp; built by Aayudh</p>
+        <a class="site-footer__top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
 
