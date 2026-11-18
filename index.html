@@ -461,91 +461,117 @@
         </div>
       </section>
 
-      <!-- 4.7 About (dark). A torn sheet of paper: photo + jotted facts on the left, open paper
-           on the right for stamping. Each stamp reveals its own fact beside the mark.
-           All facts are PLACEHOLDERS until Aayudh provides them. -->
+      <!-- 4.7 About (dark). A stamp tray, a to-do page and the taped photo, laid out on the dark
+           desk. Stamps are decoration: press them anywhere on the desk. The to-do lines are
+           SUGGESTIONS awaiting Aayudh's approval. -->
       <section id="about" class="about section--dark" data-theme="dark" aria-labelledby="about-title">
         <div class="container">
           <h2 id="about-title" class="section-title section-title--center">About</h2>
         </div>
-        <div class="container about__inner">
-          <div class="sheet-wrap">
-            <div class="sheet">
-              <div class="sheet__left">
-                <figure class="sheet__photo">
-                  <div class="sheet__print">
-                    <picture>
-                      <source type="image/avif" srcset="/assets/about/portrait-320.avif 320w, /assets/about/portrait-640.avif 640w" sizes="250px" />
-                      <source type="image/webp" srcset="/assets/about/portrait-320.webp 320w, /assets/about/portrait-640.webp 640w" sizes="250px" />
-                      <img src="/assets/about/portrait-320.jpg" alt="Aayudh in an off-white cable-knit quarter-zip with blue headphones around his neck" width="640" height="800" loading="lazy" decoding="async" />
-                    </picture>
-                  </div>
-                  <span class="sheet__tape sheet__tape--a" aria-hidden="true"></span>
-                  <span class="sheet__tape sheet__tape--b" aria-hidden="true"></span>
-                </figure>
-                <!-- PLACEHOLDER facts: 2–3 short facts about Aayudh, to be provided. -->
-                <ul class="sheet__facts">
-                  <li>Placeholder fact 1 about Aayudh</li>
-                  <li>Placeholder fact 2 about Aayudh</li>
-                  <li>Placeholder fact 3 about Aayudh</li>
-                </ul>
-              </div>
-              <div class="sheet__stamps">
-                <p class="sheet__hint" aria-hidden="true">Stamp here</p>
-              </div>
-              <!-- Pressed stamps and their notes land here. Decoration only; the facts are also
-                   listed as text below for screen readers. -->
-              <div class="stamp-layer" aria-hidden="true"></div>
-            </div>
-          </div>
-
-          <aside class="stamp-tray" aria-labelledby="stamp-tray-title">
-            <p id="stamp-tray-title" class="stamp-tray__title">Stamps</p>
-            <p class="stamp-tray__hint" id="stamp-tray-hint">Pick one, then click on the paper.</p>
-            <ul class="stamp-tray__list" aria-describedby="stamp-tray-hint">
+        <div class="container">
+          <div class="desk">
+            <aside class="stamp-tray" aria-labelledby="stamp-tray-title">
+              <p id="stamp-tray-title" class="stamp-tray__title">Stamps</p>
+              <p class="stamp-tray__hint" id="stamp-tray-hint">Pick one, then click anywhere.</p>
+              <ul class="stamp-tray__list" aria-describedby="stamp-tray-hint">
               <li>
-                <button class="stamp-btn" type="button" data-stamp="trident" data-fact="Placeholder fact for the trident stamp" aria-pressed="false" aria-label="Trident stamp">
+                <button class="stamp-btn" type="button" data-stamp="trident" aria-pressed="false" aria-label="Trident stamp">
                   <img src="/assets/stamps/trident.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
               <li>
-                <button class="stamp-btn" type="button" data-stamp="cat" data-fact="Placeholder fact for the cat stamp" aria-pressed="false" aria-label="Cat stamp">
+                <button class="stamp-btn" type="button" data-stamp="cat" aria-pressed="false" aria-label="Cat stamp">
                   <img src="/assets/stamps/cat.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
               <li>
-                <button class="stamp-btn" type="button" data-stamp="headphones" data-fact="Placeholder fact for the headphones stamp" aria-pressed="false" aria-label="Headphones stamp">
+                <button class="stamp-btn" type="button" data-stamp="headphones" aria-pressed="false" aria-label="Headphones stamp">
                   <img src="/assets/stamps/headphones.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
               <li>
-                <button class="stamp-btn" type="button" data-stamp="lightning" data-fact="Placeholder fact for the lightning stamp" aria-pressed="false" aria-label="Lightning stamp">
+                <button class="stamp-btn" type="button" data-stamp="lightning" aria-pressed="false" aria-label="Lightning stamp">
                   <img src="/assets/stamps/lightning.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
               <li>
-                <button class="stamp-btn" type="button" data-stamp="helmet" data-fact="Placeholder fact for the samurai helmet stamp" aria-pressed="false" aria-label="Samurai helmet stamp">
+                <button class="stamp-btn" type="button" data-stamp="helmet" aria-pressed="false" aria-label="Samurai helmet stamp">
                   <img src="/assets/stamps/helmet.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
               <li>
-                <button class="stamp-btn" type="button" data-stamp="stars" data-fact="Placeholder fact for the stars stamp" aria-pressed="false" aria-label="Stars stamp">
+                <button class="stamp-btn" type="button" data-stamp="stars" aria-pressed="false" aria-label="Stars stamp">
                   <img src="/assets/stamps/stars.webp" alt="" width="300" height="300" loading="lazy" decoding="async" />
                 </button>
               </li>
-            </ul>
-            <button class="stamp-tray__clear" type="button">Clear</button>
-            <p class="visually-hidden" aria-live="polite" data-stamp-status></p>
-          </aside>
+              </ul>
+              <button class="stamp-tray__clear" type="button">Clear</button>
+              <p class="visually-hidden" aria-live="polite" data-stamp-status></p>
+            </aside>
 
-          <ul class="visually-hidden" aria-label="What each stamp reveals">
-            <li>Trident stamp: Placeholder fact for the trident stamp</li>
-            <li>Cat stamp: Placeholder fact for the cat stamp</li>
-            <li>Headphones stamp: Placeholder fact for the headphones stamp</li>
-            <li>Lightning stamp: Placeholder fact for the lightning stamp</li>
-            <li>Samurai helmet stamp: Placeholder fact for the samurai helmet stamp</li>
-            <li>Stars stamp: Placeholder fact for the stars stamp</li>
-          </ul>
+            <div class="todo">
+              <h3 class="todo__title" id="todo-title">to do:</h3>
+              <ul class="todo__list" aria-labelledby="todo-title">
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">land a UI/UX design internship</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">sketch daily (yes, today too)</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">morning run before opening Figma</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" checked />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">cook chicken curry for the whole family</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">one more episode, then sleep. promise.</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo__item">
+                    <input type="checkbox" />
+                    <span class="todo__box" aria-hidden="true"></span>
+                    <span class="todo__text">make the next AI ad better than the last</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+
+            <figure class="polaroid">
+              <div class="polaroid__print">
+                <picture>
+                  <source type="image/avif" srcset="/assets/about/portrait-320.avif 320w, /assets/about/portrait-640.avif 640w" sizes="300px" />
+                  <source type="image/webp" srcset="/assets/about/portrait-320.webp 320w, /assets/about/portrait-640.webp 640w" sizes="300px" />
+                  <img src="/assets/about/portrait-320.jpg" alt="Aayudh in an off-white cable-knit quarter-zip with blue headphones around his neck" width="640" height="800" loading="lazy" decoding="async" />
+                </picture>
+              </div>
+              <span class="polaroid__tape polaroid__tape--a" aria-hidden="true"></span>
+              <span class="polaroid__tape polaroid__tape--b" aria-hidden="true"></span>
+            </figure>
+
+            <!-- Pressed stamps land here (decoration only). -->
+            <div class="stamp-layer" aria-hidden="true"></div>
+          </div>
         </div>
       </section>
 

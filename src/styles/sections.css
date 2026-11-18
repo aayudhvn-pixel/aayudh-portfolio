@@ -177,16 +177,6 @@ section[id] {
 /* Films: see films.css */
 
 /* ---------------------------------------------------------- About */
-.about__inner {
-  display: grid;
-  gap: var(--space-xl);
-}
-@media (min-width: 960px) {
-  .about__inner {
-    grid-template-columns: 1fr 148px;
-    align-items: start;
-  }
-}
 .about__story {
   font-size: var(--step-1);
   margin-bottom: var(--space-xl);
