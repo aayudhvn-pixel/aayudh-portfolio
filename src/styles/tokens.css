@@ -17,7 +17,6 @@
   --font-display: 'Barlow', 'Arial Narrow', system-ui, sans-serif;
   --font-body: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
-  --font-hand: 'Playpen Sans', 'Segoe Print', 'Comic Sans MS', cursive; /* About book only */
 
   /* Type scale (fluid) */
   --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);

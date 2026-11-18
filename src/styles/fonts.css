@@ -48,20 +48,3 @@
   font-display: swap;
 }
 
-/* Playpen Sans — handwriting for the content inside the About book only.
-   Static 400/600 instances, latin subset, without the contextual
-   handwriting alternates (they tripled the file size). SIL OFL. */
-@font-face {
-  font-family: 'Playpen Sans';
-  src: url('/fonts/playpen-sans-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Playpen Sans';
-  src: url('/fonts/playpen-sans-600.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}

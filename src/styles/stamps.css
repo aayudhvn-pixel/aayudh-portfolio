@@ -106,7 +106,7 @@
 
 /* While a stamp is picked, the section shows it as the cursor
    (stamps.js sets --stamp-cursor). */
-.about.is-stamping .book__page {
+.about.is-stamping .leaflet__panel {
   cursor: var(--stamp-cursor), crosshair;
 }
 .about.is-stamping :is(a, button) {
@@ -114,14 +114,14 @@
 }
 
 /* ---------------------------------------------------------- pressed stamps */
-/* Inside the book: on top of the pages, clipped to the book. The ink is
+/* Inside the leaflet: on top of the paper, clipped to it. The ink is
    multiplied onto the paper, so text under a stamp still reads through it. */
 .stamp-layer {
   position: absolute;
   inset: 0;
   z-index: 2;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 4px;
   pointer-events: none;
 }
 .stamp {

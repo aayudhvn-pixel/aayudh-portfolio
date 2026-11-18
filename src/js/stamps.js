@@ -1,12 +1,12 @@
 // 4.5 About: ink stamps (the section's signature interaction).
-// Pick a stamp in the tray, then click / tap on the book's pages to press it:
+// Pick a stamp in the tray, then click / tap on the leaflet's paper to press it:
 // red ink, a random tilt (±8°), a quick press (comes down, squashes, ink
 // fades in). The trident gets a brief gold shimmer. "Clear" removes them.
 //
 // Stamps are decoration (the layer is aria-hidden). They land only on the
-// pages, multiplied onto the paper so the text stays readable through the
+// leaflet, multiplied onto the paper so the text stays readable through the
 // ink. Keyboard: Enter / Space on a tray stamp presses it near the centre
-// of the book. Esc puts the picked stamp down.
+// of the leaflet. Esc puts the picked stamp down.
 
 const MAX_STAMPS = 40; // oldest goes when the page gets crowded
 
@@ -32,7 +32,7 @@ export function initStamps() {
     if (picked) section.style.setProperty('--stamp-cursor', `url(/assets/stamps/cursor-${picked}.png) 24 24`);
   }
 
-  // Press a stamp at (x, y) in book coordinates (the layer covers the book).
+  // Press a stamp at (x, y) in leaflet coordinates (the layer covers the leaflet).
   function press(name, x, y) {
     const stamp = document.createElement('div');
     stamp.className = 'stamp is-pressing';
@@ -74,9 +74,9 @@ export function initStamps() {
     });
   });
 
-  // Press wherever a page is clicked (not on its links or buttons).
+  // Press wherever the leaflet is clicked (not on its links or buttons).
   section.addEventListener('click', (e) => {
-    if (!picked || !e.target.closest('.book__page') || e.target.closest('a, button')) return;
+    if (!picked || !e.target.closest('.leaflet__panel') || e.target.closest('a, button')) return;
     const r = layer.getBoundingClientRect();
     press(picked, e.clientX - r.left, e.clientY - r.top);
   });

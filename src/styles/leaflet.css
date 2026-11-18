@@ -1,0 +1,245 @@
+/* 4.5 About: the pack's folded insert, "ORIGINS · Player's Guide",
+   opened flat. Printed paper with grain and a faint gloss, a red printed
+   border with a gold hairline, fold creases (down the middle and across,
+   as if it came folded in quarters), and the site's own fonts. Stamps
+   press onto the paper (stamps.css). */
+
+.about__inner {
+  align-items: start;
+}
+.about__tools {
+  grid-column: 1 / -1;
+}
+
+.leaflet {
+  --ink-print: #241a15;
+  --pad: clamp(2rem, 3.6vw, 3.25rem);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.15 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 4px;
+  background-color: #f6f0e1;
+  background-image:
+    var(--grain),
+    /* faint gloss of printed stock */
+    linear-gradient(115deg, rgb(255 255 255 / 0.45) 0%, rgb(255 255 255 / 0) 30%, rgb(255 255 255 / 0) 70%, rgb(255 255 255 / 0.25) 100%);
+  background-size: 160px 160px, 100% 100%;
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.5) inset,
+    0 40px 70px -30px rgb(0 0 0 / 0.85),
+    0 14px 24px -14px rgb(0 0 0 / 0.6);
+  color: var(--ink-print);
+}
+
+/* Printed border: a red frame with a gold hairline inside it. */
+.leaflet::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 2px solid var(--red);
+  box-shadow: inset 0 0 0 4px #f6f0e1, inset 0 0 0 5px var(--gold);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fold creases: a ridge down the middle and a softer one across. */
+.leaflet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to right,
+      transparent calc(50% - 18px),
+      rgb(60 40 20 / 0.08) calc(50% - 1px),
+      rgb(60 40 20 / 0.22) 50%,
+      rgb(255 255 255 / 0.7) calc(50% + 1px),
+      rgb(60 40 20 / 0.05) calc(50% + 2px),
+      transparent calc(50% + 18px)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent calc(50% - 10px),
+      rgb(60 40 20 / 0.06) calc(50% - 1px),
+      rgb(255 255 255 / 0.5) 50%,
+      rgb(60 40 20 / 0.04) calc(50% + 1px),
+      transparent calc(50% + 10px)
+    );
+}
+
+.leaflet__panel {
+  position: relative;
+  padding: var(--pad);
+  padding-top: calc(var(--pad) + 4px);
+}
+
+/* Small printed headers. */
+.leaflet__kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: var(--space-l);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.leaflet__kicker--right {
+  justify-content: flex-end;
+}
+.leaflet__mark {
+  width: 14px;
+  height: 19px;
+  color: var(--red);
+  --trident-cut: #f6f0e1;
+}
+.leaflet__section {
+  display: inline-block;
+  margin-bottom: var(--space-m);
+  padding-bottom: 0.3rem;
+  border-bottom: 3px solid var(--gold); /* gold as a shape, never as text on paper */
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(36 26 21 / 0.7);
+}
+
+/* The player's photo, framed like card art with a red name bar. */
+.leaflet__photo {
+  width: min(100%, 230px);
+  margin: 0 0 var(--space-l);
+  padding: 8px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #fffaf0, #e9dfca);
+  box-shadow:
+    0 0 0 1px rgb(36 26 21 / 0.15),
+    0 10px 20px -12px rgb(36 26 21 / 0.45);
+}
+.leaflet__photo img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 2px solid var(--ink-print);
+}
+.leaflet__photo figcaption {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 8px;
+  padding: 0.45rem 0.7rem 0.5rem;
+  border-radius: 5px;
+  background: var(--red);
+  color: var(--paper);
+}
+.leaflet__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+.leaflet__types {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.leaflet__title {
+  font-size: var(--step-3);
+  margin-bottom: var(--space-s);
+  color: var(--ink-print);
+}
+.leaflet .about__story {
+  margin: 0;
+  color: var(--ink-print);
+}
+
+/* Story so far: a printed timeline with red markers. */
+.leaflet__subtitle {
+  font-size: var(--step-1);
+  margin-bottom: var(--space-s);
+  color: var(--ink-print);
+}
+.leaflet .proof {
+  margin: 0 0 var(--space-l);
+  max-width: none;
+}
+.leaflet .proof li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0 var(--space-s);
+  padding: 0.7rem 0 0.7rem 1.4rem;
+  border-bottom: 1px dashed rgb(36 26 21 / 0.18);
+}
+.leaflet .proof li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 1.15rem;
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  transform: rotate(45deg);
+}
+.leaflet .proof__meta {
+  color: rgb(36 26 21 / 0.62);
+}
+.leaflet__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+}
+.leaflet .socials {
+  margin: 0;
+  gap: var(--space-xs);
+}
+.leaflet .social {
+  width: 46px;
+  height: 46px;
+  color: var(--ink-print);
+  border-color: rgb(36 26 21 / 0.2);
+}
+.leaflet .social svg {
+  width: 20px;
+  height: 20px;
+}
+.leaflet .social:hover {
+  color: var(--paper);
+}
+
+/* ---------------------------------------------------------- narrow: panels stack */
+@media (max-width: 860px) {
+  .leaflet {
+    grid-template-columns: 1fr;
+  }
+  /* Only the across-fold remains, now between the two panels. */
+  .leaflet::after {
+    background: linear-gradient(
+      to bottom,
+      transparent calc(50% - 12px),
+      rgb(60 40 20 / 0.08) calc(50% - 1px),
+      rgb(60 40 20 / 0.2) 50%,
+      rgb(255 255 255 / 0.7) calc(50% + 1px),
+      transparent calc(50% + 12px)
+    );
+  }
+  .leaflet__kicker--right {
+    justify-content: flex-start;
+  }
+  .leaflet .proof li {
+    grid-template-columns: 1fr;
+  }
+}
