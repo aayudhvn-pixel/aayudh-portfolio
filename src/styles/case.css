@@ -225,6 +225,13 @@
   width: auto;
   font-size: 0.875rem !important;
 }
+/* Uniform row: every image and recording takes the same shape (top-anchored),
+   so a row of phone screens lines up exactly. */
+.case-grid.is-uniform :is(img, video) {
+  aspect-ratio: var(--media-ratio);
+  object-fit: cover;
+  object-position: top;
+}
 /* Equal-height row: figures share one height (flex sizes set per figure). */
 .case-grid.is-equal {
   display: flex;

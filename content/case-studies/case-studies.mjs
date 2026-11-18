@@ -129,7 +129,7 @@ export const CASES = {
               size: 'narrow',
               max: '30rem',
               items: [
-                { video: 'patient', w: 384, h: 832, label: 'Screen recording of the MemorEase patient app', caption: 'Patient app' },
+                { video: 'patient', w: 432, h: 768, label: 'Screen recording of the MemorEase patient app', caption: 'Patient app' },
                 { video: 'caregiver', w: 432, h: 768, label: 'Screen recording of the MemorEase caregiver app', caption: 'Caregiver app' },
               ],
             },
@@ -263,6 +263,7 @@ export const CASES = {
               cols: 5,
               size: 'wide',
               screens: true,
+              ratio: '9 / 16', // the recording's shape; screenshots line up with it
               items: [
                 { video: 'mobile', w: 432, h: 768, label: 'Screen recording of the TEDxMITWPU mobile site', caption: 'Mobile' },
                 { img: 'mobile-main', alt: 'TEDxMITWPU mobile site: home', caption: 'Home' },

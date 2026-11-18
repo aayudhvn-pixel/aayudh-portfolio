@@ -26,7 +26,14 @@ rec() {
 }
 
 M="$SRC/MemorEase"
-rec "$M/MemorEase_Patient_Full_Recording.mp4" "$CASE/memorease/patient" 432
+# The patient recording is a bare, taller screen capture (384×832). It is put on the
+# caregiver video's 432×768 canvas, padded with the app's own cream (#FEF7F0), so
+# the two recordings show at exactly the same size side by side.
+ffmpeg -v error -y -i "$M/MemorEase_Patient_Full_Recording.mp4" -an \
+  -vf "scale=-2:768:flags=lanczos,pad=432:768:(ow-iw)/2:0:color=0xFEF7F0,fps=30,format=yuv420p" \
+  -c:v libx264 -preset slow -crf 30 -profile:v high -movflags +faststart "$CASE/memorease/patient.mp4"
+ffmpeg -v error -y -ss 1 -i "$CASE/memorease/patient.mp4" -frames:v 1 -q:v 4 "$CASE/memorease/patient-poster.jpg"
+echo "patient.mp4  $(du -h "$CASE/memorease/patient.mp4" | cut -f1)"
 rec "$M/MemorEase_Caregiver_Recording.mp4" "$CASE/memorease/caregiver" 432
 
 T="$SRC/TEDx"

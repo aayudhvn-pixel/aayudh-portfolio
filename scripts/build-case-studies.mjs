@@ -81,7 +81,10 @@ function grid(slug, g) {
     })
     .join('\n          ');
   const width = g.max ?? (size === 'narrow' ? '48rem' : null);
-  return `<div class="${cls}" style="--cols: ${g.cols}${width ? `; width: min(100%, ${width})` : ''}">
+  // ratio: every image/video in the row takes one shape (e.g. '9 / 16'), so a
+  // recording and screenshots of slightly different sizes line up exactly.
+  const shape = g.ratio ? `; --media-ratio: ${g.ratio}` : '';
+  return `<div class="${cls}${g.ratio ? ' is-uniform' : ''}" style="--cols: ${g.cols}${width ? `; width: min(100%, ${width})` : ''}${shape}">
           ${items}
         </div>`;
 }
