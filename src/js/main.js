@@ -1,9 +1,13 @@
+import { inject } from '@vercel/analytics';
 import { initNav } from './nav.js';
 import { initPack } from './pack.js';
 import { initCards } from './cards.js';
 import { initDrum } from './drum.js';
 import { initReel } from './reel.js';
 import { initReveal } from './reveal.js';
+
+// Initialize Vercel Web Analytics
+inject();
 
 // The first screen (pack, cards, hero) and what sits right below it start now.
 initNav();
