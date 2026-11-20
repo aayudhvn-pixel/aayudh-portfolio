@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Portfolio of Aayudh Vijay Ninawe: UI/UX designer, iOS developer, AI filmmaker.",
+  "license": "UNLICENSED",
   "type": "module",
   "scripts": {
     "dev": "vite",
